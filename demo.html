@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoMinds | System Demo</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="logo_white.svg">
+    <style>
+        .demo-container {
+
+            /* Demo Specific Styles */
+            .demo-interface {
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                padding-top: 80px;
+            }
+
+            .scanner-frame {
+                border: 1px solid var(--border);
+                border-radius: 4px;
+                background: rgba(10, 10, 10, 0.8);
+                backdrop-filter: blur(10px);
+                max-width: 800px;
+                margin: 2rem auto;
+                width: 100%;
+                overflow: hidden;
+                display: flex;
+                flex-direction: column;
+            }
+
+            .scanner-header {
+                padding: 1rem 1.5rem;
+                border-bottom: 1px solid var(--border);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                background: #000;
+            }
+
+            .status-dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: #22c55e;
+                box-shadow: 0 0 10px #22c55e;
+            }
+
+            .scanner-body {
+                padding: 2rem;
+                min-height: 400px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            /* Input State */
+            .input-group {
+                display: flex;
+                gap: 1rem;
+                margin-bottom: 1rem;
+            }
+
+            .url-input {
+                flex: 1;
+                background: rgba(255, 255, 255, 0.05);
+                border: 1px solid var(--border);
+                padding: 1rem;
+                color: #fff;
+                font-family: 'Roboto Mono', monospace;
+                border-radius: 4px;
+                outline: none;
+            }
+
+            .url-input:focus {
+                border-color: #fff;
+            }
+
+            /* Loading / Console State */
+            .console-output {
+                font-family: 'Roboto Mono', monospace;
+                font-size: 0.85rem;
+                color: #888;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                text-align: left;
+            }
+
+            .log-line {
+                opacity: 0;
+                animation: fadeIn 0.1s forwards;
+            }
+
+            .log-success {
+                color: #22c55e;
+            }
+
+            .log-warn {
+                color: #f59e0b;
+            }
+
+            .log-error {
+                color: #ef4444;
+            }
+
+            @keyframes fadeIn {
+                to {
+                    opacity: 1;
+                }
+            }
+
+            /* Results State */
+            .scan-results {
+                display: none;
+                /* Hidden by default */
+                text-align: left;
+                animation: slideUp 0.5s ease;
+            }
+
+            @keyframes slideUp {
+                from {
+                    transform: translateY(20px);
+                    opacity: 0;
+                }
+
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+
+            .score-card {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 2rem;
+                border: 1px solid #ef4444;
+                background: rgba(239, 68, 68, 0.05);
+                padding: 1.5rem;
+                border-radius: 4px;
+            }
+
+            .grade {
+                font-size: 3rem;
+                font-weight: 700;
+                color: #ef4444;
+            }
+
+            .stat-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 1rem;
+                margin-bottom: 2rem;
+            }
+
+            .stat-box {
+                border: 1px solid var(--border);
+                padding: 1rem;
+                background: rgba(255, 255, 255, 0.02);
+            }
+
+            .stat-label {
+                font-size: 0.75rem;
+                color: #666;
+                text-transform: uppercase;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+                font-weight: 500;
+                font-family: 'Roboto Mono';
+                margin-top: 0.5rem;
+            }
+    </style>
+</head>
+
+<body>
+
+    <nav class="nav">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand">
+                <div class="brand-icon"></div>
+                AutoMinds
+            </a>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Back to Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="container demo-container">
+        <div class="demo-status">
+            <div class="status-dot"></div>
+            SYSTEM OPERATIONAL
+        </div>
+
+        <h1 class="hero-title" style="font-size: 3rem; margin-bottom: 1rem;">The Visual Engine</h1>
+        <p class="hero-subtitle">Real-time compliance surveillance for municipal assets.</p>
+
+        <div class="demo-frame">
+            <!-- Placeholder for Screenshot -->
+            <img src="demo_preview.png" alt="AutoMinds Visual Engine Interface" class="demo-visual"
+                onerror="this.style.display='none'">
+            <div style="position: absolute; color: var(--text-muted); font-family: 'Roboto Mono'; font-size: 0.9rem;">
+                [ SECURITY PERIMETER ACTIVE ]<br>
+                AWAITING CREDENTIALS...
+            </div>
+        </div>
+
+        <div style="margin-top: 3rem;">
+            <a href="mailto:admin@autominds.org?subject=Request%20Demo%20Access" class="btn btn-primary">Request Access
+                Credentials</a>
+        </div>
+    </div>
+
+</body>
+
+</html>
