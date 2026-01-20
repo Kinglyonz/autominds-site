@@ -351,7 +351,7 @@ a:hover {
 .bento-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: 300px;
+    grid-auto-rows: minmax(300px, auto);
     gap: 1.5rem;
 }
 
