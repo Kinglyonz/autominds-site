@@ -12,171 +12,214 @@
     <link rel="icon" type="image/svg+xml" href="logo_white.svg">
     <style>
         .demo-container {
+            padding-top: 120px;
+            text-align: center;
+        }
 
-            /* Demo Specific Styles */
-            .demo-interface {
-                min-height: 100vh;
-                display: flex;
-                flex-direction: column;
-                padding-top: 80px;
+        .demo-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.8rem;
+            color: #22c55e;
+            background: rgba(34, 197, 94, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            border: 1px solid rgba(34, 197, 94, 0.2);
+            margin-bottom: 2rem;
+        }
+
+        .demo-frame {
+            position: relative;
+            width: 100%;
+            max-width: 1000px;
+            min-height: 500px;
+            /* Force height */
+            margin: 3rem auto 0;
+            background: rgba(10, 10, 10, 0.5);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Ensure the overlay text is properly centered and visible */
+        .demo-frame .overlay-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+        }
+
+        /* Demo Specific Styles */
+        .demo-interface {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding-top: 80px;
+        }
+
+        .scanner-frame {
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(10px);
+            max-width: 800px;
+            margin: 2rem auto;
+            width: 100%;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .scanner-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #000;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 10px #22c55e;
+        }
+
+        .scanner-body {
+            padding: 2rem;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        /* Input State */
+        .input-group {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .url-input {
+            flex: 1;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            color: #fff;
+            font-family: 'Roboto Mono', monospace;
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .url-input:focus {
+            border-color: #fff;
+        }
+
+        /* Loading / Console State */
+        .console-output {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.85rem;
+            color: #888;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            text-align: left;
+        }
+
+        .log-line {
+            opacity: 0;
+            animation: fadeIn 0.1s forwards;
+        }
+
+        .log-success {
+            color: #22c55e;
+        }
+
+        .log-warn {
+            color: #f59e0b;
+        }
+
+        .log-error {
+            color: #ef4444;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
             }
+        }
 
-            .scanner-frame {
-                border: 1px solid var(--border);
-                border-radius: 4px;
-                background: rgba(10, 10, 10, 0.8);
-                backdrop-filter: blur(10px);
-                max-width: 800px;
-                margin: 2rem auto;
-                width: 100%;
-                overflow: hidden;
-                display: flex;
-                flex-direction: column;
-            }
+        /* Results State */
+        .scan-results {
+            display: none;
+            /* Hidden by default */
+            text-align: left;
+            animation: slideUp 0.5s ease;
+        }
 
-            .scanner-header {
-                padding: 1rem 1.5rem;
-                border-bottom: 1px solid var(--border);
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                background: #000;
-            }
-
-            .status-dot {
-                width: 8px;
-                height: 8px;
-                border-radius: 50%;
-                background: #22c55e;
-                box-shadow: 0 0 10px #22c55e;
-            }
-
-            .scanner-body {
-                padding: 2rem;
-                min-height: 400px;
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-            }
-
-            /* Input State */
-            .input-group {
-                display: flex;
-                gap: 1rem;
-                margin-bottom: 1rem;
-            }
-
-            .url-input {
-                flex: 1;
-                background: rgba(255, 255, 255, 0.05);
-                border: 1px solid var(--border);
-                padding: 1rem;
-                color: #fff;
-                font-family: 'Roboto Mono', monospace;
-                border-radius: 4px;
-                outline: none;
-            }
-
-            .url-input:focus {
-                border-color: #fff;
-            }
-
-            /* Loading / Console State */
-            .console-output {
-                font-family: 'Roboto Mono', monospace;
-                font-size: 0.85rem;
-                color: #888;
-                display: flex;
-                flex-direction: column;
-                gap: 0.5rem;
-                text-align: left;
-            }
-
-            .log-line {
+        @keyframes slideUp {
+            from {
+                transform: translateY(20px);
                 opacity: 0;
-                animation: fadeIn 0.1s forwards;
             }
 
-            .log-success {
-                color: #22c55e;
+            to {
+                transform: translateY(0);
+                opacity: 1;
             }
+        }
 
-            .log-warn {
-                color: #f59e0b;
-            }
+        .score-card {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            border: 1px solid #ef4444;
+            background: rgba(239, 68, 68, 0.05);
+            padding: 1.5rem;
+            border-radius: 4px;
+        }
 
-            .log-error {
-                color: #ef4444;
-            }
+        .grade {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #ef4444;
+        }
 
-            @keyframes fadeIn {
-                to {
-                    opacity: 1;
-                }
-            }
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
 
-            /* Results State */
-            .scan-results {
-                display: none;
-                /* Hidden by default */
-                text-align: left;
-                animation: slideUp 0.5s ease;
-            }
+        .stat-box {
+            border: 1px solid var(--border);
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.02);
+        }
 
-            @keyframes slideUp {
-                from {
-                    transform: translateY(20px);
-                    opacity: 0;
-                }
+        .stat-label {
+            font-size: 0.75rem;
+            color: #666;
+            text-transform: uppercase;
+        }
 
-                to {
-                    transform: translateY(0);
-                    opacity: 1;
-                }
-            }
-
-            .score-card {
-                display: flex;
-                align-items: center;
-                justify-content: space-between;
-                margin-bottom: 2rem;
-                border: 1px solid #ef4444;
-                background: rgba(239, 68, 68, 0.05);
-                padding: 1.5rem;
-                border-radius: 4px;
-            }
-
-            .grade {
-                font-size: 3rem;
-                font-weight: 700;
-                color: #ef4444;
-            }
-
-            .stat-grid {
-                display: grid;
-                grid-template-columns: repeat(3, 1fr);
-                gap: 1rem;
-                margin-bottom: 2rem;
-            }
-
-            .stat-box {
-                border: 1px solid var(--border);
-                padding: 1rem;
-                background: rgba(255, 255, 255, 0.02);
-            }
-
-            .stat-label {
-                font-size: 0.75rem;
-                color: #666;
-                text-transform: uppercase;
-            }
-
-            .stat-value {
-                font-size: 1.5rem;
-                font-weight: 500;
-                font-family: 'Roboto Mono';
-                margin-top: 0.5rem;
-            }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 500;
+            font-family: 'Roboto Mono';
+            margin-top: 0.5rem;
+        }
     </style>
 </head>
 
@@ -207,8 +250,8 @@
         <div class="demo-frame">
             <!-- Placeholder for Screenshot -->
             <img src="demo_preview.png" alt="AutoMinds Visual Engine Interface" class="demo-visual"
-                onerror="this.style.display='none'">
-            <div style="position: absolute; color: var(--text-muted); font-family: 'Roboto Mono'; font-size: 0.9rem;">
+                style="width: 100%; height: 100%; object-fit: cover; opacity: 0.3;" onerror="this.style.opacity='0'">
+            <div class="overlay-text" style="color: var(--text-muted); font-family: 'Roboto Mono'; font-size: 0.9rem;">
                 [ SECURITY PERIMETER ACTIVE ]<br>
                 AWAITING CREDENTIALS...
             </div>
