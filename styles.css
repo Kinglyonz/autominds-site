@@ -794,6 +794,29 @@ footer {
         height: 50px;
         margin: 0 auto;
     }
+
+    /* System Status Pulse Mobile */
+    .status-pulse {
+        margin-right: 6px;
+    }
+
+    /* Comparison Table Horizontal Scroll */
+    .comparison-table {
+        margin: 0 -1.5rem;
+        /* Full bleed on mobile */
+        padding: 0 1.5rem;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .comparison-table table {
+        min-width: 600px;
+        /* Force scroll */
+    }
+
+    /* Pricing Section */
+    .pricing-section .bento-grid {
+        gap: 2rem;
+    }
 }
 
 /* System Status Pulse */
