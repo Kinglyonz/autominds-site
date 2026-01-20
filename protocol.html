@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Protocol | AutoMinds</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&family=Space+Grotesk:wght@500;700&family=Roboto+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="logo_white.svg">
+    <style>
+        .protocol-body {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 8rem 2rem;
+        }
+
+        .protocol-header {
+            margin-bottom: 4rem;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 2rem;
+        }
+
+        .protocol-chapter {
+            margin-bottom: 4rem;
+        }
+
+        .chapter-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .chapter-text {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .law-box {
+            background: var(--bg-surface);
+            border-left: 4px solid #3B82F6;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .law-title {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9rem;
+            color: #60A5FA;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .law-content {
+            font-size: 1.25rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .signature-block {
+            margin-top: 6rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="nav">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand">
+                <div class="brand-icon"></div>
+                AutoMinds
+            </a>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Back to Operations</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="protocol-body">
+        <header class="protocol-header">
+            <span
+                style="font-family: 'Roboto Mono'; font-size: 0.9rem; color: var(--text-muted); display: block; margin-bottom: 1rem;">CLASSIFICATION:
+                PUBLIC DOMAIN</span>
+            <h1 class="hero-title" style="font-size: 3.5rem;">The Sovereign Protocol</h1>
+            <p class="hero-subtitle">A set of immutable laws for the operation of artificial intelligence in critical
+                environments.</p>
+        </header>
+
+        <section class="protocol-chapter">
+            <h2 class="chapter-title">00. The Public Cloud Fallacy</h2>
+            <p class="chapter-text">
+                We have been sold a lie. The lie is that convenience justifies surrender. When you send your proprietary
+                data to a public LLM via API, you are not using a tool; you are feeding a competitor. You are training
+                the very system that will one day claim to replace you.
+            </p>
+            <p class="chapter-text">
+                For a municipal government, a law firm, or a defense contractor, this is not just a tactical error. It
+                is a strategic abdication of duty. Sovereignty is not an option; it is the baseline.
+            </p>
+        </section>
+
+        <section class="protocol-chapter">
+            <h2 class="chapter-title">01. The Three Laws of Operations</h2>
+            <p class="chapter-text">We adhere to three non-negotiable laws in every deployment.</p>
+
+            <div class="law-box">
+                <div class="law-title">Law I</div>
+                <div class="law-content">The Data Must Never Leave The Perimeter.</div>
+            </div>
+            <p class="chapter-text">
+                If the model does not run on infrastructure you control (or is contractually dedicated), it is not your
+                model. We deploy air-gapped or VPC-contained nodes.
+            </p>
+
+            <div class="law-box">
+                <div class="law-title">Law II</div>
+                <div class="law-content">Automation Must Have a Named Human Owner.</div>
+            </div>
+            <p class="chapter-text">
+                An AI agent cannot be sued. It cannot be fired. Therefore, it cannot be responsible. Every system we
+                deploy has a rigorous chain of custody leading to a human decision-maker.
+            </p>
+
+            <div class="law-box">
+                <div class="law-title">Law III</div>
+                <div class="law-content">The Kill-Switch Must Be Hard-Coded.</div>
+            </div>
+            <p class="chapter-text">
+                A system that cannot be stopped instantly is a weapon, not a tool. We engineer physical and logical
+                kill-paths into every layer of the AutoMinds stack.
+            </p>
+        </section>
+
+        <section class="protocol-chapter">
+            <h2 class="chapter-title">02. Invitation to Sovereignty</h2>
+            <p class="chapter-text">
+                We are building the infrastructure for the next century of operation. It is quiet, it is private, and it
+                is under your command.
+            </p>
+            <div
+                style="margin-top: 3rem; text-align: center; background: var(--bg-surface); padding: 3rem; border-radius: 12px; border: 1px solid var(--border);">
+                <h3 style="margin-bottom: 1rem;">Download The Full Technical Manifesto</h3>
+                <p style="margin-bottom: 2rem; color: var(--text-secondary);">Includes architecture diagrams for SAM.gov
+                    compliant deployments.</p>
+                <a href="mailto:admin@autominds.org?subject=Request%20Protocol%20PDF" class="btn btn-primary">Request
+                    Access</a>
+            </div>
+        </section>
+
+        <div class="signature-block">
+            <div class="brand">
+                <div class="brand-icon"></div>
+                AutoMinds
+            </div>
+            <div style="font-family: 'Roboto Mono'; font-size: 0.8rem; color: var(--text-muted);">
+                EST. 2026 // WASHINGTON D.C.
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>
