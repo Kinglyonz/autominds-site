@@ -19,6 +19,9 @@
     --border: rgba(255, 255, 255, 0.1);
     --border-hover: rgba(255, 255, 255, 0.3);
 
+    /* Nav */
+    --nav-bg: rgba(0, 0, 0, 0.7);
+
     /* Spacing & Layout */
     --space-sm: 1rem;
     --space-md: 2rem;
@@ -30,6 +33,37 @@
     --radius-lg: 24px;
 
     --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Light Mode Overrides */
+.light-mode {
+    --bg-main: #FFFFFF;
+    --bg-surface: #F4F4F5;
+    /* Zinc 100 */
+    --bg-glass: rgba(0, 0, 0, 0.03);
+
+    --text-primary: #09090B;
+    /* Zinc 950 */
+    --text-secondary: #52525B;
+    /* Zinc 600 */
+    --text-muted: #A1A1AA;
+    /* Zinc 400 */
+
+    --accent: #000000;
+    --border: rgba(0, 0, 0, 0.1);
+    --border-hover: rgba(0, 0, 0, 0.2);
+
+    --nav-bg: rgba(255, 255, 255, 0.8);
+}
+
+/* Invert Logo in Light Mode */
+.light-mode .brand-icon {
+    filter: invert(1);
+}
+
+/* Adjust Nav Background */
+.light-mode .nav {
+    border-bottom-color: rgba(0, 0, 0, 0.05);
 }
 
 * {
@@ -103,6 +137,11 @@ a:hover {
     color: var(--bg-main);
 }
 
+.light-mode .btn-primary {
+    background: #000;
+    color: #fff;
+}
+
 .btn-primary:hover {
     transform: scale(1.02);
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
@@ -114,9 +153,20 @@ a:hover {
     border: 1px solid transparent;
 }
 
+.light-mode .btn-secondary {
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--text-primary);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
 .btn-secondary:hover {
     background: rgba(255, 255, 255, 0.15);
     border-color: rgba(255, 255, 255, 0.2);
+}
+
+.light-mode .btn-secondary:hover {
+    background: rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 0, 0, 0.2);
 }
 
 /* Navigation */
@@ -125,7 +175,7 @@ a:hover {
     top: 0;
     width: 100%;
     z-index: 100;
-    background: rgba(0, 0, 0, 0.7);
+    background: var(--nav-bg);
     backdrop-filter: blur(20px);
     border-bottom: 1px solid var(--border);
 }
@@ -202,6 +252,11 @@ a:hover {
     -webkit-mask-image: radial-gradient(circle at center, black 40%, transparent 80%);
 }
 
+.light-mode .hero::before {
+    opacity: 0.1;
+    /* Slightly more visible in light mode */
+}
+
 .hero-content {
     max-width: 800px;
     animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1);
@@ -227,6 +282,14 @@ a:hover {
     background-clip: text;
     -webkit-text-fill-color: transparent;
     text-shadow: 0 0 30px rgba(59, 130, 246, 0.3);
+}
+
+.light-mode .hero-title {
+    background: linear-gradient(180deg, #18181B 0%, #2563EB 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: none;
 }
 
 .hero-subtitle {
@@ -276,6 +339,11 @@ a:hover {
     transition: border-color 0.3s ease;
     overflow: hidden;
     position: relative;
+}
+
+.light-mode .bento-card {
+    background: #fff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02);
 }
 
 .bento-card:hover {
@@ -443,6 +511,10 @@ footer {
     background: linear-gradient(180deg, var(--bg-main) 0%, var(--bg-surface) 100%);
 }
 
+.light-mode .mandate-section {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F4F4F5 100%);
+}
+
 .split-layout {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -470,6 +542,10 @@ footer {
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 
+.light-mode .exclusive-list li {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
 .exclusive-list li strong {
     color: var(--text-primary);
 }
@@ -490,9 +566,19 @@ footer {
     transition: all 0.3s ease;
 }
 
+.light-mode .risk-item {
+    background: #fff;
+    border-color: rgba(0, 0, 0, 0.1);
+}
+
 .risk-item:hover {
     border-color: var(--border-hover);
     background: rgba(255, 255, 255, 0.05);
+}
+
+.light-mode .risk-item:hover {
+    background: rgba(0, 0, 0, 0.02);
+    border-color: rgba(0, 0, 0, 0.2);
 }
 
 .risk-label {
@@ -531,6 +617,11 @@ footer {
     border: 1px solid var(--border);
     border-radius: var(--radius-md);
     background: rgba(0, 0, 0, 0.4);
+}
+
+.light-mode .doctrine-card {
+    background: #fff;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
 }
 
 .doctrine-card.refusal {
@@ -623,6 +714,10 @@ footer {
     display: block;
     margin-bottom: 1rem;
     line-height: 1;
+}
+
+.light-mode .step-num {
+    color: rgba(0, 0, 0, 0.05);
 }
 
 .step h4 {
