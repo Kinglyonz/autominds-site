@@ -44,21 +44,36 @@
 
     --text-primary: #09090B;
     /* Zinc 950 */
-    --text-secondary: #52525B;
-    /* Zinc 600 */
-    --text-muted: #A1A1AA;
-    /* Zinc 400 */
+    --text-secondary: #3F3F46;
+    /* Zinc 700 - Darker for readability */
+    --text-muted: #71717A;
+    /* Zinc 500 */
 
     --accent: #000000;
-    --border: rgba(0, 0, 0, 0.1);
-    --border-hover: rgba(0, 0, 0, 0.2);
+    --border: rgba(0, 0, 0, 0.15);
+    --border-hover: rgba(0, 0, 0, 0.25);
 
-    --nav-bg: rgba(255, 255, 255, 0.8);
+    --nav-bg: rgba(255, 255, 255, 0.9);
 }
 
 /* Invert Logo in Light Mode */
 .light-mode .brand-icon {
     filter: invert(1);
+}
+
+/* Partner Logo: Default (Dark Mode) -> All White */
+.partner-logo {
+    height: 46px;
+    width: auto;
+    filter: brightness(0) invert(1);
+    transition: all 0.3s ease;
+    opacity: 0.9;
+}
+
+/* Partner Logo: Light Mode -> Original Colors */
+.light-mode .partner-logo {
+    filter: none;
+    opacity: 1;
 }
 
 /* Adjust Nav Background */
@@ -163,9 +178,9 @@ a:hover {
 }
 
 .light-mode .btn-secondary {
-    background: rgba(0, 0, 0, 0.05);
+    background: rgba(0, 0, 0, 0.08);
     color: var(--text-primary);
-    border: 1px solid rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.15);
 }
 
 .btn-secondary:hover {
@@ -174,8 +189,8 @@ a:hover {
 }
 
 .light-mode .btn-secondary:hover {
-    background: rgba(0, 0, 0, 0.1);
-    border-color: rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.12);
+    border-color: rgba(0, 0, 0, 0.25);
 }
 
 /* Navigation */
@@ -260,7 +275,20 @@ a:hover {
     text-align: center;
     position: relative;
     padding-top: 60px;
+    overflow: hidden;
+    /* Ensure canvas doesn't overflow */
     /* Offset fixed nav */
+}
+
+.hero-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    /* Behind content */
+    pointer-events: none;
 }
 
 /* Subtle Grid Background - Replaces Orbs */

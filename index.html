@@ -14,6 +14,7 @@
         rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/svg+xml" href="logo_white.svg">
+    <script src="https://js.stripe.com/v3/"></script>
 </head>
 
 <body>
@@ -55,6 +56,7 @@
 
     <!-- Hero -->
     <section class="hero">
+        <canvas id="hero-canvas" class="hero-canvas"></canvas>
         <div class="container hero-content">
             <span class="hero-Eyebrow">Defined by Responsibility</span>
             <h1 class="hero-title">Intelligence.<br>Operated.</h1>
@@ -314,7 +316,7 @@
                             <li>Single-Agent Deployment</li>
                             <li>Risk Report</li>
                         </ul>
-                        <a href="mailto:admin@autominds.org?subject=Inquire%20Tier%201" class="btn btn-secondary"
+                        <a href="mailto:admin@autominds.org" class="btn btn-secondary"
                             style="width: 100%; margin-top: 2rem;">Inquire for Pricing</a>
                     </div>
                 </div>
@@ -333,7 +335,7 @@
                             <li>Unlimited Local Inference</li>
                             <li>Incident Liability Coverage</li>
                         </ul>
-                        <a href="mailto:admin@autominds.org?subject=Inquire%20Tier%202" class="btn btn-primary"
+                        <a href="mailto:admin@autominds.org" class="btn btn-primary"
                             style="width: 100%; margin-top: 2rem;">Contact Sales</a>
                     </div>
                 </div>
@@ -352,7 +354,7 @@
                             <li>On-Premise Hardware Cluster</li>
                             <li>Board-Level Strategy</li>
                         </ul>
-                        <a href="mailto:admin@autominds.org?subject=Inquire%20Tier%203" class="btn btn-secondary"
+                        <a href="mailto:admin@autominds.org" class="btn btn-secondary"
                             style="width: 100%; margin-top: 2rem;">Contact Partners</a>
                     </div>
                 </div>
@@ -404,9 +406,7 @@
                     </blockquote>
                     <div
                         style="margin-top: 2rem; display: flex; align-items: center; justify-content: center; gap: 1rem;">
-                        <div style="font-family: 'Inter', sans-serif; font-weight: 600; color: var(--text-primary);">
-                            Orus
-                            Group</div>
+                        <img src="assets/orus_logo.png" alt="Orus Group" class="partner-logo">
                         <span style="color: var(--text-secondary);">|</span>
                         <div style="color: var(--text-secondary); font-size: 0.9rem;">Enterprise IT & Sovereign Cloud
                             Solutions</div>
@@ -447,6 +447,8 @@
                 }
             });
         </script>
+        <script src="js/background-paths.js"></script>
+        <script src="js/payment.js"></script>
 </body>
 
 </html>
