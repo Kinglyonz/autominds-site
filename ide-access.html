@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoMinds | Get IDE Access</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="logo_white.svg">
+    <style>
+        .access-container {
+            padding-top: 120px;
+            min-height: 100vh;
+        }
+
+        .access-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 3rem;
+        }
+
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .benefit-item {
+            display: flex;
+            align-items: start;
+            gap: 0.75rem;
+        }
+
+        .benefit-icon {
+            color: #22c55e;
+            font-size: 1.25rem;
+        }
+
+        .form-group {
+            margin: 2rem 0;
+        }
+
+        .form-input {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            color: #fff;
+            font-family: inherit;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #3B82F6;
+        }
+
+        .access-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+            border: none;
+            padding: 1.25rem 2rem;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .access-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.3);
+        }
+
+        .access-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .result-section {
+            display: none;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.3);
+            border-radius: 4px;
+        }
+
+        .password-display {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 2rem;
+            color: #22c55e;
+            text-align: center;
+            margin: 1rem 0;
+            letter-spacing: 0.1em;
+        }
+
+        .instructions {
+            margin-top: 1.5rem;
+        }
+
+        .instructions ol {
+            margin-left: 1.5rem;
+        }
+
+        .instructions li {
+            margin: 0.75rem 0;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand">
+                <div class="brand-icon"></div>
+                AutoMinds
+            </a>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="demo.html" class="nav-link">Demo</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container access-container">
+        <div class="section-header center-text">
+            <h1 class="section-title">Get Instant Access to VS Code</h1>
+            <p>Full-featured development environment. No installation required.</p>
+        </div>
+
+        <div class="access-card">
+            <h2 style="margin-bottom: 1.5rem; font-size: 1.5rem;">Why Use VS Code in the Browser?</h2>
+
+            <div class="benefits-grid">
+                <div class="benefit-item">
+                    <span class="benefit-icon">✓</span>
+                    <div>
+                        <strong>Zero Installation</strong>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem;">Start coding in
+                            30 seconds</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">✓</span>
+                    <div>
+                        <strong>Access Anywhere</strong>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem;">Same
+                            environment on any device</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">✓</span>
+                    <div>
+                        <strong>Save 2GB+ Disk Space</strong>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem;">No downloads,
+                            no updates</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">✓</span>
+                    <div>
+                        <strong>Pre-configured</strong>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem;">Extensions
+                            ready to go</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">✓</span>
+                    <div>
+                        <strong>Cloud Storage</strong>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem;">Files persist
+                            across sessions</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <span class="benefit-icon">✓</span>
+                    <div>
+                        <strong>Free Access</strong>
+                        <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem;">Try it for 30
+                            days</p>
+                    </div>
+                </div>
+            </div>
+
+            <form id="accessForm" style="margin-top: 3rem;">
+                <div class="form-group">
+                    <label class="form-label" style="display: block; margin-bottom: 0.75rem; font-weight: 500;">Enter
+                        Your Email</label>
+                    <input type="email" id="emailInput" class="form-input" placeholder="you@example.com" required>
+                </div>
+                <button type="submit" class="access-btn" id="submitBtn">Get Instant Access</button>
+            </form>
+
+            <div class="result-section" id="resultSection">
+                <h3 style="color: #22c55e; margin-bottom: 1rem; text-align: center;">✓ Access Granted!</h3>
+                <p style="text-align: center; color: var(--text-secondary);">Your unique password:</p>
+                <div class="password-display" id="passwordDisplay"></div>
+
+                <div class="instructions">
+                    <h4 style="margin-bottom: 1rem;">How to Access:</h4>
+                    <ol>
+                        <li>Click the link below to open the IDE</li>
+                        <li>Enter the password shown above</li>
+                        <li>Click "Submit" to start coding</li>
+                    </ol>
+                    <a href="https://autominds-ide-autominds.up.railway.app" target="_blank" class="btn btn-primary"
+                        style="width: 100%; margin-top: 1.5rem; display: inline-block; text-align: center;">
+                        Open AutoMinds IDE →
+                    </a>
+                </div>
+
+                <p
+                    style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid var(--border); color: var(--text-secondary); font-size: 0.9rem; text-align: center;">
+                    Save this password - you'll need it every time you log in.<br>
+                    Access expires in 30 days. Need more time? <a href="mailto:admin@autominds.org"
+                        style="color: #3B82F6;">Contact us</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('accessForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            const email = document.getElementById('emailInput').value.trim();
+            if (!email) return;
+
+            // Generate password from email (simple base64 encoding)
+            const password = btoa(email).substring(0, 12).toUpperCase();
+
+            // Show result
+            document.getElementById('passwordDisplay').textContent = password;
+            document.getElementById('accessForm').style.display = 'none';
+            document.getElementById('resultSection').style.display = 'block';
+
+            // Optional: Track signup (add later with analytics)
+            console.log('IDE Access Request:', email);
+        });
+    </script>
+</body>
+
+</html>
