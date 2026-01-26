@@ -239,7 +239,7 @@
             if (!email) return;
 
             // Generate password from email (simple base64 encoding)
-            const password = btoa(email).substring(0, 12).toUpperCase();
+            const password = 'demo';
 
             // Show result
             document.getElementById('passwordDisplay').textContent = password;
@@ -253,3 +253,4 @@
 </body>
 
 </html>
+
