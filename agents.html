@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoMinds | Internal Swarm Dashboard</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="logo_white.svg">
+    <style>
+        .dashboard {
+            padding-top: 120px;
+            min-height: 100vh;
+        }
+
+        .swarm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .agent-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .agent-card:hover {
+            border-color: #3B82F6;
+            transform: translateY(-4px);
+        }
+
+        .agent-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .agent-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .agent-role {
+            font-size: 0.85rem;
+            color: #3B82F6;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .agent-desc {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .agent-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.8rem;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .status-active {
+            background: #22c55e;
+            box-shadow: 0 0 10px #22c55e;
+        }
+
+        .status-pending {
+            background: #f59e0b;
+        }
+
+        .status-offline {
+            background: #ef4444;
+        }
+
+        .api-list {
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .api-tag {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            color: #60A5FA;
+        }
+
+        .api-tag.missing {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: rgba(239, 68, 68, 0.3);
+            color: #ef4444;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand">
+                <div class="brand-icon"></div>
+                AutoMinds
+            </a>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <span style="color: var(--text-muted); font-size: 0.8rem;">INTERNAL</span>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container dashboard">
+        <div class="section-header center-text">
+            <h1 class="section-title">The Sovereign Swarm</h1>
+            <p>AutoMinds Internal Agent Dashboard</p>
+        </div>
+
+        <div class="swarm-grid">
+            <!-- CEO Agent -->
+            <div class="agent-card">
+                <div class="agent-icon">👑</div>
+                <div class="agent-name">CEO Agent</div>
+                <div class="agent-role">Governance</div>
+                <div class="agent-desc">Maintains the Business Operating System. Tracks KPIs ($1M ARR) and assigns
+                    strategic directives.</div>
+                <div class="agent-status">
+                    <div class="status-dot status-active"></div>
+                    ACTIVE
+                </div>
+                <div class="api-list">
+                    <span class="api-tag">brain/*</span>
+                    <span class="api-tag">docs/*</span>
+                </div>
+            </div>
+
+            <!-- Marketing Agent -->
+            <div class="agent-card">
+                <div class="agent-icon">📢</div>
+                <div class="agent-name">Marketing Agent</div>
+                <div class="agent-role">Voice</div>
+                <div class="agent-desc">Generates content for LinkedIn, Blog, and the /audit landing page. Fills the
+                    funnel.</div>
+                <div class="agent-status">
+                    <div class="status-dot status-pending"></div>
+                    PENDING API
+                </div>
+                <div class="api-list">
+                    <span class="api-tag missing">linkedin</span>
+                    <span class="api-tag missing">twitter</span>
+                </div>
+            </div>
+
+            <!-- Sales Agent -->
+            <div class="agent-card">
+                <div class="agent-icon">💼</div>
+                <div class="agent-name">Sales Agent</div>
+                <div class="agent-role">Closer</div>
+                <div class="agent-desc">Monitors intake forms, generates PDF proposals, and manages Upwork leads.</div>
+                <div class="agent-status">
+                    <div class="status-dot status-pending"></div>
+                    PENDING API
+                </div>
+                <div class="api-list">
+                    <span class="api-tag missing">gmail</span>
+                    <span class="api-tag missing">stripe</span>
+                    <span class="api-tag missing">calendly</span>
+                </div>
+            </div>
+
+            <!-- Dev Agent -->
+            <div class="agent-card">
+                <div class="agent-icon">🛠️</div>
+                <div class="agent-name">Dev Agent</div>
+                <div class="agent-role">Builder</div>
+                <div class="agent-desc">Maintains the Railway IDE, fixes bugs, and deploys customer containers.</div>
+                <div class="agent-status">
+                    <div class="status-dot status-active"></div>
+                    ACTIVE
+                </div>
+                <div class="api-list">
+                    <span class="api-tag">github ✓</span>
+                    <span class="api-tag">railway ✓</span>
+                    <span class="api-tag">vercel ✓</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
