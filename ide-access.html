@@ -225,22 +225,50 @@
     </div>
 
     <script>
+        const disposableDomains = [
+            'mailinator.com', 'yopmail.com', 'temp-mail.org', '10minutemail.com',
+            'guerrillamail.com', 'sharklasers.com', 'spam4.me', 'grr.la', 'maildrop.cc',
+            'getairmail.com', 'throwawaymail.com', 'tempmail.net', 'dispostable.com'
+        ];
+
         document.getElementById('accessForm').addEventListener('submit', function (e) {
             e.preventDefault();
 
-            const email = document.getElementById('emailInput').value.trim();
+            const emailInput = document.getElementById('emailInput');
+            const email = emailInput.value.trim().toLowerCase();
+
             if (!email) return;
 
-            // Generate password from email (simple base64 encoding)
-            const password = 'demo';
+            // 1. Regex Validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert("Please enter a valid email address.");
+                return;
+            }
 
-            // Show result
-            document.getElementById('passwordDisplay').textContent = password;
+            // 2. Disposable Domain Check
+            const domain = email.split('@')[1];
+            if (disposableDomains.includes(domain)) {
+                alert("Please use a permanent business or personal email address (no disposable emails).");
+                return;
+            }
+
+            // Show result (Clean transition)
             document.getElementById('accessForm').style.display = 'none';
             document.getElementById('resultSection').style.display = 'block';
 
-            // Optional: Track signup (add later with analytics)
-            const webhookUrl = 'https://script.google.com/macros/s/AKfycbwnl8Ni3D5mS8ZKzKL9nA_TvXusvyckXZ667nOfDmcWcwEfGJc17XKszrdSyJurYDRWOQ/exec'; fetch(webhookUrl, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ email: email, password: password, timestamp: new Date().toISOString() }) }).catch(e => console.log('Saved to Google Sheets'));
+            // Track signup (Google Sheets)
+            const webhookUrl = 'https://script.google.com/macros/s/AKfycbwnl8Ni3D5mS8ZKzKL9nA_TvXusvyckXZ667nOfDmcWcwEfGJc17XKszrdSyJurYDRWOQ/exec';
+            fetch(webhookUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: email,
+                    type: 'ide_access',
+                    timestamp: new Date().toISOString()
+                })
+            }).catch(e => console.log('Saved to Google Sheets'));
         });
     </script>
 </body>
