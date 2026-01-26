@@ -78,9 +78,9 @@
        2. grayscale(100%) brightness(200%) makes text white
        3. mix-blend-mode: screen makes the (now black) background transparent
     */
-    filter: invert(1) grayscale(100%) brightness(200%);
+    filter: contrast(150%) grayscale(100%) invert(1) brightness(150%);
     mix-blend-mode: screen;
-    opacity: 0.8;
+    opacity: 0.9;
     /* Slight transparency to blend better */
 }
 
