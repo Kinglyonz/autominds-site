@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoMinds | Business Intelligence Audit</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Roboto+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="logo_white.svg">
+    <style>
+        .audit-container {
+            padding-top: 120px;
+            max-width: 700px;
+            margin: 0 auto;
+            min-height: 100vh;
+        }
+
+        .audit-form {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 3rem;
+            margin-top: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+            color: var(--text-primary);
+        }
+
+        .form-hint {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .form-input,
+        .form-select {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            color: #fff;
+            font-family: inherit;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-input:focus,
+        .form-select:focus {
+            outline: none;
+            border-color: #3B82F6;
+        }
+
+        .form-select option {
+            background: #0a0a0a;
+        }
+
+        .range-container {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .range-value {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.5rem;
+            color: #3B82F6;
+            min-width: 60px;
+        }
+
+        .form-range {
+            flex: 1;
+            accent-color: #3B82F6;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+            border: none;
+            padding: 1.25rem 2rem;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.3);
+        }
+
+        .score-result {
+            display: none;
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .score-number {
+            font-size: 5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #8B5CF6, #3B82F6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .score-label {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .score-recommendation {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 4px;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand">
+                <div class="brand-icon"></div>
+                AutoMinds
+            </a>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container audit-container">
+        <div class="section-header center-text">
+            <h1 class="section-title">Business Intelligence Audit</h1>
+            <p>Answer 5 questions. Get your Sovereign Score.</p>
+        </div>
+
+        <div class="audit-form" id="auditForm">
+            <div class="form-group">
+                <label class="form-label">1. What industry are you in?</label>
+                <select class="form-select" id="q1" required>
+                    <option value="">Select your industry...</option>
+                    <option value="realestate">Real Estate</option>
+                    <option value="legal">Legal / Law</option>
+                    <option value="healthcare">Healthcare</option>
+                    <option value="finance">Finance / Accounting</option>
+                    <option value="tech">Technology / SaaS</option>
+                    <option value="agency">Marketing / Agency</option>
+                    <option value="other">Other</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">2. How many leads do you miss per week?</label>
+                <p class="form-hint">Calls that went unanswered, emails that got buried, etc.</p>
+                <div class="range-container">
+                    <input type="range" class="form-range" id="q2" min="0" max="50" value="10">
+                    <span class="range-value" id="q2Value">10</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">3. How much time do you spend on repetitive tasks daily?</label>
+                <select class="form-select" id="q3" required>
+                    <option value="">Select...</option>
+                    <option value="1">Less than 1 hour</option>
+                    <option value="2">1-2 hours</option>
+                    <option value="4">2-4 hours</option>
+                    <option value="6">4+ hours</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">4. Do you own your client data, or does your CRM?</label>
+                <select class="form-select" id="q4" required>
+                    <option value="">Select...</option>
+                    <option value="own">I own it (self-hosted / local)</option>
+                    <option value="cloud">It's in Salesforce / HubSpot / etc.</option>
+                    <option value="unknown">I'm not sure</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">5. What is your biggest pain point?</label>
+                <input type="text" class="form-input" id="q5" placeholder="e.g., 'I spend too much time on follow-ups'"
+                    required>
+            </div>
+
+            <button type="button" class="submit-btn" onclick="calculateScore()">Get My Sovereign Score</button>
+        </div>
+
+        <div class="score-result" id="scoreResult">
+            <div class="score-number" id="scoreNumber">75</div>
+            <div class="score-label">Sovereign Score</div>
+            <div class="score-recommendation" id="recommendation">
+                <strong>Recommendation:</strong> Your business is leaking value. Based on your answers, you could save
+                <strong>$X,XXX/month</strong> by deploying a Sovereign Agent.
+            </div>
+            <a href="mailto:admin@autominds.org?subject=Pilot%20Request&body=I%20scored%20[SCORE]%20on%20the%20audit.%20I%20want%20to%20learn%20more."
+                class="btn btn-primary" style="margin-top: 2rem; display: inline-block;">Request Pilot ($2,500)</a>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('q2').addEventListener('input', function () {
+            document.getElementById('q2Value').textContent = this.value;
+        });
+
+        function calculateScore() {
+            const q2 = parseInt(document.getElementById('q2').value) || 0;
+            const q3 = parseInt(document.getElementById('q3').value) || 0;
+            const q4 = document.getElementById('q4').value;
+
+            // Simple scoring logic
+            let score = 100;
+            score -= q2 * 1.5; // More missed leads = lower score
+            score -= q3 * 5;  // More repetitive time = lower score
+            if (q4 === 'cloud') score -= 10;
+            if (q4 === 'unknown') score -= 20;
+
+            score = Math.max(0, Math.min(100, Math.round(score)));
+
+            const savings = q2 * 200 + q3 * 50 * 20; // Rough estimate
+
+            document.getElementById('scoreNumber').textContent = score;
+            document.getElementById('recommendation').innerHTML = `
+                <strong>Recommendation:</strong> Your business is ${score < 50 ? 'critically' : 'moderately'} exposed.
+                Based on your answers, you could save <strong>$${savings.toLocaleString()}/month</strong> by deploying a Sovereign Agent.
+            `;
+
+            document.getElementById('auditForm').style.display = 'none';
+            document.getElementById('scoreResult').style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>
