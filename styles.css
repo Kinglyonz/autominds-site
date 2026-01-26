@@ -73,14 +73,27 @@
 /* Partner Logo: Light Mode -> Original Colors */
 /* Logo Blending */
 .blend-logo {
-    mix-blend-mode: screen; /* For dark mode: makes black transparent, white visible */
-    filter: grayscale(100%) brightness(200%); /* Make it white */
+    /* DARK MODE: 
+       1. invert(1) turns white background to black, and text to inverted color
+       2. grayscale(100%) brightness(200%) makes text white
+       3. mix-blend-mode: screen makes the (now black) background transparent
+    */
+    filter: invert(1) grayscale(100%) brightness(200%);
+    mix-blend-mode: screen;
+    opacity: 0.8;
+    /* Slight transparency to blend better */
 }
 
 /* Light mode overrides */
 .light-mode .blend-logo {
-    mix-blend-mode: multiply; /* For light mode: makes white transparent */
-    filter: none; /* Show original colors */
+    /* LIGHT MODE:
+       copy of original logo which has white background
+       mix-blend-mode: multiply makes white background transparent
+    */
+    mix-blend-mode: multiply;
+    filter: none;
+    /* Reset filters so it shows original colors */
+    opacity: 1;
 }
 
 .light-mode .partner-logo {
