@@ -244,83 +244,19 @@
             SYSTEM OPERATIONAL
         </div>
 
-        <h1 class="hero-title" style="font-size: 3rem; margin-bottom: 1rem;">The Visual Engine</h1>
-        <p class="hero-subtitle">Real-time compliance surveillance for municipal assets.</p>
-
-        <div class="demo-frame">
-            <!-- Placeholder for Screenshot -->
-            <img src="demo_preview.png" alt="AutoMinds Visual Engine Interface" class="demo-visual"
-                style="width: 100%; height: 100%; object-fit: cover; opacity: 0.3;" onerror="this.style.opacity='0'">
-            <div class="overlay-text" style="color: var(--text-muted); font-family: 'Roboto Mono'; font-size: 0.9rem;">
-                [ SECURITY PERIMETER ACTIVE ]<br>
-                AWAITING CREDENTIALS...
-            </div>
-        </div>
-
-        <div style="margin-top: 3rem;">
-            <a href="mailto:admin@autominds.org?subject=Request%20Demo%20Access" class="btn btn-primary">Request Access
-                Credentials</a>
-        </div>
-    </div>
-
-    <!-- Sovereign IDE Section -->
-    <div class="container demo-container"
-        style="margin-top: 5rem; padding-bottom: 5rem; border-top: 1px solid var(--border); padding-top: 5rem;">
         <h1 class="hero-title" style="font-size: 3rem; margin-bottom: 1rem;">Sovereign IDE</h1>
         <p class="hero-subtitle">Full-featured development environment. Code, build, and deploy from the browser.</p>
 
-        <div class="scanner-frame" style="height: 600px; display: flex; flex-direction: column;">
-            <div class="scanner-header">
-                <div style="font-family: 'Roboto Mono'; font-size: 0.9rem; color: #fff;">
-                    <span style="color: #3b82f6;">~/autominds/ops</span> - main.ts
-                </div>
-                <div class="status-dot"></div>
-            </div>
-            <div id="monaco-editor" style="flex: 1; width: 100%;"></div>
+        <div class="scanner-frame" style="height: 800px; display: flex; flex-direction: column;">
+            <iframe src="https://autominds-ide-autominds.up.railway.app"
+                style="width: 100%; height: 100%; border: none; background: #000;"
+                title="AutoMinds Sovereign IDE"></iframe>
         </div>
     </div>
 
-    <!-- Monaco Editor Loader -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
-    <script>
-        require.config({ paths: { 'vs': 'https://cdnjs.cloudflare.com/ajax/libs/monaco-editor/0.44.0/min/vs' } });
 
-        require(['vs/editor/editor.main'], function () {
-            var editor = monaco.editor.create(document.getElementById('monaco-editor'), {
-                value: [
-                    '// AutoMinds Sovereign IDE',
-                    '// Connected to: PROD-NODE-01',
-                    '',
-                    'import { Agent, SovereignCloud } from "@autominds/sdk";',
-                    '',
-                    'async function deployComplianceOfficer() {',
-                    '    const agent = new Agent({',
-                    '        role: "COMPLIANCE_OFFICER",',
-                    '        clearance: "LEVEL_4",',
-                    '        capabilities: ["AUDIT", "REMEDIATION", "REPORTING"]',
-                    '    });',
-                    '',
-                    '    console.log("Initializing secure environment...");',
-                    '    await agent.connect(SovereignCloud.SECURE_ENCLAVE);',
-                    '',
-                    '    const status = await agent.runDiagnostics();',
-                    '    return status.isClean ? "ALL SYSTEMS GREEN" : "VULNERABILITIES DETECTED";',
-                    '}',
-                    '',
-                    '// Execute Routine',
-                    'deployComplianceOfficer().then(console.log);'
-                ].join('\n'),
-                language: 'typescript',
-                theme: 'vs-dark',
-                automaticLayout: true,
-                minimap: { enabled: false },
-                scrollBeyondLastLine: false,
-                fontSize: 14,
-                fontFamily: "'Roboto Mono', monospace",
-                padding: { top: 20, bottom: 20 }
-            });
-        });
-    </script>
+
+</body>
 
 </body>
 
