@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoMinds Cloud Operator | Sovereign AI Sysadmin</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="logo_white.svg">
+    <style>
+        .chat-interface {
+            background: #1a1a1a;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            font-family: 'Inter', sans-serif;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .chat-header {
+            background: #252526;
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .slack-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .chat-body {
+            padding: 1.5rem;
+            min-height: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .message {
+            display: flex;
+            gap: 1rem;
+            max-width: 90%;
+        }
+
+        .message.user {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 4px;
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+
+        .avatar.bot {
+            background: #0071E3;
+            color: white;
+        }
+
+        .avatar.user {
+            background: #444;
+            color: #ccc;
+        }
+
+        .msg-content {
+            background: #2b2b2b;
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            color: #e0e0e0;
+            line-height: 1.5;
+        }
+
+        .message.user .msg-content {
+            background: #005a9e;
+            /* Slack blue-ish */
+            color: white;
+        }
+
+        .code-block {
+            background: #000;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: #22c55e;
+            margin-top: 0.5rem;
+            border: 1px solid #333;
+        }
+
+        .status-badge {
+            display: inline-block;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 0.5rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        .status-success {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Nav -->
+    <nav class="nav">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand">
+                <div class="brand-icon"></div>
+                AutoMinds
+            </a>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Back to Home</a>
+                <a href="sentry.html" class="nav-link" style="color: #22c55e;">Sentry AI</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" style="min-height: auto; padding-bottom: 4rem;">
+        <div class="container hero-content">
+            <span class="hero-Eyebrow" style="color: #0071E3;">PRODUCT: CLOUD OPERATOR</span>
+            <h1 class="hero-title">The AI Sysadmin<br>Inside Your Slack.</h1>
+            <p class="hero-subtitle">
+                Manage your Azure, AWS, and GCP infrastructure using natural language.
+                <br>The Agent runs <strong>inside your VPC</strong>, so your credentials never leave your perimeter.
+            </p>
+
+            <div class="chat-interface">
+                <div class="chat-header">
+                    <div style="display:flex; gap:6px;">
+                        <div class="slack-dot" style="background:#ef4444;"></div>
+                        <div class="slack-dot" style="background:#f59e0b;"></div>
+                        <div class="slack-dot" style="background:#22c55e;"></div>
+                    </div>
+                    <span style="font-size: 0.9rem; font-weight: 600; color: #ccc;">#ops-emergency</span>
+                </div>
+
+                <div class="chat-body">
+                    <!-- User Message -->
+                    <div class="message user">
+                        <div class="avatar user">👤</div>
+                        <div class="msg-content">
+                            @AutoMinds check the status of the production database in us-east-1. It seems slow.
+                        </div>
+                    </div>
+
+                    <!-- Bot Thinking -->
+                    <div class="message">
+                        <div class="avatar bot">🤖</div>
+                        <div class="msg-content">
+                            <span style="color:#888; font-size:0.85rem;">Thinking... (Authorized via IAM Role:
+                                prod-read-only)</span>
+                        </div>
+                    </div>
+
+                    <!-- Bot Response -->
+                    <div class="message">
+                        <div class="avatar bot">🤖</div>
+                        <div class="msg-content">
+                            I checked <strong>rds-prod-01</strong>. CPU usage is at <strong>98%</strong> due to a
+                            long-running query from the analytics service.
+                            <div class="code-block">
+                                > SELECT * FROM logs WHERE timestamp > ...
+                                <br>Duration: 450s
+                            </div>
+                            <br>Should I kill this query?
+                        </div>
+                    </div>
+
+                    <!-- User Response -->
+                    <div class="message user">
+                        <div class="avatar user">👤</div>
+                        <div class="msg-content">
+                            Yes, kill it immediately.
+                        </div>
+                    </div>
+
+                    <!-- Bot Action -->
+                    <div class="message">
+                        <div class="avatar bot">🤖</div>
+                        <div class="msg-content">
+                            Executing kill command... <span class="status-badge status-success">Done</span>
+                            <br>CPU usage has dropped to 12%. Alert resolved.
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div style="margin-top: 4rem; text-align: center;">
+                <a href="mailto:sales@autominds.org?subject=Interest%20in%20Cloud%20Operator" class="btn btn-primary">
+                    Request Enterprise Demo
+                </a>
+                <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    Deployable to your Azure Tenant or AWS VPC.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="capabilities">
+        <div class="container">
+            <div class="bento-grid">
+                <div class="bento-card">
+                    <div class="card-content">
+                        <h3>Airtight Security</h3>
+                        <p>The agent is deployed directly into <strong>your cloud environment</strong>. We never see
+                            your keys. It stays behind your firewall.</p>
+                    </div>
+                </div>
+                <div class="bento-card">
+                    <div class="card-content">
+                        <h3>Multi-Cloud Native</h3>
+                        <p>Works seamlessly across <strong>Azure, AWS, and GCP</strong>. Manage hybrid infrastructure
+                            from a single Slack channel.</p>
+                    </div>
+                </div>
+                <div class="bento-card">
+                    <div class="card-content">
+                        <h3>Audit Everything</h3>
+                        <p>Every command is logged. Unlike a human sysadmin, the AI never forgets to update the ticket.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>
