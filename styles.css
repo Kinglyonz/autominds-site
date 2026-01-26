@@ -75,12 +75,12 @@
 /* Logo Blending */
 .blend-logo {
     /* DARK MODE: 
-       1. grayscale(100%) ensure neutral colors
-       2. contrast(200%) pushes light-gray artifacts to pure white (cleans background)
-       3. invert(1) turns pure white background to pure black
-       4. mix-blend-mode: screen makes pure black background transparent
+       1. grayscale(100%)
+       2. brightness(300%) contrast(500%) - BRUTE FORCE: Threshold to white
+       3. invert(1) - White becomes black
+       4. mix-blend-mode: screen - Black becomes transparent
     */
-    filter: grayscale(100%) contrast(200%) invert(1);
+    filter: grayscale(100%) brightness(300%) contrast(500%) invert(1);
     mix-blend-mode: screen;
     opacity: 0.9;
 }
