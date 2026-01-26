@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoMinds Sentry | Sovereign Data Guard</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="logo_white.svg">
+    <style>
+        .demo-interface {
+            background: rgba(10, 10, 10, 0.8);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-top: 3rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .demo-header {
+            background: #111;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .demo-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: #22c55e;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            background: #22c55e;
+            border-radius: 50%;
+            box-shadow: 0 0 8px #22c55e;
+        }
+
+        .demo-split {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 400px;
+        }
+
+        .input-pane,
+        .output-pane {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-pane {
+            border-right: 1px solid var(--border);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .pane-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100%;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+        }
+
+        .redacted-output {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #d1d5db;
+            white-space: pre-wrap;
+        }
+
+        .redacted-tag {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            padding: 0 4px;
+            border-radius: 3px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .safe-tag {
+            color: #22c55e;
+        }
+
+        .toggle-switch {
+            display: flex;
+            background: #222;
+            border-radius: 100px;
+            padding: 2px;
+            cursor: pointer;
+        }
+
+        .mode-btn {
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            border-radius: 100px;
+            color: #666;
+            font-weight: 500;
+        }
+
+        .mode-btn.active {
+            background: #333;
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            .demo-split {
+                grid-template-columns: 1fr;
+            }
+
+            .input-pane {
+                border-right: none;
+                border-bottom: 1px solid var(--border);
+                min-height: 200px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Nav -->
+    <nav class="nav">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand">
+                <div class="brand-icon"></div>
+                AutoMinds
+            </a>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Back to Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero" style="min-height: auto; padding-bottom: 4rem;">
+        <div class="container hero-content">
+            <span class="hero-Eyebrow" style="color: #ef4444;">PRODUCT: SENTRY</span>
+            <h1 class="hero-title">The Air-Gap for<br>Your ClipBoard.</h1>
+            <p class="hero-subtitle">
+                Prevent PII and Secrets from leaking to the cloud. Sentry runs locally on your machine, sanitizing logs,
+                code, and documents before they leave your perimeter.
+            </p>
+
+            <div class="demo-interface">
+                <div class="demo-header">
+                    <div class="demo-status">
+                        <div class="status-dot"></div>
+                        SENTRY ACTIVE (LOCAL MODEL)
+                    </div>
+                </div>
+
+                <div class="demo-split">
+                    <div class="input-pane">
+                        <div class="pane-label">Raw Input (Paste Text Here)</div>
+                        <textarea id="rawInput"
+                            placeholder="Paste logs or text here... e.g. 'My API key is sk-12345' or 'Email me at john@example.com'"></textarea>
+                    </div>
+                    <div class="output-pane">
+                        <div class="pane-label">Sanitized Output</div>
+                        <div id="cleanOutput" class="redacted-output"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 4rem; text-align: center;">
+                <button class="btn btn-primary" style="opacity: 0.5; cursor: not-allowed;" title="Coming Soon">
+                    Download Sentry v1.0 (Access Closed)
+                </button>
+                <p style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    Join the waitlist to get the local binary.
+                </p>
+                <form id="waitlistForm" style="margin-top: 1rem; display: inline-flex; gap: 0.5rem;">
+                    <input type="email" placeholder="Enter email"
+                        style="background: rgba(255,255,255,0.05); border: 1px solid var(--border); padding: 0.75rem 1rem; color: white; border-radius: 4px; width: 250px;">
+                    <button type="submit" class="btn btn-secondary">Join Waitlist</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="capabilities">
+        <div class="container">
+            <div class="bento-grid">
+                <div class="bento-card">
+                    <div class="card-content">
+                        <h3>Zero-Latency Redaction</h3>
+                        <p>Powered by <strong>GLiNER</strong> (300MB Model). Runs instantly on any CPU. No GPU required.
+                        </p>
+                    </div>
+                </div>
+                <div class="bento-card">
+                    <div class="card-content">
+                        <h3>Context Aware</h3>
+                        <p>Unlike Regex, Sentry understands context. It detects "My password is..." even if it looks
+                            like a normal word.</p>
+                    </div>
+                </div>
+                <div class="bento-card">
+                    <div class="card-content">
+                        <h3>Clipboard Guard</h3>
+                        <p>Running in the background, Sentry warns you before you paste sensitive data into ChatGPT or
+                            Slack.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        const rawInput = document.getElementById('rawInput');
+        const cleanOutput = document.getElementById('cleanOutput');
+
+        // Simple Regex Patterns for Demo (In real product, this is the GLiNER model)
+        const patterns = [
+            { regex: /[\w\.-]+@[\w\.-]+\.\w+/g, label: 'EMAIL' },
+            { regex: /\d{3}-\d{3}-\d{4}/g, label: 'PHONE' },
+            { regex: /(sk-[a-zA-Z0-9]{32,})/g, label: 'API_KEY' },
+            { regex: /\b\d{3}-\d{2}-\d{4}\b/g, label: 'SSN' },
+            { regex: /(password|secret|key)\s*[:=]\s*(\S+)/gi, type: 'context' } // Contextual
+        ];
+
+        function redact(text) {
+            let processed = text;
+
+            // Email
+            processed = processed.replace(/[\w\.-]+@[\w\.-]+\.\w+/g, '<span class="redacted-tag">[EMAIL_REDACTED]</span>');
+
+            // Phone
+            processed = processed.replace(/\b\d{3}[-.]?\d{3}[-.]?\d{4}\b/g, '<span class="redacted-tag">[PHONE_REDACTED]</span>');
+
+            // API Keys (Starts with sk- or AKIA)
+            processed = processed.replace(/\b(sk-[a-zA-Z0-9]{20,}|AKIA[A-Z0-9]{16})\b/g, '<span class="redacted-tag">[SECRET_KEY]</span>');
+
+            // IPs
+            processed = processed.replace(/\b(?:[0-9]{1,3}\.){3}[0-9]{1,3}\b/g, '<span class="redacted-tag">[IP_ADDRESS]</span>');
+
+            return processed;
+        }
+
+        rawInput.addEventListener('input', (e) => {
+            const text = e.target.value;
+            if (!text) {
+                cleanOutput.innerHTML = '<span style="color: #666;">Waiting for input...</span>';
+                return;
+            }
+            cleanOutput.innerHTML = redact(text);
+        });
+
+        // Init
+        cleanOutput.innerHTML = '<span style="color: #666;">Waiting for input...</span>';
+    </script>
+</body>
+
+</html>
