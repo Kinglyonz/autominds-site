@@ -1,23 +1,6 @@
 // Vercel Serverless Function - Studios Signup
-// Handles free trial signup and workspace creation
+// Calls orchestrator to provision workspace
 
-import crypto from 'crypto';
-import fs from 'fs/promises';
-import path from 'path';
-
-// Helper to generate unique workspace ID
-function generateWorkspaceId() {
-    return crypto.randomBytes(16).toString('hex');
-}
-
-// Helper to calculate trial expiry (7 days from now)
-function getTrialExpiry() {
-    const now = new Date();
-    const expiry = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000);
-    return expiry.toISOString();
-}
-
-// Main handler
 export default async function handler(req, res) {
     // Only allow POST requests
     if (req.method !== 'POST') {
@@ -38,78 +21,49 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: 'Invalid email format' });
         }
 
-        // Generate workspace
-        const workspaceId = generateWorkspaceId();
-        const trialExpiry = getTrialExpiry();
-        const createdAt = new Date().toISOString();
+        // Call orchestrator API to provision workspace
+        const orchestratorUrl = process.env.ORCHESTRATOR_URL || 'https://orchestrator.autominds.org';
+        const orchestratorKey = process.env.ORCHESTRATOR_API_KEY;
 
-        // Create workspace record
-        const workspace = {
-            id: workspaceId,
-            email: email.toLowerCase().trim(),
-            name: name.trim(),
-            company: company?.trim() || null,
-            status: 'trial',
-            trialExpiry,
-            createdAt,
-            lastAccessed: createdAt,
-            isPaid: false
-        };
+        console.log(`Provisioning workspace for ${email}`);
 
-        // In production, save to database (Supabase, PostgreSQL, etc.)
-        // For MVP, we'll store in a JSON file
-        const dataDir = '/tmp/workspaces'; // Vercel /tmp is ephemeral but works for MVP
-        const dataFile = path.join(dataDir, 'workspaces.json');
+        const response = await fetch(`${orchestratorUrl}/provision`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-API-Key': orchestratorKey
+            },
+            body: JSON.stringify({
+                email: email.toLowerCase().trim(),
+                name: name.trim(),
+                company: company?.trim() || null
+            })
+        });
 
-        try {
-            // Create directory if it doesn't exist
-            await fs.mkdir(dataDir, { recursive: true });
-
-            // Read existing workspaces
-            let workspaces = [];
-            try {
-                const data = await fs.readFile(dataFile, 'utf8');
-                workspaces = JSON.parse(data);
-            } catch (err) {
-                // File doesn't exist yet, start with empty array
-                workspaces = [];
-            }
-
-            // Check if email already exists
-            const existingWorkspace = workspaces.find(w => w.email === workspace.email);
-            if (existingWorkspace && existingWorkspace.status === 'trial') {
-                // Return existing trial workspace
-                return res.status(200).json({
-                    success: true,
-                    workspaceId: existingWorkspace.id,
-                    workspaceUrl: `https://ide.autominds.org/workspace/${existingWorkspace.id}`,
-                    trialExpiry: existingWorkspace.trialExpiry,
-                    message: 'Welcome back! Your trial is still active.'
-                });
-            }
-
-            // Add new workspace
-            workspaces.push(workspace);
-
-            // Save to file
-            await fs.writeFile(dataFile, JSON.stringify(workspaces, null, 2));
-
-            // TODO: Send welcome email with workspace link
-            // For now, we just return the workspace URL
-
-            // Return success
-            return res.status(200).json({
-                success: true,
-                workspaceId: workspace.id,
-                workspaceUrl: `https://ide.autominds.org/workspace/${workspace.id}`,
-                trialExpiry: workspace.trialExpiry,
-                message: 'Workspace created successfully!'
+        if (!response.ok) {
+            const error = await response.json();
+            console.error('Orchestrator error:', error);
+            return res.status(500).json({
+                error: 'Failed to create workspace. Please try again later.'
             });
-
-        } catch (fileError) {
-            console.error('File operation error:', fileError);
-            return res.status(500).json({ error: 'Failed to create workspace. Please try again.' });
         }
+
+        const workspace = await response.json();
+
+        console.log(`Workspace provisioned: ${workspace.workspace_id}`);
+
+        // TODO: Send welcome email with workspace credentials
+        // For now, return credentials in response (they'll be shown on success page)
+
+        // Return success
+        return res.status(200).json({
+            success: true,
+            workspaceId: workspace.workspace_id,
+            workspaceUrl: workspace.url,
+            password: workspace.password,
+            trialExpiry: workspace.trial_expires_at,
+            message: 'Workspace created successfully!'
+        });
 
     } catch (error) {
         console.error('Signup error:', error);
