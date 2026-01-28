@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoMinds | Custom Cloud Intelligence</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/svg+xml" href="logo_white.svg">
+    <style>
+        .hero-cloud {
+            padding: 120px 0 80px;
+            background: linear-gradient(180deg, rgba(255, 153, 0, 0.05) 0%, rgba(0, 0, 0, 0) 100%);
+            border-bottom: 1px solid rgba(255, 153, 0, 0.2);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .service-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .service-card:hover {
+            border-color: #ff9900;
+            background: rgba(255, 153, 0, 0.05);
+            transform: translateY(-4px);
+        }
+
+        .service-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #ff9900, #ff6600);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .intake-form {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 3rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border);
+            padding: 0.875rem;
+            color: #fff;
+            font-family: inherit;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .form-textarea {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: #ff9900;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #ff9900, #ff6600);
+            border: none;
+            padding: 1.25rem 2rem;
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(255, 153, 0, 0.3);
+        }
+
+        .use-cases {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .use-case {
+            padding: 1.5rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand">
+                <div class="brand-icon"></div>
+                AutoMinds
+            </a>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Back to Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero-cloud">
+        <div class="container">
+            <div class="section-header center-text">
+                <div class="product-badge" style="color: #ff9900; border-color: rgba(255, 153, 0, 0.3); margin: 0 auto 1.5rem;">
+                    CUSTOM CLOUD INTELLIGENCE
+                </div>
+                <h1 class="section-title" style="font-size: 3rem; margin-bottom: 1.5rem;">Your Personal Cloud Team,<br>Built Into Your Infrastructure</h1>
+                <p style="font-size: 1.2rem; max-width: 800px; margin: 0 auto; color: var(--text-secondary);">
+                    Stop renting generic AI tools. Get a custom cloud architect, security engineer, or DevOps specialist—deployed directly into your AWS or Azure environment.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Offered -->
+    <section style="padding: var(--space-xl) 0; background: var(--bg-surface);">
+        <div class="container">
+            <div class="section-header center-text">
+                <h2 class="section-title">What We Build For You</h2>
+                <p>Custom AI agents tailored to your cloud infrastructure, security requirements, and operational workflows.</p>
+            </div>
+
+            <div class="services-grid">
+                <!-- Cloud Architect -->
+                <div class="service-card">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #3B82F6, #1D4ED8);">
+                        🏗️
+                    </div>
+                    <h3 style="margin-bottom: 1rem; color: #3B82F6;">Cloud Architect Agent</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
+                        Designs, optimizes, and manages your cloud architecture. Recommends best practices, cost optimizations, and scalability improvements.
+                    </p>
+                    <ul class="check-list" style="font-size: 0.9rem;">
+                        <li>Infrastructure as Code (IaC) Generation</li>
+                        <li>Cost Optimization Analysis</li>
+                        <li>Architecture Review & Recommendations</li>
+                        <li>Multi-Region Deployment Strategy</li>
+                    </ul>
+                </div>
+
+                <!-- Security Engineer -->
+                <div class="service-card">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #22c55e, #16a34a);">
+                        🛡️
+                    </div>
+                    <h3 style="margin-bottom: 1rem; color: #22c55e;">Cloud Security Engineer</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
+                        Continuously monitors your cloud environment for security risks, compliance violations, and misconfigurations.
+                    </p>
+                    <ul class="check-list" style="font-size: 0.9rem;">
+                        <li>Real-Time Security Auditing</li>
+                        <li>Compliance Monitoring (SOC2, HIPAA, NIST)</li>
+                        <li>Automated Remediation</li>
+                        <li>Threat Detection & Response</li>
+                    </ul>
+                </div>
+
+                <!-- DevOps Specialist -->
+                <div class="service-card">
+                    <div class="service-icon" style="background: linear-gradient(135deg, #8B5CF6, #6D28D9);">
+                        ⚙️
+                    </div>
+                    <h3 style="margin-bottom: 1rem; color: #8B5CF6;">DevOps Automation Specialist</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 1.5rem; line-height: 1.6;">
+                        Automates CI/CD pipelines, deployment workflows, and operational tasks across your cloud infrastructure.
+                    </p>
+                    <ul class="check-list" style="font-size: 0.9rem;">
+                        <li>CI/CD Pipeline Optimization</li>
+                        <li>Automated Testing & Deployment</li>
+                        <li>Log Analysis & Alerting</li>
+                        <li>Infrastructure Monitoring</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Cases -->
+    <section style="padding: var(--space-xl) 0; border-top: 1px solid var(--border);">
+        <div class="container">
+            <div class="section-header center-text">
+                <h2 class="section-title">Common Use Cases</h2>
+                <p>How organizations are using AutoMinds Cloud Intelligence</p>
+            </div>
+
+            <div class="use-cases">
+                <div class="use-case">
+                    <h4 style="color: #fff; margin-bottom: 0.75rem;">Compliance Automation</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+                        Government agencies and regulated industries use our Security Engineer to continuously monitor compliance with NIST 800-53, HIPAA, and SOC2.
+                    </p>
+                </div>
+                <div class="use-case">
+                    <h4 style="color: #fff; margin-bottom: 0.75rem;">Cost Optimization</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+                        Our Cloud Architect identifies unused resources, rightsizes instances, and recommends reserved instance purchases—saving 30-50% on cloud spend.
+                    </p>
+                </div>
+                <div class="use-case">
+                    <h4 style="color: #fff; margin-bottom: 0.75rem;">Disaster Recovery</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+                        Automated backup, replication, and failover strategies across AWS regions or Azure availability zones.
+                    </p>
+                </div>
+                <div class="use-case">
+                    <h4 style="color: #fff; margin-bottom: 0.75rem;">Security Incident Response</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6;">
+                        Real-time threat detection with automated remediation—isolate compromised instances, revoke credentials, and alert your team.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Structure -->
+    <section style="padding: var(--space-xl) 0; background: var(--bg-surface);">
+        <div class="container">
+            <div class="section-header center-text">
+                <h2 class="section-title">Pricing Structure</h2>
+                <p>Custom pricing based on your infrastructure size and requirements</p>
+            </div>
+
+            <div style="max-width: 900px; margin: 3rem auto;">
+                <table style="width: 100%; border-collapse: collapse; text-align: left;">
+                    <thead>
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <th style="padding: 1rem; color: var(--text-primary); font-weight: 600;">Deployment Size</th>
+                            <th style="padding: 1rem; color: var(--text-primary); font-weight: 600;">Monthly Price Range</th>
+                            <th style="padding: 1rem; color: var(--text-primary); font-weight: 600;">Included</th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-size: 0.95rem;">
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                            <td style="padding: 1.5rem 1rem; color: var(--text-secondary);">Startup (1-10 resources)</td>
+                            <td style="padding: 1.5rem 1rem; color: #22c55e; font-weight: 600;">$500 - $1,500</td>
+                            <td style="padding: 1.5rem 1rem; color: var(--text-secondary);">Basic monitoring, weekly reports</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                            <td style="padding: 1.5rem 1rem; color: var(--text-secondary);">Mid-Market (10-100 resources)</td>
+                            <td style="padding: 1.5rem 1rem; color: #3B82F6; font-weight: 600;">$2,000 - $5,000</td>
+                            <td style="padding: 1.5rem 1rem; color: var(--text-secondary);">24/7 monitoring, auto-remediation</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1.5rem 1rem; color: var(--text-secondary);">Enterprise (100+ resources)</td>
+                            <td style="padding: 1.5rem 1rem; color: #ff9900; font-weight: 600;">Custom Quote</td>
+                            <td style="padding: 1.5rem 1rem; color: var(--text-secondary);">Multi-cloud, dedicated support</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Intake Form -->
+    <section style="padding: var(--space-xl) 0; border-top: 1px solid var(--border);">
+        <div class="container">
+            <div class="section-header center-text">
+                <h2 class="section-title">Request a Custom Quote</h2>
+                <p>Tell us about your infrastructure and we'll design a solution for you</p>
+            </div>
+
+            <form id="intakeForm" class="intake-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">First Name *</label>
+                        <input type="text" name="firstName" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Last Name *</label>
+                        <input type="text" name="lastName" class="form-input" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Email *</label>
+                        <input type="email" name="email" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Company</label>
+                        <input type="text" name="company" class="form-input">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Cloud Provider *</label>
+                    <select name="cloudProvider" class="form-select" required>
+                        <option value="">Select a provider</option>
+                        <option value="AWS">Amazon Web Services (AWS)</option>
+                        <option value="Azure">Microsoft Azure</option>
+                        <option value="Both">Both AWS & Azure</option>
+                        <option value="Other">Other / Multi-Cloud</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Service Needed *</label>
+                    <select name="serviceType" class="form-select" required>
+                        <option value="">Select a service</option>
+                        <option value="Cloud Architect">Cloud Architect Agent</option>
+                        <option value="Security Engineer">Cloud Security Engineer</option>
+                        <option value="DevOps Specialist">DevOps Automation Specialist</option>
+                        <option value="Multiple">Multiple Services</option>
+                        <option value="Not Sure">Not Sure / Need Consultation</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Infrastructure Size</label>
+                    <select name="infraSize" class="form-select">
+                        <option value="">Select size</option>
+                        <option value="Startup">Startup (1-10 resources)</option>
+                        <option value="Mid-Market">Mid-Market (10-100 resources)</option>
+                        <option value="Enterprise">Enterprise (100+ resources)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Project Details *</label>
+                    <textarea name="details" class="form-textarea"
+                        placeholder="Tell us about your infrastructure, current challenges, and what you're hoping to achieve..."
+                        required></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Timeline</label>
+                    <select name="timeline" class="form-select">
+                        <option value="">Select timeline</option>
+                        <option value="Immediate">Immediate (Within 2 weeks)</option>
+                        <option value="1-2 Months">1-2 Months</option>
+                        <option value="3-6 Months">3-6 Months</option>
+                        <option value="Exploring">Just Exploring</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="submit-btn">Submit Quote Request</button>
+
+                <p style="margin-top: 1.5rem; text-align: center; font-size: 0.85rem; color: var(--text-muted);">
+                    We'll review your request and get back to you within 24 hours with a custom proposal.
+                </p>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p><span class="status-pulse"></span> &copy; 2026 AutoMinds LLC. All Systems Operational.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('intakeForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+
+            // Build email body
+            const subject = `Cloud Services Quote Request - ${data.company || data.firstName}`;
+            const body = `
+New Cloud Services Quote Request:
+
+Name: ${data.firstName} ${data.lastName}
+Email: ${data.email}
+Company: ${data.company || 'N/A'}
+Cloud Provider: ${data.cloudProvider}
+Service Type: ${data.serviceType}
+Infrastructure Size: ${data.infraSize || 'Not specified'}
+Timeline: ${data.timeline || 'Not specified'}
+
+Project Details:
+${data.details}
+            `.trim();
+
+            // Send to admin email
+            const mailtoLink = `mailto:admin@autominds.org?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
+
+            // Show confirmation
+            alert('Thank you! Your quote request is being sent. We\'ll respond within 24 hours.');
+            e.target.reset();
+        });
+    </script>
+</body>
+
+</html>

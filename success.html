@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoMinds | Deployment Ready</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .download-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .download-btn {
+            background: #22c55e;
+            color: #000;
+            padding: 0.75rem 1.5rem;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="nav">
+        <div class="container nav-wrapper">
+            <a href="index.html" class="brand">AutoMinds</a>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 100px;">
+        <h1 class="section-title">Deployment Manifest</h1>
+        <p style="margin-bottom: 3rem; color: var(--text-secondary);">Your sovereign assets are ready for download.</p>
+
+        <!-- Product 1: The Analyst -->
+        <div class="download-card">
+            <div>
+                <h3 style="color: #3B82F6;">The Sovereign Analyst (v1.0)</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Contains: Local Brain Core, VectorDB Drivers,
+                    API Server.</p>
+            </div>
+            <a href="/downloads/sovereign-analyst-v1.zip" class="download-btn">Download Container</a>
+        </div>
+
+        <!-- Product 2: cloud Operator -->
+        <div class="download-card">
+            <div>
+                <h3 style="color: #22c55e;">The Cloud Operator (v1.0)</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Contains: AWS/Azure Sensors, Remediation
+                    Scripts.</p>
+            </div>
+            <a href="/downloads/cloud-operator-v1.zip" class="download-btn">Download Agent</a>
+        </div>
+
+        <!-- CLI -->
+        <div class="download-card">
+            <div>
+                <h3 style="color: #ef4444;">AutoMinds CLI (am-deploy)</h3>
+                <p style="font-size: 0.9rem; color: var(--text-muted);">Deployment utility for AutoMinds Studios.</p>
+            </div>
+            <a href="/downloads/am-deploy-cli" class="download-btn" download>Download Tool</a>
+        </div>
+
+        <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);">
+            <p style="font-size: 0.8rem; color: var(--text-muted);">
+                <strong>Next Steps:</strong><br>
+                1. Unzip `sovereign-analyst-v1.zip` to your secure server.<br>
+                2. Run `pip install -r requirements.txt`.<br>
+                3. Execute `python server.py` to start the brain.<br><br>
+                <em>License Key: AM-PRO-8829-XJKA (Generated for this session)</em>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>
