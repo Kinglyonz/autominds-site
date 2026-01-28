@@ -144,7 +144,7 @@
 
             <div class="benefits-grid">
                 <div class="benefit-item">
-                    <span class="benefit-icon">◆</span>
+                    <span class="benefit-icon">+</span>
                     <div>
                         <strong>Create & Sell</strong>
                         <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem;">
@@ -153,7 +153,7 @@
                     </div>
                 </div>
                 <div class="benefit-item">
-                    <span class="benefit-icon">◆</span>
+                    <span class="benefit-icon">+</span>
                     <div>
                         <strong>Embedded Analyst</strong>
                         <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem;">
@@ -162,7 +162,7 @@
                     </div>
                 </div>
                 <div class="benefit-item">
-                    <span class="benefit-icon">◆</span>
+                    <span class="benefit-icon">+</span>
                     <div>
                         <strong>Zero-Setup Environment</strong>
                         <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem;">
@@ -171,7 +171,7 @@
                     </div>
                 </div>
                 <div class="benefit-item">
-                    <span class="benefit-icon">◆</span>
+                    <span class="benefit-icon">+</span>
                     <div>
                         <strong>Sovereign Architecture</strong>
                         <p style="color: var(--text-secondary); font-size: 0.9rem; margin-top: 0.25rem;">
@@ -194,26 +194,25 @@
             <div class="pricing-grid"
                 style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 3rem 0;">
                 <!-- Free Trial -->
-                <div class="pricing-card"
-                    style="border: 1px solid rgba(102, 126, 234, 0.5); background: rgba(102, 126, 234, 0.05); padding: 1.5rem; text-align: center; border-radius: 4px;">
+                <a href="signup.html" class="pricing-card" id="tier-trial"
+                    style="border: 2px solid #8B9FFF; background: rgba(102, 126, 234, 0.1); padding: 1.5rem; text-align: center; border-radius: 4px; text-decoration: none; cursor: pointer; transition: all 0.3s;">
                     <h3 style="font-size: 1.1rem; color: #8B9FFF;">Free Trial</h3>
-                    <div style="font-size: 2rem; font-weight: 700; margin: 1rem 0;">7 Days</div>
+                    <div style="font-size: 2rem; font-weight: 700; margin: 1rem 0; color: #fff;">7 Days</div>
                     <ul
                         style="list-style: none; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; padding: 0;">
                         <li><strong>Full IDE Access</strong></li>
                         <li><strong>No Credit Card</strong></li>
                         <li>Instant Setup</li>
                     </ul>
-                    <a href="signup.html" style="display: inline-block; margin-top: 1rem; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 4px; font-size: 0.9rem;">Start Trial</a>
-                </div>
+                </a>
                 <!-- Pro -->
-                <div class="pricing-card"
-                    style="border: 1px solid #3B82F6; background: rgba(59, 130, 246, 0.05); padding: 1.5rem; text-align: center; border-radius: 4px;">
+                <a href="https://buy.stripe.com/3cIeVfalz9lOboYd55" class="pricing-card" id="tier-pro"
+                    style="border: 2px solid #3B82F6; background: rgba(59, 130, 246, 0.1); padding: 1.5rem; text-align: center; border-radius: 4px; text-decoration: none; cursor: pointer; transition: all 0.3s;">
                     <div
                         style="font-size: 0.7rem; color: #3B82F6; font-weight: 700; letter-spacing: 0.1em; margin-bottom: 0.5rem;">
                         MOST POPULAR</div>
                     <h3 style="font-size: 1.1rem; color: #fff;">Sovereign Pro</h3>
-                    <div style="font-size: 2rem; font-weight: 700; margin: 1rem 0;">$49<span
+                    <div style="font-size: 2rem; font-weight: 700; margin: 1rem 0; color: #fff;">$49<span
                             style="font-size: 1rem; font-weight: 400; color: var(--text-muted);">/mo</span></div>
                     <ul
                         style="list-style: none; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; padding: 0;">
@@ -221,12 +220,12 @@
                         <li><strong>Private Air-Gapped Pod</strong></li>
                         <li>"The Analyst" Copilot</li>
                     </ul>
-                </div>
+                </a>
                 <!-- Agency -->
-                <div class="pricing-card"
-                    style="border: 1px solid var(--border); padding: 1.5rem; text-align: center; border-radius: 4px;">
+                <a href="https://buy.stripe.com/agency299" class="pricing-card" id="tier-agency"
+                    style="border: 2px solid var(--border); background: rgba(255,255,255,0.02); padding: 1.5rem; text-align: center; border-radius: 4px; text-decoration: none; cursor: pointer; transition: all 0.3s;">
                     <h3 style="font-size: 1.1rem; color: var(--text-muted);">Agency</h3>
-                    <div style="font-size: 2rem; font-weight: 700; margin: 1rem 0;">$299<span
+                    <div style="font-size: 2rem; font-weight: 700; margin: 1rem 0; color: #fff;">$299<span
                             style="font-size: 1rem; font-weight: 400; color: var(--text-muted);">/mo</span></div>
                     <ul
                         style="list-style: none; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; padding: 0;">
@@ -234,8 +233,15 @@
                         <li>White-Label Export</li>
                         <li>Priority Support</li>
                     </ul>
-                </div>
+                </a>
             </div>
+
+            <style>
+                .pricing-card:hover {
+                    transform: translateY(-4px);
+                    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.2);
+                }
+            </style>
 
             <div style="margin-top: 3rem; text-align: center;">
                 <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">Ready to Get Started?</h3>
@@ -253,7 +259,7 @@
             </div>
 
             <div class="result-section" id="resultSection">
-                <h3 style="color: #22c55e; margin-bottom: 1rem; text-align: center;">✓ Environment Initialized</h3>
+                <h3 style="color: #22c55e; margin-bottom: 1rem; text-align: center;">Environment Initialized</h3>
 
                 <div class="instructions">
                     <p style="text-align: center; margin-bottom: 1rem;">Your sovereign workspace is ready.</p>

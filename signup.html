@@ -237,6 +237,10 @@
         const errorDiv = document.getElementById('error-message');
         const successDiv = document.getElementById('success-message');
 
+        // Orchestrator API configuration
+        const API_URL = 'http://98.94.10.180:8000';
+        const API_KEY = 'gW5RxF7VAsXnbEPXM4uhrVRjH9uAhA3f';
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
@@ -252,14 +256,15 @@
             const formData = {
                 email: document.getElementById('email').value,
                 name: document.getElementById('name').value,
-                company: document.getElementById('company').value
+                company: document.getElementById('company').value || undefined
             };
 
             try {
-                const response = await fetch('/api/signup', {
+                const response = await fetch(`${API_URL}/provision`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json'
+                        'Content-Type': 'application/json',
+                        'X-API-Key': API_KEY
                     },
                     body: JSON.stringify(formData)
                 });
@@ -267,16 +272,18 @@
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Success - redirect to workspace
-                    successDiv.textContent = 'Workspace created! Redirecting...';
+                    // Success - show workspace info
+                    successDiv.innerHTML = `
+                        <strong>Workspace created!</strong><br><br>
+                        <strong>URL:</strong> <a href="${data.url}" target="_blank" style="color: #667eea;">${data.url}</a><br>
+                        <strong>Password:</strong> <code style="background: #eee; padding: 2px 6px; border-radius: 3px;">${data.password}</code><br><br>
+                        <em>Trial expires: ${new Date(data.trial_expires_at).toLocaleDateString()}</em>
+                    `;
                     successDiv.style.display = 'block';
-
-                    setTimeout(() => {
-                        window.location.href = data.workspaceUrl;
-                    }, 1500);
+                    submitBtn.textContent = 'Workspace Created!';
                 } else {
                     // Error
-                    errorDiv.textContent = data.error || 'Failed to create workspace. Please try again.';
+                    errorDiv.textContent = data.detail || 'Failed to create workspace. Please try again.';
                     errorDiv.style.display = 'block';
                     submitBtn.disabled = false;
                     submitBtn.textContent = 'Start Free Trial';
