@@ -233,6 +233,140 @@
         </div>
     </section>
 
+    <!-- Safety Features -->
+    <section style="padding: var(--space-xl) 0; background: linear-gradient(180deg, rgba(34, 197, 94, 0.05) 0%, rgba(0, 0, 0, 0) 100%); border-top: 1px solid rgba(34, 197, 94, 0.2);">
+        <div class="container">
+            <div class="section-header center-text">
+                <div style="display: inline-block; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.3); padding: 0.5rem 1rem; border-radius: 20px; margin-bottom: 1rem;">
+                    <span style="color: #22c55e; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">🔒 Enterprise-Grade Safety</span>
+                </div>
+                <h2 class="section-title">Built-In Safety Controls</h2>
+                <p style="max-width: 700px; margin: 0 auto; color: var(--text-secondary); line-height: 1.7;">
+                    Every AutoMinds agent includes comprehensive safety controls to protect your infrastructure and prevent costly mistakes.
+                </p>
+            </div>
+
+            <div class="services-grid" style="margin-top: 3rem;">
+                <!-- Dry Run Mode -->
+                <div class="service-card" style="border-color: rgba(34, 197, 94, 0.2);">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                        <div style="background: rgba(34, 197, 94, 0.1); width: 40px; height: 40px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                            🧪
+                        </div>
+                        <h4 style="margin: 0; color: #22c55e;">Dry Run Mode</h4>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+                        Test all operations before executing them. Dry run mode simulates actions and shows exactly what would happen—without making any changes to your infrastructure.
+                    </p>
+                    <div style="background: rgba(34, 197, 94, 0.05); border-left: 3px solid #22c55e; padding: 0.75rem; font-size: 0.85rem; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace;">
+                        <code>DRY_RUN_MODE=true</code> (default)
+                    </div>
+                </div>
+
+                <!-- Budget Caps -->
+                <div class="service-card" style="border-color: rgba(59, 130, 246, 0.2);">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                        <div style="background: rgba(59, 130, 246, 0.1); width: 40px; height: 40px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                            💰
+                        </div>
+                        <h4 style="margin: 0; color: #3B82F6;">Budget Caps</h4>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+                        Set monthly spending limits. The agent automatically rejects any operation that would exceed your configured budget cap—preventing runaway costs.
+                    </p>
+                    <div style="background: rgba(59, 130, 246, 0.05); border-left: 3px solid #3B82F6; padding: 0.75rem; font-size: 0.85rem; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace;">
+                        <code>BUDGET_CAP_USD=500</code> (configurable)
+                    </div>
+                </div>
+
+                <!-- Approval Workflows -->
+                <div class="service-card" style="border-color: rgba(168, 85, 247, 0.2);">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                        <div style="background: rgba(168, 85, 247, 0.1); width: 40px; height: 40px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                            ✅
+                        </div>
+                        <h4 style="margin: 0; color: #A855F7;">Slack Approvals</h4>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+                        Destructive operations require human approval. The agent sends approval requests to your Slack channel and waits for confirmation before executing.
+                    </p>
+                    <div style="background: rgba(168, 85, 247, 0.05); border-left: 3px solid #A855F7; padding: 0.75rem; font-size: 0.85rem; color: var(--text-secondary);">
+                        <div style="margin-bottom: 0.5rem;">
+                            🚨 <strong>Approval Required:</strong> Stop 3 instances
+                        </div>
+                        <div style="font-family: 'JetBrains Mono', monospace; font-size: 0.8rem;">
+                            <code>/approve abc123</code> or <code>/deny abc123</code>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Blast Radius -->
+                <div class="service-card" style="border-color: rgba(251, 146, 60, 0.2);">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                        <div style="background: rgba(251, 146, 60, 0.1); width: 40px; height: 40px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                            💥
+                        </div>
+                        <h4 style="margin: 0; color: #FB923C;">Blast Radius Tags</h4>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+                        Every operation is classified by potential impact: None, Single Resource, Service, Cross-Service, or Organization—with automatic escalation based on risk.
+                    </p>
+                    <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; font-size: 0.75rem; font-weight: 600;">
+                        <span style="background: rgba(34, 197, 94, 0.1); color: #22c55e; padding: 0.25rem 0.75rem; border-radius: 12px;">NONE</span>
+                        <span style="background: rgba(59, 130, 246, 0.1); color: #3B82F6; padding: 0.25rem 0.75rem; border-radius: 12px;">SINGLE</span>
+                        <span style="background: rgba(251, 146, 60, 0.1); color: #FB923C; padding: 0.25rem 0.75rem; border-radius: 12px;">SERVICE</span>
+                        <span style="background: rgba(239, 68, 68, 0.1); color: #EF4444; padding: 0.25rem 0.75rem; border-radius: 12px;">CROSS-SERVICE</span>
+                    </div>
+                </div>
+
+                <!-- Rollback Mechanism -->
+                <div class="service-card" style="border-color: rgba(236, 72, 153, 0.2);">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                        <div style="background: rgba(236, 72, 153, 0.1); width: 40px; height: 40px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                            ⏪
+                        </div>
+                        <h4 style="margin: 0; color: #EC4899;">Rollback Capability</h4>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+                        Undo operations if something goes wrong. Every action is logged with rollback instructions stored in DynamoDB for instant recovery.
+                    </p>
+                    <div style="background: rgba(236, 72, 153, 0.05); border-left: 3px solid #EC4899; padding: 0.75rem; font-size: 0.85rem; color: var(--text-secondary); font-family: 'JetBrains Mono', monospace;">
+                        <code>rollback(operation_id='abc123')</code>
+                    </div>
+                </div>
+
+                <!-- Audit Trail -->
+                <div class="service-card" style="border-color: rgba(100, 116, 139, 0.2);">
+                    <div style="display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem;">
+                        <div style="background: rgba(100, 116, 139, 0.1); width: 40px; height: 40px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 1.25rem;">
+                            📋
+                        </div>
+                        <h4 style="margin: 0; color: #64748B;">Complete Audit Trail</h4>
+                    </div>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem;">
+                        Every action, approval, and denial is permanently logged in DynamoDB with timestamps, user IDs, and operation details for compliance and forensics.
+                    </p>
+                    <div style="background: rgba(100, 116, 139, 0.05); border-left: 3px solid #64748B; padding: 0.75rem; font-size: 0.85rem; color: var(--text-secondary);">
+                        SOC2, HIPAA, PCI-DSS compliant
+                    </div>
+                </div>
+            </div>
+
+            <!-- Safety Guarantee -->
+            <div style="margin-top: 3rem; padding: 2rem; background: rgba(34, 197, 94, 0.05); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 8px; text-align: center;">
+                <h3 style="color: #22c55e; margin-bottom: 0.75rem; font-size: 1.25rem;">Safety Guarantee</h3>
+                <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto; line-height: 1.7;">
+                    All agents deploy with <strong>dry run mode enabled by default</strong>. Nothing happens in your infrastructure until you explicitly approve and disable dry run mode.
+                </p>
+                <div style="margin-top: 1.5rem;">
+                    <a href="#intake" class="btn btn-primary" style="display: inline-block; padding: 0.875rem 2rem; font-weight: 600;">
+                        Get Custom Quote →
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Use Cases -->
     <section style="padding: var(--space-xl) 0; border-top: 1px solid var(--border);">
         <div class="container">
