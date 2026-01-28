@@ -181,20 +181,30 @@
                 </div>
             </div>
 
+            <!-- TRY FREE BUTTON -->
+            <div style="text-align: center; margin: 2rem 0; padding: 2rem; background: rgba(102, 126, 234, 0.1); border-radius: 8px; border: 1px solid rgba(102, 126, 234, 0.3);">
+                <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem; color: #fff;">Start Your Free Trial</h3>
+                <p style="color: var(--text-secondary); margin-bottom: 1.5rem;">7 days, no credit card required</p>
+                <a href="signup.html" class="access-btn" style="display: inline-block; width: auto; padding: 1rem 3rem; text-decoration: none;">
+                    Try Free for 7 Days →
+                </a>
+            </div>
+
             <!-- PRICING TIERS -->
             <div class="pricing-grid"
                 style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 3rem 0;">
-                <!-- Free -->
+                <!-- Free Trial -->
                 <div class="pricing-card"
-                    style="border: 1px solid var(--border); padding: 1.5rem; text-align: center; border-radius: 4px;">
-                    <h3 style="font-size: 1.1rem; color: var(--text-muted);">Builder</h3>
-                    <div style="font-size: 2rem; font-weight: 700; margin: 1rem 0;">$0</div>
+                    style="border: 1px solid rgba(102, 126, 234, 0.5); background: rgba(102, 126, 234, 0.05); padding: 1.5rem; text-align: center; border-radius: 4px;">
+                    <h3 style="font-size: 1.1rem; color: #8B9FFF;">Free Trial</h3>
+                    <div style="font-size: 2rem; font-weight: 700; margin: 1rem 0;">7 Days</div>
                     <ul
                         style="list-style: none; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; padding: 0;">
-                        <li>Public IDE Access</li>
-                        <li>4h Session Limit</li>
-                        <li>Community Support</li>
+                        <li><strong>Full IDE Access</strong></li>
+                        <li><strong>No Credit Card</strong></li>
+                        <li>Instant Setup</li>
                     </ul>
+                    <a href="signup.html" style="display: inline-block; margin-top: 1rem; padding: 0.75rem 1.5rem; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; border-radius: 4px; font-size: 0.9rem;">Start Trial</a>
                 </div>
                 <!-- Pro -->
                 <div class="pricing-card"
@@ -227,15 +237,20 @@
                 </div>
             </div>
 
-            <form id="accessForm" style="margin-top: 3rem;">
-                <div class="form-group">
-                    <label class="form-label" style="display: block; margin-bottom: 0.75rem; font-weight: 500;">Enter
-                        Your Operator ID (Email)</label>
-                    <input type="email" id="emailInput" class="form-input" placeholder="operator@autominds.org"
-                        required>
+            <div style="margin-top: 3rem; text-align: center;">
+                <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">Ready to Get Started?</h3>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="signup.html" class="access-btn" style="width: auto; padding: 1.25rem 2.5rem; text-decoration: none; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                        Start Free Trial
+                    </a>
+                    <a href="https://buy.stripe.com/3cIeVfalz9lOboYd55" class="access-btn" style="width: auto; padding: 1.25rem 2.5rem; text-decoration: none; background: linear-gradient(135deg, #8B5CF6, #3B82F6);">
+                        Subscribe to Pro ($49/mo)
+                    </a>
                 </div>
-                <button type="submit" class="access-btn" id="submitBtn">Initialize Studio Environment</button>
-            </form>
+                <p style="margin-top: 1.5rem; color: var(--text-secondary); font-size: 0.9rem;">
+                    Start with 7 days free, then upgrade to keep your workspace
+                </p>
+            </div>
 
             <div class="result-section" id="resultSection">
                 <h3 style="color: #22c55e; margin-bottom: 1rem; text-align: center;">✓ Environment Initialized</h3>
@@ -259,38 +274,12 @@
     </div>
 
     <script>
-        const disposableDomains = [
-            'mailinator.com', 'yopmail.com', 'temp-mail.org', '10minutemail.com',
-            'guerrillamail.com', 'sharklasers.com', 'spam4.me', 'grr.la', 'maildrop.cc',
-            'getairmail.com', 'throwawaymail.com', 'tempmail.net', 'dispostable.com'
-        ];
-
-        document.getElementById('accessForm').addEventListener('submit', function (e) {
-            e.preventDefault();
-
-            const emailInput = document.getElementById('emailInput');
-            const email = emailInput.value.trim().toLowerCase();
-
-            if (!email) return;
-
-            // 1. Regex Validation
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            if (!emailRegex.test(email)) {
-                alert("Please enter a valid email address.");
-                return;
-            }
-
-            // 2. Disposable Domain Check
-            const domain = email.split('@')[1];
-            if (disposableDomains.includes(domain)) {
-                alert("Please use a permanent business or personal email address (no disposable emails).");
-                return;
-            }
-
-            // 3. Redirect to Stripe Checkout
-            // Sovereign Pro ($49) or Agency ($299)
-            // Pro Link: https://buy.stripe.com/3cIeVfalz9lOboYd55
-            window.location.href = 'https://buy.stripe.com/3cIeVfalz9lOboYd55';
+        // Track clicks for analytics (optional)
+        document.querySelectorAll('a[href="signup.html"]').forEach(link => {
+            link.addEventListener('click', function() {
+                console.log('Free trial signup clicked');
+                // Add analytics tracking here if needed
+            });
         });
     </script>
 </body>
