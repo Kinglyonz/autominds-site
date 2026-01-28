@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Autominds Official Logo: Split Circle - Black Version -->
   <defs>
     <mask id="split-mask">
       <!-- The canvas is white (keep) -->
@@ -10,6 +11,5 @@
   </defs>
   
   <!-- Solid Black Circle with the Mask applied -->
-  <!-- R=20 provides a nice margin within the 48px box -->
-  <circle cx="24" cy="24" r="20" fill="#000000" mask="url(#split-mask)"/>
+  <circle cx="24" cy="24" r="20" fill="black" mask="url(#split-mask)"/>
 </svg>
