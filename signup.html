@@ -237,8 +237,8 @@
         const errorDiv = document.getElementById('error-message');
         const successDiv = document.getElementById('success-message');
 
-        // Orchestrator API configuration
-        const API_URL = 'http://98.94.10.180/api';
+        // Orchestrator API configuration (via Vercel proxy for HTTPS)
+        const API_URL = '/api';
         const API_KEY = 'gW5RxF7VAsXnbEPXM4uhrVRjH9uAhA3f';
 
         form.addEventListener('submit', async (e) => {
