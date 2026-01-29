@@ -93,6 +93,19 @@
         const API_URL = '/api';
         const API_KEY = 'gW5RxF7VAsXnbEPXM4uhrVRjH9uAhA3f';
         
+        function showWorkspace(data) {
+            const successDiv = document.getElementById('success');
+            const resultDiv = document.getElementById('result');
+            
+            successDiv.textContent = 'Workspace ready!';
+            successDiv.style.display = 'block';
+            
+            document.getElementById('workspace-url').href = data.url;
+            document.getElementById('workspace-url').textContent = data.url;
+            document.getElementById('workspace-password').textContent = data.password;
+            resultDiv.style.display = 'block';
+        }
+        
         document.getElementById('form').addEventListener('submit', async (e) => {
             e.preventDefault();
             
@@ -105,6 +118,7 @@
             
             errorDiv.style.display = 'none';
             successDiv.style.display = 'none';
+            resultDiv.style.display = 'none';
             
             if (code !== BYPASS_CODE) {
                 errorDiv.textContent = 'Invalid bypass code';
@@ -113,9 +127,27 @@
             }
             
             btn.disabled = true;
-            btn.textContent = 'Provisioning...';
+            btn.textContent = 'Checking...';
             
             try {
+                // First try to lookup existing workspace
+                const lookupResponse = await fetch(`${API_URL}/lookup?email=${encodeURIComponent(email)}`, {
+                    method: 'GET',
+                    headers: {
+                        'X-API-Key': API_KEY
+                    }
+                });
+                
+                if (lookupResponse.ok) {
+                    const data = await lookupResponse.json();
+                    showWorkspace(data);
+                    btn.disabled = false;
+                    btn.textContent = 'Access Studio';
+                    return;
+                }
+                
+                // No existing workspace, provision new one
+                btn.textContent = 'Provisioning...';
                 const response = await fetch(`${API_URL}/provision`, {
                     method: 'POST',
                     headers: {
@@ -139,11 +171,18 @@
                     document.getElementById('workspace-password').textContent = data.password;
                     resultDiv.style.display = 'block';
                 } else {
-                    errorDiv.textContent = data.detail || 'Failed to provision workspace';
+                    // Handle error properly - could be object or string
+                    let errorMsg = 'Failed to provision workspace';
+                    if (data.detail) {
+                        errorMsg = typeof data.detail === 'string' ? data.detail : JSON.stringify(data.detail);
+                    } else if (data.error) {
+                        errorMsg = typeof data.error === 'string' ? data.error : JSON.stringify(data.error);
+                    }
+                    errorDiv.textContent = errorMsg;
                     errorDiv.style.display = 'block';
                 }
             } catch (err) {
-                errorDiv.textContent = 'Network error: ' + err.message;
+                errorDiv.textContent = 'Network error: ' + (err.message || 'Unknown error');
                 errorDiv.style.display = 'block';
             }
             
