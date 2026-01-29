@@ -181,6 +181,69 @@
         .terms a:hover {
             text-decoration: underline;
         }
+
+        /* Mobile Responsive */
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .signup-container {
+                padding: 24px 20px;
+                border-radius: 12px;
+            }
+            
+            .logo h1 {
+                font-size: 24px;
+            }
+            
+            .logo p {
+                font-size: 14px;
+            }
+            
+            .trial-badge {
+                padding: 10px 16px;
+                margin-bottom: 24px;
+            }
+            
+            .trial-badge h3 {
+                font-size: 16px;
+            }
+            
+            .trial-badge p {
+                font-size: 12px;
+            }
+            
+            .form-group {
+                margin-bottom: 16px;
+            }
+            
+            input {
+                padding: 12px 14px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+            
+            .btn-submit {
+                padding: 14px;
+                font-size: 15px;
+            }
+            
+            .features {
+                margin-top: 24px;
+                padding-top: 24px;
+            }
+            
+            .feature {
+                font-size: 13px;
+            }
+            
+            .feature::before {
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+                font-size: 12px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -237,18 +300,18 @@
         const errorDiv = document.getElementById('error-message');
         const successDiv = document.getElementById('success-message');
 
-        // Orchestrator API configuration (via Vercel proxy for HTTPS)
-        const API_URL = '/api';
+        // Orchestrator API configuration
+        const API_URL = 'https://studio.autominds.org/api';
         const API_KEY = 'gW5RxF7VAsXnbEPXM4uhrVRjH9uAhA3f';
 
         function showWorkspaceInfo(data, isExisting = false) {
-            const directUrl = `http://98.94.10.180/studio/`;
+            const workspaceUrl = data.url || `https://studio.autominds.org/studio/${data.workspace_id}/`;
             successDiv.innerHTML = `
                 <strong>${isExisting ? '✅ Found your existing workspace!' : '🎉 Workspace created!'}</strong><br><br>
-                <strong>Access URL:</strong> <a href="${directUrl}" target="_blank" style="color: #667eea; font-weight: bold;">${directUrl}</a><br>
+                <strong>Access URL:</strong> <a href="${workspaceUrl}" target="_blank" style="color: #667eea; font-weight: bold;">${workspaceUrl}</a><br>
                 <strong>Password:</strong> <code style="background: #eee; padding: 4px 8px; border-radius: 4px; font-size: 16px; user-select: all;">${data.password}</code><br><br>
                 <em>Trial expires: ${new Date(data.trial_expires_at).toLocaleDateString()}</em><br><br>
-                <a href="${directUrl}" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Open My Workspace →</a>
+                <a href="${workspaceUrl}" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Open My Workspace →</a>
             `;
             successDiv.style.display = 'block';
             submitBtn.textContent = isExisting ? 'Access Workspace' : 'Workspace Created!';
@@ -318,9 +381,9 @@
                         // Lookup failed - show manual access info
                         successDiv.innerHTML = `
                             <strong>✅ You already have a workspace!</strong><br><br>
-                            <strong>Access URL:</strong> <a href="http://98.94.10.180/studio/" target="_blank" style="color: #667eea;">http://98.94.10.180/studio/</a><br><br>
+                            <strong>Access URL:</strong> <a href="https://studio.autominds.org/studio/" target="_blank" style="color: #667eea;">https://studio.autominds.org/studio/</a><br><br>
                             <em>If you forgot your password, contact <a href="mailto:admin@autominds.org">admin@autominds.org</a></em><br><br>
-                            <a href="http://98.94.10.180/studio/" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Open My Workspace →</a>
+                            <a href="https://studio.autominds.org/studio/" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Open My Workspace →</a>
                         `;
                         successDiv.style.display = 'block';
                         submitBtn.textContent = 'Access Workspace';
