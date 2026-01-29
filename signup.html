@@ -241,6 +241,38 @@
         const API_URL = '/api';
         const API_KEY = 'gW5RxF7VAsXnbEPXM4uhrVRjH9uAhA3f';
 
+        function showWorkspaceInfo(data, isExisting = false) {
+            const directUrl = `http://98.94.10.180/studio/`;
+            successDiv.innerHTML = `
+                <strong>${isExisting ? '✅ Found your existing workspace!' : '🎉 Workspace created!'}</strong><br><br>
+                <strong>Access URL:</strong> <a href="${directUrl}" target="_blank" style="color: #667eea; font-weight: bold;">${directUrl}</a><br>
+                <strong>Password:</strong> <code style="background: #eee; padding: 4px 8px; border-radius: 4px; font-size: 16px; user-select: all;">${data.password}</code><br><br>
+                <em>Trial expires: ${new Date(data.trial_expires_at).toLocaleDateString()}</em><br><br>
+                <a href="${directUrl}" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Open My Workspace →</a>
+            `;
+            successDiv.style.display = 'block';
+            submitBtn.textContent = isExisting ? 'Access Workspace' : 'Workspace Created!';
+            submitBtn.disabled = true;
+        }
+
+        async function lookupExistingWorkspace(email) {
+            try {
+                const response = await fetch(`${API_URL}/lookup?email=${encodeURIComponent(email)}`, {
+                    method: 'GET',
+                    headers: {
+                        'X-API-Key': API_KEY
+                    }
+                });
+                
+                if (response.ok) {
+                    return await response.json();
+                }
+                return null;
+            } catch (e) {
+                return null;
+            }
+        }
+
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
@@ -253,8 +285,9 @@
             successDiv.style.display = 'none';
 
             // Get form data
+            const email = document.getElementById('email').value;
             const formData = {
-                email: document.getElementById('email').value,
+                email: email,
                 name: document.getElementById('name').value,
                 company: document.getElementById('company').value || undefined
             };
@@ -273,16 +306,27 @@
 
                 if (response.ok) {
                     // Success - show workspace info
-                    successDiv.innerHTML = `
-                        <strong>Workspace created!</strong><br><br>
-                        <strong>URL:</strong> <a href="${data.url}" target="_blank" style="color: #667eea;">${data.url}</a><br>
-                        <strong>Password:</strong> <code style="background: #eee; padding: 2px 6px; border-radius: 3px;">${data.password}</code><br><br>
-                        <em>Trial expires: ${new Date(data.trial_expires_at).toLocaleDateString()}</em>
-                    `;
-                    successDiv.style.display = 'block';
-                    submitBtn.textContent = 'Workspace Created!';
+                    showWorkspaceInfo(data, false);
+                } else if (data.detail && data.detail.includes('already has')) {
+                    // User already has workspace - try to look it up
+                    submitBtn.textContent = 'Finding your workspace...';
+                    const existingWorkspace = await lookupExistingWorkspace(email);
+                    
+                    if (existingWorkspace && existingWorkspace.password) {
+                        showWorkspaceInfo(existingWorkspace, true);
+                    } else {
+                        // Lookup failed - show manual access info
+                        successDiv.innerHTML = `
+                            <strong>✅ You already have a workspace!</strong><br><br>
+                            <strong>Access URL:</strong> <a href="http://98.94.10.180/studio/" target="_blank" style="color: #667eea;">http://98.94.10.180/studio/</a><br><br>
+                            <em>If you forgot your password, contact <a href="mailto:admin@autominds.org">admin@autominds.org</a></em><br><br>
+                            <a href="http://98.94.10.180/studio/" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">Open My Workspace →</a>
+                        `;
+                        successDiv.style.display = 'block';
+                        submitBtn.textContent = 'Access Workspace';
+                    }
                 } else {
-                    // Error
+                    // Other error
                     errorDiv.textContent = data.detail || 'Failed to create workspace. Please try again.';
                     errorDiv.style.display = 'block';
                     submitBtn.disabled = false;
