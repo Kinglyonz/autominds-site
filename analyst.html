@@ -257,73 +257,108 @@
         <!-- Model Selector -->
         <div class="model-selector-section">
             <div class="section-header center-text">
-                <h2 class="section-title">Choose Your Download</h2>
+                <h2 class="section-title">Choose Your Plan</h2>
                 <p>One-time purchase. Runs on your hardware. Optional update subscription.</p>
             </div>
 
             <div class="model-grid">
-                <!-- Analyst Pro -->
+                <!-- Personal -->
                 <div class="model-card">
-                    <div class="model-badge">MOST POPULAR</div>
-                    <h3>Analyst Core</h3>
-                    <p class="use-case">Full-featured business intelligence agent</p>
+                    <div class="model-badge" style="background: rgba(34, 197, 94, 0.1); border-color: rgba(34, 197, 94, 0.3); color: #22c55e;">SOLO</div>
+                    <h3>Personal</h3>
+                    <p class="use-case">For freelancers, realtors, consultants, solopreneurs</p>
                     <ul class="features">
-                        <li>Custom-trained AutoMinds model (Phi-3 based)</li>
-                        <li>RAG with integrated vector database</li>
-                        <li>Local API server included</li>
-                        <li>Docker deployment ready</li>
+                        <li>1 user license</li>
+                        <li>Document analysis & generation</li>
+                        <li>Local API access</li>
+                        <li>Email support</li>
+                    </ul>
+                    <div class="price">$299 one-time</div>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">+ $29/month for updates (optional)</p>
+                    <a href="mailto:admin@autominds.org?subject=SILO%20Personal%20License" class="btn-model" style="text-decoration: none; display: block; text-align: center; background: linear-gradient(135deg, #22c55e, #16a34a);">Get Personal</a>
+                </div>
+
+                <!-- Team -->
+                <div class="model-card">
+                    <div class="model-badge">SMALL BUSINESS</div>
+                    <h3>Team</h3>
+                    <p class="use-case">For small agencies, law firms, clinics (2-5 users)</p>
+                    <ul class="features">
+                        <li>5 user licenses</li>
+                        <li>All document types supported</li>
+                        <li>Custom prompts & templates</li>
+                        <li>Priority email support</li>
+                    </ul>
+                    <div class="price">$799 one-time</div>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">+ $49/month for updates (optional)</p>
+                    <a href="mailto:admin@autominds.org?subject=SILO%20Team%20License" class="btn-model" style="text-decoration: none; display: block; text-align: center;">Get Team</a>
+                </div>
+
+                <!-- Pro -->
+                <div class="model-card">
+                    <div class="model-badge" style="background: rgba(249, 115, 22, 0.1); border-color: rgba(249, 115, 22, 0.3); color: #f97316;">MOST POPULAR</div>
+                    <h3>Pro</h3>
+                    <p class="use-case">For growing teams that need full capabilities</p>
+                    <ul class="features">
+                        <li>10 user licenses</li>
+                        <li>RAG with vector database</li>
+                        <li>Fine-tuning capability</li>
+                        <li>Phone + email support</li>
                     </ul>
                     <div class="price">$2,999 one-time</div>
                     <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">+ $50/month for updates (optional)</p>
-                    <a href="mailto:admin@autominds.org?subject=Sovereign%20Core%20-%20Analyst%20License" class="btn-model" style="text-decoration: none; display: block; text-align: center;">Request License</a>
+                    <a href="mailto:admin@autominds.org?subject=SILO%20Pro%20License" class="btn-model" style="text-decoration: none; display: block; text-align: center; background: linear-gradient(135deg, #f97316, #ea580c);">Get Pro</a>
                 </div>
 
-                <!-- Security Core -->
+                <!-- Enterprise -->
                 <div class="model-card">
-                    <div class="model-badge">SECURITY</div>
-                    <h3>Security Core</h3>
-                    <p class="use-case">Log analysis, compliance checking, threat detection</p>
+                    <div class="model-badge" style="background: rgba(168, 85, 247, 0.1); border-color: rgba(168, 85, 247, 0.3); color: #a855f7;">ENTERPRISE</div>
+                    <h3>Enterprise</h3>
+                    <p class="use-case">For regulated industries, government, large orgs</p>
                     <ul class="features">
-                        <li>Security-optimized AutoMinds model</li>
-                        <li>SIEM log parsers included</li>
-                        <li>SOC2/HIPAA/NIST templates</li>
-                        <li>Incident playbook generator</li>
+                        <li>Unlimited users</li>
+                        <li>Custom model fine-tuning</li>
+                        <li>Air-gap deployment support</li>
+                        <li>Dedicated account manager</li>
                     </ul>
-                    <div class="price">$3,499 one-time</div>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">+ $50/month for updates (optional)</p>
-                    <a href="mailto:admin@autominds.org?subject=Sovereign%20Core%20-%20Security%20License" class="btn-model" style="text-decoration: none; display: block; text-align: center;">Request License</a>
+                    <div class="price">$7,999+ one-time</div>
+                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">+ custom support contract</p>
+                    <a href="mailto:admin@autominds.org?subject=SILO%20Enterprise%20License" class="btn-model" style="text-decoration: none; display: block; text-align: center; background: linear-gradient(135deg, #a855f7, #9333ea);">Contact Sales</a>
                 </div>
+            </div>
+        </div>
 
-                <!-- Code Core -->
-                <div class="model-card">
-                    <div class="model-badge">DEVOPS</div>
-                    <h3>Code Core</h3>
-                    <p class="use-case">Infrastructure review, code analysis, IaC generation</p>
-                    <ul class="features">
-                        <li>Code-specialized AutoMinds model</li>
-                        <li>Terraform/CloudFormation review</li>
-                        <li>Kubernetes manifest generation</li>
-                        <li>Git integration tools</li>
-                    </ul>
-                    <div class="price">$2,999 one-time</div>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">+ $50/month for updates (optional)</p>
-                    <a href="mailto:admin@autominds.org?subject=Sovereign%20Core%20-%20Code%20License" class="btn-model" style="text-decoration: none; display: block; text-align: center;">Request License</a>
+        <!-- Industry Use Cases -->
+        <div style="margin: 6rem 0;">
+            <div class="section-header center-text">
+                <h2 class="section-title">Built for Your Industry</h2>
+                <p>SILO works for any profession that handles sensitive documents</p>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem;">
+                <div style="padding: 1.5rem; border: 1px solid var(--border); border-radius: 8px;">
+                    <h4 style="margin-bottom: 0.5rem;">Real Estate</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Analyze disclosures, generate listings, summarize inspection reports</p>
                 </div>
-
-                <!-- Enterprise Bundle -->
-                <div class="model-card">
-                    <div class="model-badge">BEST VALUE</div>
-                    <h3>Enterprise Bundle</h3>
-                    <p class="use-case">All three cores + custom fine-tuning</p>
-                    <ul class="features">
-                        <li>Analyst + Security + Code Core</li>
-                        <li>Custom fine-tuning on your data</li>
-                        <li>White-glove deployment assistance</li>
-                        <li>Priority support channel</li>
-                    </ul>
-                    <div class="price">$7,999 one-time</div>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">+ $50/month for updates (optional)</p>
-                    <a href="mailto:admin@autominds.org?subject=Sovereign%20Core%20-%20Enterprise%20Bundle" class="btn-model" style="text-decoration: none; display: block; text-align: center;">Request License</a>
+                <div style="padding: 1.5rem; border: 1px solid var(--border); border-radius: 8px;">
+                    <h4 style="margin-bottom: 0.5rem;">Legal</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Contract review, clause extraction, brief drafting</p>
+                </div>
+                <div style="padding: 1.5rem; border: 1px solid var(--border); border-radius: 8px;">
+                    <h4 style="margin-bottom: 0.5rem;">Healthcare</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">HIPAA-safe patient summaries, clinical notes, coding assistance</p>
+                </div>
+                <div style="padding: 1.5rem; border: 1px solid var(--border); border-radius: 8px;">
+                    <h4 style="margin-bottom: 0.5rem;">Finance</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Report analysis, compliance checks, client summaries</p>
+                </div>
+                <div style="padding: 1.5rem; border: 1px solid var(--border); border-radius: 8px;">
+                    <h4 style="margin-bottom: 0.5rem;">Accounting</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Tax document processing, audit trail analysis, client communications</p>
+                </div>
+                <div style="padding: 1.5rem; border: 1px solid var(--border); border-radius: 8px;">
+                    <h4 style="margin-bottom: 0.5rem;">Government</h4>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Classified document handling, FOIA processing, policy analysis</p>
                 </div>
             </div>
         </div>
