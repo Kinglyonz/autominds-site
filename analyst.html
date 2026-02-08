@@ -172,6 +172,96 @@
             color: var(--text-secondary);
             line-height: 1.6;
         }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 80px 0 40px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+            
+            .model-selector-section {
+                padding: 1.5rem;
+                margin: 2rem 0;
+            }
+            
+            .model-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                margin-top: 2rem;
+            }
+            
+            .model-card {
+                padding: 1.25rem;
+            }
+            
+            .model-card h3 {
+                font-size: 1.2rem;
+            }
+            
+            .model-card .features li {
+                font-size: 0.85rem;
+            }
+            
+            .model-card .price {
+                font-size: 1.1rem;
+            }
+            
+            .capability-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .capability-item {
+                padding: 1.5rem;
+            }
+            
+            .capability-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 1.5rem;
+            }
+            
+            .capability-item h3 {
+                font-size: 1.1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 0.9rem;
+            }
+            
+            .model-selector-section {
+                padding: 1rem;
+            }
+            
+            .model-badge {
+                font-size: 0.65rem;
+                padding: 0.35rem 0.75rem;
+            }
+            
+            .model-card h3 {
+                font-size: 1.1rem;
+            }
+            
+            .btn-model {
+                padding: 0.85rem;
+                font-size: 0.9rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -275,7 +365,7 @@
                     </ul>
                     <div class="price">$299 one-time</div>
                     <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">+ $29/month for updates (optional)</p>
-                    <a href="mailto:admin@autominds.org?subject=SILO%20Personal%20License" class="btn-model" style="text-decoration: none; display: block; text-align: center; background: linear-gradient(135deg, #22c55e, #16a34a);">Get Personal</a>
+                    <a href="https://buy.stripe.com/9B6cN7ctH7dG78Id5557W0a" class="btn-model" style="text-decoration: none; display: block; text-align: center; background: linear-gradient(135deg, #22c55e, #16a34a);">Get Personal - $299</a>
                 </div>
 
                 <!-- Team -->
@@ -291,7 +381,7 @@
                     </ul>
                     <div class="price">$799 one-time</div>
                     <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">+ $49/month for updates (optional)</p>
-                    <a href="mailto:admin@autominds.org?subject=SILO%20Team%20License" class="btn-model" style="text-decoration: none; display: block; text-align: center;">Get Team</a>
+                    <a href="https://buy.stripe.com/14AdRb9hv2Xq64E4yz57W0b" class="btn-model" style="text-decoration: none; display: block; text-align: center;">Get Team - $799</a>
                 </div>
 
                 <!-- Pro -->
@@ -307,7 +397,7 @@
                     </ul>
                     <div class="price">$2,999 one-time</div>
                     <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">+ $50/month for updates (optional)</p>
-                    <a href="mailto:admin@autominds.org?subject=SILO%20Pro%20License" class="btn-model" style="text-decoration: none; display: block; text-align: center; background: linear-gradient(135deg, #f97316, #ea580c);">Get Pro</a>
+                    <a href="https://buy.stripe.com/00w14pgJXbtW64E1mn57W0c" class="btn-model" style="text-decoration: none; display: block; text-align: center; background: linear-gradient(135deg, #f97316, #ea580c);">Get Pro - $2,999</a>
                 </div>
 
                 <!-- Enterprise -->

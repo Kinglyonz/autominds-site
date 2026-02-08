@@ -4,29 +4,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoMinds | Deployment Ready</title>
+    <title>AutoMinds | Thank You - Download Your Software</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
+        .success-hero {
+            text-align: center;
+            padding: 60px 0 40px;
+        }
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 40px;
+        }
         .download-card {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border);
-            border-radius: 8px;
+            border-radius: 12px;
             padding: 2rem;
-            margin-bottom: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .download-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-bottom: 1rem;
         }
-
         .download-btn {
-            background: #22c55e;
-            color: #000;
-            padding: 0.75rem 1.5rem;
-            border-radius: 4px;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+        .download-btn:hover { transform: translateY(-2px); }
+        .download-btn.secondary {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--border);
+        }
+        .platform-btns {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .license-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+        .license-key {
+            font-family: 'Courier New', monospace;
+            font-size: 1.5rem;
+            background: rgba(0,0,0,0.3);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            display: inline-block;
+            margin: 1rem 0;
+            letter-spacing: 2px;
+        }
+        .steps-list {
+            text-align: left;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .steps-list li {
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .step-num {
+            background: var(--accent);
+            color: #000;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .support-section {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--border);
         }
     </style>
 </head>
@@ -38,48 +117,102 @@
         </div>
     </nav>
 
-    <div class="container" style="padding-top: 100px;">
-        <h1 class="section-title">Deployment Manifest</h1>
-        <p style="margin-bottom: 3rem; color: var(--text-secondary);">Your sovereign assets are ready for download.</p>
-
-        <!-- Product 1: The Analyst -->
-        <div class="download-card">
-            <div>
-                <h3 style="color: #3B82F6;">The Sovereign Analyst (v1.0)</h3>
-                <p style="font-size: 0.9rem; color: var(--text-muted);">Contains: Local Brain Core, VectorDB Drivers,
-                    API Server.</p>
-            </div>
-            <a href="/downloads/sovereign-analyst-v1.zip" class="download-btn">Download Container</a>
-        </div>
-
-        <!-- Product 2: cloud Operator -->
-        <div class="download-card">
-            <div>
-                <h3 style="color: #22c55e;">The Cloud Operator (v1.0)</h3>
-                <p style="font-size: 0.9rem; color: var(--text-muted);">Contains: AWS/Azure Sensors, Remediation
-                    Scripts.</p>
-            </div>
-            <a href="/downloads/cloud-operator-v1.zip" class="download-btn">Download Agent</a>
-        </div>
-
-        <!-- CLI -->
-        <div class="download-card">
-            <div>
-                <h3 style="color: #ef4444;">AutoMinds CLI (am-deploy)</h3>
-                <p style="font-size: 0.9rem; color: var(--text-muted);">Deployment utility for AutoMinds Studios.</p>
-            </div>
-            <a href="/downloads/am-deploy-cli" class="download-btn" download>Download Tool</a>
-        </div>
-
-        <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid var(--border);">
-            <p style="font-size: 0.8rem; color: var(--text-muted);">
-                <strong>Next Steps:</strong><br>
-                1. Unzip `sovereign-analyst-v1.zip` to your secure server.<br>
-                2. Run `pip install -r requirements.txt`.<br>
-                3. Execute `python server.py` to start the brain.<br><br>
-                <em>License Key: AM-PRO-8829-XJKA (Generated for this session)</em>
+    <div class="container" style="padding-top: 100px; max-width: 800px;">
+        
+        <div class="success-hero">
+            <div class="success-icon">✓</div>
+            <h1 class="section-title">Thank You for Your Purchase!</h1>
+            <p style="color: var(--text-secondary); font-size: 1.1rem;">
+                Your payment was successful. Download your software below.
             </p>
         </div>
+
+        <!-- SILO Download -->
+        <div class="download-card">
+            <div class="download-header">
+                <div>
+                    <h3 style="color: #3B82F6; margin-bottom: 0.5rem;">🔒 SILO - Secure Isolated Local Operations</h3>
+                    <p style="font-size: 0.9rem; color: var(--text-muted);">
+                        Private AI that runs 100% on your hardware. No cloud. No tracking.
+                    </p>
+                </div>
+            </div>
+            <p style="margin-bottom: 1rem; font-size: 0.85rem; color: var(--text-secondary);">
+                <strong>Requirements:</strong> Docker Desktop, 8GB RAM, 10GB free disk space
+            </p>
+            <div class="platform-btns">
+                <a href="https://github.com/Kinglyonz/silo/releases/latest/download/silo-windows.zip" class="download-btn">
+                    ⊞ Windows
+                </a>
+                <a href="https://github.com/Kinglyonz/silo/releases/latest/download/silo-mac.zip" class="download-btn">
+                    🍎 macOS
+                </a>
+                <a href="https://github.com/Kinglyonz/silo/releases/latest/download/silo-linux.tar.gz" class="download-btn">
+                    🐧 Linux
+                </a>
+            </div>
+        </div>
+
+        <!-- License Key Section -->
+        <div class="license-box">
+            <h3 style="margin-bottom: 0.5rem;">🔑 Your License Key</h3>
+            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                Check your email for your personal license key, or enter it below:
+            </p>
+            <div class="license-key" id="licenseDisplay">
+                Check your email
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted);">
+                License key sent to your email within 5 minutes of purchase.
+            </p>
+        </div>
+
+        <!-- Installation Steps -->
+        <div style="margin-top: 3rem;">
+            <h3 style="text-align: center; margin-bottom: 1.5rem;">📋 Installation Steps</h3>
+            <ol class="steps-list">
+                <li>
+                    <span class="step-num">1</span>
+                    <span>Install <a href="https://docker.com/products/docker-desktop" target="_blank" style="color: var(--accent);">Docker Desktop</a> (if not already installed)</span>
+                </li>
+                <li>
+                    <span class="step-num">2</span>
+                    <span>Download and unzip SILO for your operating system</span>
+                </li>
+                <li>
+                    <span class="step-num">3</span>
+                    <span>Run the installer: <code style="background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 4px;">install-windows.bat</code> or <code style="background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 4px;">./install-mac-linux.sh</code></span>
+                </li>
+                <li>
+                    <span class="step-num">4</span>
+                    <span>Open <a href="http://localhost:8000/ui" style="color: var(--accent);">http://localhost:8000/ui</a> in your browser</span>
+                </li>
+                <li>
+                    <span class="step-num">5</span>
+                    <span>Enter your license key when prompted</span>
+                </li>
+            </ol>
+        </div>
+
+        <!-- Support Section -->
+        <div class="support-section">
+            <h3 style="margin-bottom: 1rem;">Need Help?</h3>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                Our team is here to ensure your success.
+            </p>
+            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                <a href="mailto:support@autominds.org" class="download-btn secondary">
+                    ✉️ Email Support
+                </a>
+                <a href="https://calendly.com/admin-autominds/30min" class="download-btn secondary" target="_blank">
+                    📅 Schedule Setup Call
+                </a>
+            </div>
+        </div>
+
+        <p style="text-align: center; margin-top: 3rem; font-size: 0.8rem; color: var(--text-muted);">
+            © 2024 AutoMinds Inc. All rights reserved.
+        </p>
     </div>
 </body>
 

@@ -183,6 +183,95 @@
             transform: translateY(-2px);
             box-shadow: 0 10px 30px rgba(255, 153, 0, 0.4);
         }
+        
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 80px 0 40px;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+            
+            .pricing-highlight {
+                padding: 1.5rem;
+                margin: 0 1rem 2.5rem;
+            }
+            
+            .price-range {
+                font-size: 1.75rem;
+            }
+            
+            .use-case-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .use-case-card {
+                padding: 1.5rem;
+            }
+            
+            .use-case-card h3 {
+                font-size: 1.2rem;
+            }
+            
+            .deployment-section {
+                padding: 2rem 1.5rem;
+                margin: 3rem 0;
+            }
+            
+            .deployment-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .btn-large {
+                padding: 1rem 2rem;
+                font-size: 1rem;
+                display: block;
+                text-align: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 0.9rem;
+            }
+            
+            .pricing-highlight {
+                padding: 1.25rem;
+            }
+            
+            .price-range {
+                font-size: 1.5rem;
+            }
+            
+            .use-case-card {
+                padding: 1.25rem;
+            }
+            
+            .use-case-card h3 {
+                font-size: 1.1rem;
+            }
+            
+            .use-case-card .scenario {
+                font-size: 0.9rem;
+            }
+            
+            .use-case-card .outcome {
+                font-size: 0.85rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -240,8 +329,8 @@
                         <li style="padding: 0.5rem 0;"> > CloudWatch/Cost Explorer integration</li>
                         <li style="padding: 0.5rem 0;"> > FedRAMP Moderate architecture</li>
                     </ul>
-                    <div style="font-size: 1.2rem; font-weight: 600; margin: 1rem 0;">Starting at $500/mo</div>
-                    <a href="mailto:admin@autominds.org?subject=Cloud%20Architect%20Agent" style="display: block; width: 100%; padding: 1rem; background: linear-gradient(135deg, #22c55e, #16a34a); border: none; border-radius: 6px; color: white; font-weight: 600; text-align: center; text-decoration: none;">Request Demo</a>
+                    <div style="font-size: 1.2rem; font-weight: 600; margin: 1rem 0;">$500/mo</div>
+                    <a href="https://buy.stripe.com/5kQaEZ79nfKcgJifdd57W0d" style="display: block; width: 100%; padding: 1rem; background: linear-gradient(135deg, #22c55e, #16a34a); border: none; border-radius: 6px; color: white; font-weight: 600; text-align: center; text-decoration: none;">Subscribe Now</a>
                 </div>
 
                 <!-- Security Engineer -->
@@ -255,8 +344,8 @@
                         <li style="padding: 0.5rem 0;"> > Incident response playbooks</li>
                         <li style="padding: 0.5rem 0;"> > PagerDuty/ServiceNow alerts</li>
                     </ul>
-                    <div style="font-size: 1.2rem; font-weight: 600; margin: 1rem 0;">Starting at $750/mo</div>
-                    <a href="mailto:admin@autominds.org?subject=Security%20Engineer%20Agent" style="display: block; width: 100%; padding: 1rem; background: linear-gradient(135deg, #3B82F6, #8B5CF6); border: none; border-radius: 6px; color: white; font-weight: 600; text-align: center; text-decoration: none;">Request Demo</a>
+                    <div style="font-size: 1.2rem; font-weight: 600; margin: 1rem 0;">$750/mo</div>
+                    <a href="https://buy.stripe.com/dRm3cx8dr55y78I8OP57W0e" style="display: block; width: 100%; padding: 1rem; background: linear-gradient(135deg, #3B82F6, #8B5CF6); border: none; border-radius: 6px; color: white; font-weight: 600; text-align: center; text-decoration: none;">Subscribe Now</a>
                 </div>
 
                 <!-- DevOps Specialist -->
@@ -270,8 +359,8 @@
                         <li style="padding: 0.5rem 0;"> > GitLab/GitHub Actions integration</li>
                         <li style="padding: 0.5rem 0;"> > Auto-scaling recommendations</li>
                     </ul>
-                    <div style="font-size: 1.2rem; font-weight: 600; margin: 1rem 0;">Starting at $500/mo</div>
-                    <a href="mailto:admin@autominds.org?subject=DevOps%20Specialist%20Agent" style="display: block; width: 100%; padding: 1rem; background: linear-gradient(135deg, #f97316, #ea580c); border: none; border-radius: 6px; color: white; font-weight: 600; text-align: center; text-decoration: none;">Request Demo</a>
+                    <div style="font-size: 1.2rem; font-weight: 600; margin: 1rem 0;">$500/mo</div>
+                    <a href="https://buy.stripe.com/14A9AVgJXcy08cM6GH57W0f" style="display: block; width: 100%; padding: 1rem; background: linear-gradient(135deg, #f97316, #ea580c); border: none; border-radius: 6px; color: white; font-weight: 600; text-align: center; text-decoration: none;">Subscribe Now</a>
                 </div>
 
                 <!-- HR Agent -->
@@ -285,8 +374,8 @@
                         <li style="padding: 0.5rem 0;"> > Automated scheduling via calendar API</li>
                         <li style="padding: 0.5rem 0;"> > Policy Q&A chatbot for employees</li>
                     </ul>
-                    <div style="font-size: 1.2rem; font-weight: 600; margin: 1rem 0;">Starting at $400/mo</div>
-                    <a href="mailto:admin@autominds.org?subject=HR%20Intelligence%20Agent" style="display: block; width: 100%; padding: 1rem; background: linear-gradient(135deg, #a855f7, #9333ea); border: none; border-radius: 6px; color: white; font-weight: 600; text-align: center; text-decoration: none;">Request Demo</a>
+                    <div style="font-size: 1.2rem; font-weight: 600; margin: 1rem 0;">$400/mo</div>
+                    <a href="https://buy.stripe.com/14A7sN51feG8boY8OP57W0g" style="display: block; width: 100%; padding: 1rem; background: linear-gradient(135deg, #a855f7, #9333ea); border: none; border-radius: 6px; color: white; font-weight: 600; text-align: center; text-decoration: none;">Subscribe Now</a>
                 </div>
 
                 <!-- Business Analyst -->
@@ -300,8 +389,8 @@
                         <li style="padding: 0.5rem 0;"> > Slack/Teams report delivery</li>
                         <li style="padding: 0.5rem 0;"> > Tableau/PowerBI integration</li>
                     </ul>
-                    <div style="font-size: 1.2rem; font-weight: 600; margin: 1rem 0;">Starting at $600/mo</div>
-                    <a href="mailto:admin@autominds.org?subject=Business%20Analyst%20Agent" style="display: block; width: 100%; padding: 1rem; background: linear-gradient(135deg, #ec4899, #db2777); border: none; border-radius: 6px; color: white; font-weight: 600; text-align: center; text-decoration: none;">Request Demo</a>
+                    <div style="font-size: 1.2rem; font-weight: 600; margin: 1rem 0;">$600/mo</div>
+                    <a href="https://buy.stripe.com/5kQ00l79ndC41Oo7KL57W0h" style="display: block; width: 100%; padding: 1rem; background: linear-gradient(135deg, #ec4899, #db2777); border: none; border-radius: 6px; color: white; font-weight: 600; text-align: center; text-decoration: none;">Subscribe Now</a>
                 </div>
 
                 <!-- Custom Agent -->
