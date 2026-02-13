@@ -1,0 +1,9 @@
+{
+  "name": "autominds-site",
+  "version": "2.0.0",
+  "private": true,
+  "description": "AutoMinds - AI Dev Team storefront",
+  "dependencies": {
+    "stripe": "^14.0.0"
+  }
+}

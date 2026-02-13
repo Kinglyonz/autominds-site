@@ -126,7 +126,8 @@
                     <div id="scan-details" class="scan-details"></div>
                     <div class="scan-cta">
                         <p>Want us to <strong>fix these automatically</strong>?</p>
-                        <a href="#pricing" class="btn btn-primary">Start at $49/mo →</a>
+                        <button onclick="startCheckoutFromScan('maintenance')" class="btn btn-primary" style="margin-right: 0.5rem;">Fix My Repo — $49/mo →</button>
+                        <button onclick="startCheckoutFromScan('devteam')" class="btn btn-secondary">Full Dev Team — $499/mo →</button>
                     </div>
                 </div>
             </div>
@@ -344,7 +345,7 @@
                             <li>Weekly health reports</li>
                             <li>Slack notifications</li>
                         </ul>
-                        <a href="https://calendly.com/admin-autominds/30min" class="btn btn-primary" style="width: 100%; margin-top: 2rem;">Start Maintenance →</a>
+                        <button onclick="startCheckout('maintenance')" class="btn btn-primary" style="width: 100%; margin-top: 2rem; border: none; cursor: pointer;">Start Maintenance →</button>
                     </div>
                 </div>
 
@@ -365,7 +366,7 @@
                             <li>Dedicated Slack channel</li>
                             <li>Human QA review</li>
                         </ul>
-                        <a href="https://calendly.com/admin-autominds/30min" class="btn btn-secondary" style="width: 100%; margin-top: 2rem;">Book a Call →</a>
+                        <button onclick="startCheckout('devteam')" class="btn btn-secondary" style="width: 100%; margin-top: 2rem; border: none; cursor: pointer;">Start Dev Team →</button>
                     </div>
                 </div>
             </div>
@@ -405,6 +406,7 @@
     </footer>
 
     <script src="js/background-paths.js"></script>
+    <script src="js/payment.js"></script>
     <script src="js/scan.js"></script>
 </body>
 

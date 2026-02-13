@@ -1,219 +1,254 @@
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="en" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoMinds | Thank You - Download Your Software</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Space+Grotesk:wght@700&display=swap"
-        rel="stylesheet">
+    <title>Welcome to AutoMinds | Subscription Active</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <style>
-        .success-hero {
+        .success-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            background: var(--bg-primary);
+        }
+        .success-card {
+            max-width: 600px;
+            width: 100%;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            padding: 3rem;
             text-align: center;
-            padding: 60px 0 40px;
         }
         .success-icon {
-            width: 80px;
-            height: 80px;
-            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 24px;
-            font-size: 40px;
-        }
-        .download-card {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 2rem;
+            font-size: 4rem;
             margin-bottom: 1.5rem;
+            display: block;
         }
-        .download-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .success-card h1 {
+            font-size: 2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+        .success-card .subtitle {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+        .onboarding-form {
+            text-align: left;
+            margin-bottom: 2rem;
+        }
+        .onboarding-form label {
+            display: block;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.4rem;
+            font-weight: 500;
+        }
+        .onboarding-form input,
+        .onboarding-form textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 0.5rem;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+            box-sizing: border-box;
+        }
+        .onboarding-form input:focus,
+        .onboarding-form textarea:focus {
+            border-color: #3B82F6;
+        }
+        .onboarding-form textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .next-steps {
+            text-align: left;
+            margin: 2rem 0;
+            padding: 1.5rem;
+            background: rgba(59, 130, 246, 0.05);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            border-radius: 0.75rem;
+        }
+        .next-steps h3 {
+            color: #60A5FA;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             margin-bottom: 1rem;
         }
-        .download-btn {
-            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-            color: #fff;
-            padding: 12px 24px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            transition: transform 0.2s;
+        .next-steps ol {
+            list-style: none;
+            counter-reset: steps;
+            padding: 0;
+            margin: 0;
         }
-        .download-btn:hover { transform: translateY(-2px); }
-        .download-btn.secondary {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid var(--border);
+        .next-steps ol li {
+            counter-increment: steps;
+            position: relative;
+            padding-left: 2.5rem;
+            margin-bottom: 0.75rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
         }
-        .platform-btns {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
-        .license-box {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-top: 2rem;
-            text-align: center;
-        }
-        .license-key {
-            font-family: 'Courier New', monospace;
-            font-size: 1.5rem;
-            background: rgba(0,0,0,0.3);
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            display: inline-block;
-            margin: 1rem 0;
-            letter-spacing: 2px;
-        }
-        .steps-list {
-            text-align: left;
-            max-width: 600px;
-            margin: 0 auto;
-        }
-        .steps-list li {
-            padding: 12px 0;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        .step-num {
-            background: var(--accent);
-            color: #000;
-            width: 28px;
-            height: 28px;
+        .next-steps ol li::before {
+            content: counter(steps);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1.75rem;
+            height: 1.75rem;
+            background: rgba(59, 130, 246, 0.15);
+            color: #60A5FA;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-size: 0.8rem;
             font-weight: 700;
-            font-size: 14px;
         }
-        .support-section {
+        .success-submitted {
+            display: none;
             text-align: center;
-            margin-top: 3rem;
-            padding-top: 2rem;
-            border-top: 1px solid var(--border);
+            padding: 2rem 0;
+        }
+        .success-submitted .check {
+            font-size: 3rem;
+            color: #22c55e;
+            margin-bottom: 1rem;
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 0.9rem;
+            background: #3B82F6;
+            color: #fff;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover {
+            background: #2563eb;
+        }
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .back-link {
+            display: inline-block;
+            margin-top: 1rem;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .back-link:hover {
+            color: var(--text-primary);
         }
     </style>
 </head>
-
 <body>
-    <nav class="nav">
-        <div class="container nav-wrapper">
-            <a href="index.html" class="brand">AutoMinds</a>
-        </div>
-    </nav>
+    <div class="success-page">
+        <div class="success-card">
+            <span class="success-icon">🎉</span>
+            <h1>You're In!</h1>
+            <p class="subtitle">Your subscription is active. Let's get your repo connected.</p>
 
-    <div class="container" style="padding-top: 100px; max-width: 800px;">
-        
-        <div class="success-hero">
-            <div class="success-icon">✓</div>
-            <h1 class="section-title">Thank You for Your Purchase!</h1>
-            <p style="color: var(--text-secondary); font-size: 1.1rem;">
-                Your payment was successful. Download your software below.
-            </p>
-        </div>
+            <!-- Onboarding Form -->
+            <div id="onboarding-section">
+                <form id="onboarding-form" class="onboarding-form">
+                    <label for="repo-url">GitHub Repository URL *</label>
+                    <input type="url" id="repo-url" name="repo_url" placeholder="https://github.com/your-org/your-repo" required>
 
-        <!-- SILO Download -->
-        <div class="download-card">
-            <div class="download-header">
-                <div>
-                    <h3 style="color: #3B82F6; margin-bottom: 0.5rem;">🔒 SILO - Secure Isolated Local Operations</h3>
-                    <p style="font-size: 0.9rem; color: var(--text-muted);">
-                        Private AI that runs 100% on your hardware. No cloud. No tracking.
-                    </p>
+                    <label for="contact-email">Best Email for Updates</label>
+                    <input type="email" id="contact-email" name="email" placeholder="you@company.com">
+
+                    <label for="slack-channel">Slack Channel (optional)</label>
+                    <input type="text" id="slack-channel" name="slack" placeholder="#your-channel or webhook URL">
+
+                    <label for="priorities">What should we tackle first?</label>
+                    <textarea id="priorities" name="priorities" placeholder="e.g., Security vulnerabilities, outdated dependencies, add tests..."></textarea>
+
+                    <button type="submit" class="btn-submit" id="submit-btn">Connect My Repo →</button>
+                </form>
+
+                <div class="next-steps">
+                    <h3>What happens next</h3>
+                    <ol>
+                        <li>We clone your repo and run a deep analysis (within 1 hour)</li>
+                        <li>You'll receive your first health report via email</li>
+                        <li>Our AI agents start fixing issues and opening PRs</li>
+                        <li>You review and merge — that's it</li>
+                    </ol>
                 </div>
             </div>
-            <p style="margin-bottom: 1rem; font-size: 0.85rem; color: var(--text-secondary);">
-                <strong>Requirements:</strong> Docker Desktop, 8GB RAM, 10GB free disk space
-            </p>
-            <div class="platform-btns">
-                <a href="https://github.com/Kinglyonz/silo/releases/latest/download/silo-windows.zip" class="download-btn">
-                    ⊞ Windows
-                </a>
-                <a href="https://github.com/Kinglyonz/silo/releases/latest/download/silo-mac.zip" class="download-btn">
-                    🍎 macOS
-                </a>
-                <a href="https://github.com/Kinglyonz/silo/releases/latest/download/silo-linux.tar.gz" class="download-btn">
-                    🐧 Linux
-                </a>
+
+            <!-- Success state after form submit -->
+            <div id="submitted-section" class="success-submitted">
+                <div class="check">✓</div>
+                <h2>Repo Connected!</h2>
+                <p style="color: var(--text-muted); margin-bottom: 1.5rem;">
+                    We're running your first deep scan now. You'll get an email with results within the hour.
+                </p>
+                <a href="/" class="back-link">← Back to Home</a>
             </div>
         </div>
-
-        <!-- License Key Section -->
-        <div class="license-box">
-            <h3 style="margin-bottom: 0.5rem;">🔑 Your License Key</h3>
-            <p style="color: var(--text-secondary); font-size: 0.9rem;">
-                Check your email for your personal license key, or enter it below:
-            </p>
-            <div class="license-key" id="licenseDisplay">
-                Check your email
-            </div>
-            <p style="font-size: 0.8rem; color: var(--text-muted);">
-                License key sent to your email within 5 minutes of purchase.
-            </p>
-        </div>
-
-        <!-- Installation Steps -->
-        <div style="margin-top: 3rem;">
-            <h3 style="text-align: center; margin-bottom: 1.5rem;">📋 Installation Steps</h3>
-            <ol class="steps-list">
-                <li>
-                    <span class="step-num">1</span>
-                    <span>Install <a href="https://docker.com/products/docker-desktop" target="_blank" style="color: var(--accent);">Docker Desktop</a> (if not already installed)</span>
-                </li>
-                <li>
-                    <span class="step-num">2</span>
-                    <span>Download and unzip SILO for your operating system</span>
-                </li>
-                <li>
-                    <span class="step-num">3</span>
-                    <span>Run the installer: <code style="background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 4px;">install-windows.bat</code> or <code style="background: rgba(255,255,255,0.1); padding: 2px 8px; border-radius: 4px;">./install-mac-linux.sh</code></span>
-                </li>
-                <li>
-                    <span class="step-num">4</span>
-                    <span>Open <a href="http://localhost:8000/ui" style="color: var(--accent);">http://localhost:8000/ui</a> in your browser</span>
-                </li>
-                <li>
-                    <span class="step-num">5</span>
-                    <span>Enter your license key when prompted</span>
-                </li>
-            </ol>
-        </div>
-
-        <!-- Support Section -->
-        <div class="support-section">
-            <h3 style="margin-bottom: 1rem;">Need Help?</h3>
-            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
-                Our team is here to ensure your success.
-            </p>
-            <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
-                <a href="mailto:support@autominds.org" class="download-btn secondary">
-                    ✉️ Email Support
-                </a>
-                <a href="https://calendly.com/admin-autominds/30min" class="download-btn secondary" target="_blank">
-                    📅 Schedule Setup Call
-                </a>
-            </div>
-        </div>
-
-        <p style="text-align: center; margin-top: 3rem; font-size: 0.8rem; color: var(--text-muted);">
-            © 2024 AutoMinds Inc. All rights reserved.
-        </p>
     </div>
-</body>
 
+    <script>
+        // Pre-fill repo URL if passed from scan
+        const params = new URLSearchParams(window.location.search);
+        const repoInput = document.getElementById('repo-url');
+        
+        if (params.get('repo_url') && repoInput) {
+            repoInput.value = decodeURIComponent(params.get('repo_url'));
+        }
+
+        // Handle form submission
+        const form = document.getElementById('onboarding-form');
+        if (form) {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+
+                const btn = document.getElementById('submit-btn');
+                btn.disabled = true;
+                btn.textContent = 'Connecting...';
+
+                const data = {
+                    repo_url: document.getElementById('repo-url').value,
+                    email: document.getElementById('contact-email').value,
+                    slack: document.getElementById('slack-channel').value,
+                    priorities: document.getElementById('priorities').value,
+                    session_id: params.get('session_id') || '',
+                    timestamp: new Date().toISOString(),
+                };
+
+                try {
+                    await fetch('/api/onboard', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(data),
+                    });
+                } catch (err) {
+                    console.error('Onboarding submit error:', err);
+                }
+
+                // Show success state
+                document.getElementById('onboarding-section').style.display = 'none';
+                document.getElementById('submitted-section').style.display = 'block';
+            });
+        }
+    </script>
+</body>
 </html>
