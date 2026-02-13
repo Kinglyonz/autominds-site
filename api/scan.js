@@ -10,7 +10,7 @@ const WARP_API_BASE = 'https://app.warp.dev/api/v1';
 const WARP_API_KEY = process.env.WARP_API_KEY;
 const WARP_ENVIRONMENT_ID = process.env.WARP_ENVIRONMENT_ID;
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     // CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');

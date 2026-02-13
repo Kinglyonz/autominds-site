@@ -9,12 +9,12 @@
  *   STRIPE_WEBHOOK_SECRET
  */
 
-import Stripe from 'stripe';
+const Stripe = require('stripe');
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY?.trim());
+const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET?.trim();
 
-export const config = {
+module.exports.config = {
     api: {
         bodyParser: false, // Stripe requires raw body for signature verification
     },
@@ -28,7 +28,7 @@ async function buffer(readable) {
     return Buffer.concat(chunks);
 }
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method not allowed' });
     }

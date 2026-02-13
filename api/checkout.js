@@ -11,13 +11,13 @@
  *   STRIPE_PRICE_DEVTEAM - Price ID for $499/mo plan
  */
 
-import Stripe from 'stripe';
+const Stripe = require('stripe');
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY?.trim());
 
 const PRICE_MAP = {
-    maintenance: process.env.STRIPE_PRICE_MAINTENANCE,
-    devteam: process.env.STRIPE_PRICE_DEVTEAM,
+    maintenance: process.env.STRIPE_PRICE_MAINTENANCE?.trim(),
+    devteam: process.env.STRIPE_PRICE_DEVTEAM?.trim(),
 };
 
 const PLAN_NAMES = {
@@ -25,7 +25,7 @@ const PLAN_NAMES = {
     devteam: 'AI Dev Team',
 };
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     // CORS
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
