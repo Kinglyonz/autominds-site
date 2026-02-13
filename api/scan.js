@@ -164,27 +164,139 @@ async function waitForRun(runId, timeoutMs) {
 }
 
 function parseReport(message) {
-    // Try to extract JSON from the agent's response
-    try {
-        // Look for JSON in the message
-        const jsonMatch = message.match(/\{[\s\S]*\}/);
-        if (jsonMatch) {
-            return JSON.parse(jsonMatch[0]);
-        }
-    } catch (e) {
-        console.error('[scan] Failed to parse JSON from agent response:', e);
+    if (!message) {
+        return fallbackReport('Scan completed but no output was returned.');
     }
 
-    // Fallback: return a basic report based on the message
+    // 1) Try to extract JSON from the agent's response
+    try {
+        const jsonMatch = message.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+            const parsed = JSON.parse(jsonMatch[0]);
+            if (parsed.security && parsed.dependencies) {
+                return parsed;
+            }
+        }
+    } catch (e) {
+        console.log('[scan] No valid JSON found, falling back to NL parser');
+    }
+
+    // 2) Extract grades from natural language
+    const report = {
+        security: extractCategory(message, 'security'),
+        dependencies: extractCategory(message, 'dependenc'),
+        code_quality: extractCategory(message, 'code.?quality'),
+        test_coverage: extractCategory(message, 'test.?coverage'),
+        findings: extractFindings(message),
+        tech_debt_hours: extractTechDebt(message),
+        summary: message.length > 500 ? message.slice(0, 500) + '...' : message
+    };
+
+    return report;
+}
+
+function extractCategory(text, category) {
+    const patterns = [
+        new RegExp(`${category}[:\\s\\-–]+grade[:\\s\\-–]*([A-Fa-f][+\\-]?)`, 'i'),
+        new RegExp(`${category}[:\\s\\-–]+([A-Fa-f][+\\-]?)(?:[\\s,;\\.]|$)`, 'i'),
+        new RegExp(`${category}\\s+([A-Fa-f][+\\-]?)(?:[\\s,;\\.]|$)`, 'i'),
+        new RegExp(`([A-Fa-f][+\\-]?)\\s+(?:for|in)\\s+${category}`, 'i'),
+    ];
+
+    for (const pat of patterns) {
+        const m = text.match(pat);
+        if (m) {
+            const grade = m[1].toUpperCase();
+            const idx = text.indexOf(m[0]);
+            const nearby = text.slice(Math.max(0, idx - 60), Math.min(text.length, idx + 120));
+            const details = nearby.replace(/[\n\r]+/g, ' ').trim();
+            return { grade, details };
+        }
+    }
+
+    return { grade: '?', details: 'Could not determine grade' };
+}
+
+function extractFindings(text) {
+    const findings = [];
+    const sentences = text.split(/[.!]\s+/);
+    const seen = new Set();
+
+    const criticalPats = [
+        /hardcoded\s+(?:secrets?|api\s*keys?|credentials?|tokens?)/i,
+        /(?:critical|severe)\s+(?:security\s+)?vulnerabilit/i,
+        /\.env\s+files?\s+committed/i,
+        /exposed\s+(?:in\s+)?client[\-\s]side/i,
+    ];
+    const warningPats = [
+        /(?:no|lacks?|missing)\s+(?:test|testing)/i,
+        /outdated\s+(?:packages?|dependencies)/i,
+        /deprecated\s+packages?/i,
+        /(?:no|lacks?|missing)\s+(?:linting|lint)/i,
+    ];
+    const infoPats = [
+        /(?:no|lacks?|missing)\s+dependency\s+management/i,
+        /dead\s+code/i,
+        /unused\s+imports?/i,
+    ];
+
+    for (const s of sentences) {
+        const trimmed = s.trim();
+        if (!trimmed || trimmed.length < 10 || seen.has(trimmed)) continue;
+
+        let matched = false;
+        for (const pat of criticalPats) {
+            if (pat.test(trimmed)) {
+                seen.add(trimmed);
+                findings.push({ severity: 'critical', message: trimmed });
+                matched = true;
+                break;
+            }
+        }
+        if (matched) continue;
+
+        for (const pat of warningPats) {
+            if (pat.test(trimmed)) {
+                seen.add(trimmed);
+                findings.push({ severity: 'warning', message: trimmed });
+                matched = true;
+                break;
+            }
+        }
+        if (matched) continue;
+
+        for (const pat of infoPats) {
+            if (pat.test(trimmed)) {
+                seen.add(trimmed);
+                findings.push({ severity: 'info', message: trimmed });
+                break;
+            }
+        }
+    }
+
+    if (findings.length === 0) {
+        findings.push({ severity: 'info', message: text.length > 300 ? text.slice(0, 300) + '...' : text });
+    }
+
+    return findings;
+}
+
+function extractTechDebt(text) {
+    const m = text.match(/(\d+)\s*(?:hours?|hrs?)\s*(?:of\s+)?(?:tech[\s\-]?debt|to\s+remediate)/i);
+    if (m) return parseInt(m[1], 10);
+    const m2 = text.match(/(\d+)\s*(?:hours?|hrs?)/i);
+    if (m2) return parseInt(m2[1], 10);
+    return null;
+}
+
+function fallbackReport(message) {
     return {
         security: { grade: '?', details: 'Could not parse detailed results' },
         dependencies: { grade: '?', details: 'Could not parse detailed results' },
         code_quality: { grade: '?', details: 'Could not parse detailed results' },
         test_coverage: { grade: '?', details: 'Could not parse detailed results' },
-        findings: [
-            { severity: 'info', message: message || 'Scan completed but results could not be parsed' }
-        ],
+        findings: [{ severity: 'info', message }],
         tech_debt_hours: null,
-        summary: message || 'Scan completed'
+        summary: message
     };
 }

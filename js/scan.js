@@ -105,19 +105,24 @@ function setMetric(valueId, cardId, metric) {
 
     el.textContent = metric.grade || metric.score || '—';
     
-    // Color code based on grade
-    const grade = (metric.grade || '').toUpperCase();
-    if (['A', 'A+'].includes(grade)) {
+    // Color code based on first letter of grade (handles A+, B-, etc.)
+    const grade = (metric.grade || '')[0]?.toUpperCase();
+    if (grade === 'A') {
         card.style.borderColor = 'rgba(34, 197, 94, 0.4)';
         el.style.color = '#22c55e';
-    } else if (['B', 'B+'].includes(grade)) {
+    } else if (grade === 'B') {
         card.style.borderColor = 'rgba(59, 130, 246, 0.4)';
         el.style.color = '#3B82F6';
-    } else if (['C', 'C+'].includes(grade)) {
+    } else if (grade === 'C') {
         card.style.borderColor = 'rgba(255, 153, 0, 0.4)';
         el.style.color = '#ff9900';
-    } else if (['D', 'F'].includes(grade)) {
+    } else if (grade === 'D' || grade === 'F') {
         card.style.borderColor = 'rgba(239, 68, 68, 0.4)';
         el.style.color = '#ef4444';
+    }
+
+    // Show details as hover tooltip
+    if (metric.details) {
+        card.title = metric.details;
     }
 }
