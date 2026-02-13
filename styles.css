@@ -876,85 +876,19 @@ footer p {
     50% { opacity: 0.4; }
 }
 
-/* --- Voice Overlay (listening state) --- */
-.voice-overlay {
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(20px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-}
-
-.voice-overlay.active {
-    opacity: 1;
-    pointer-events: all;
-}
-
-.voice-overlay-orb {
-    width: 120px;
-    height: 120px;
-    border-radius: 50%;
+/* --- Voice Active State (subtle indicator, no overlay) --- */
+body.voice-active .btn-voice,
+body.voice-active .btn-voice-sm,
+body.voice-active .btn-voice-large,
+body.voice-active .nav-voice-btn {
     background: linear-gradient(135deg, #A855F7, #7C3AED);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    margin-bottom: 2rem;
+    box-shadow: 0 0 20px rgba(168, 85, 247, 0.5);
+    animation: voicePulse 2s ease-in-out infinite;
 }
 
-.voice-overlay-orb::before {
-    content: '';
-    position: absolute;
-    inset: -20px;
-    border-radius: 50%;
-    border: 2px solid rgba(168, 85, 247, 0.3);
-    animation: voiceRing 2s ease-in-out infinite;
-}
-
-.voice-overlay-orb::after {
-    content: '';
-    position: absolute;
-    inset: -40px;
-    border-radius: 50%;
-    border: 1px solid rgba(168, 85, 247, 0.15);
-    animation: voiceRing 2s ease-in-out infinite 0.5s;
-}
-
-.voice-overlay-text {
-    font-family: var(--font-heading);
-    font-size: 1.2rem;
-    color: var(--text-primary);
-    margin-bottom: 0.5rem;
-}
-
-.voice-overlay-context {
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    margin-bottom: 2rem;
-}
-
-.voice-overlay-close {
-    padding: 0.6rem 1.5rem;
-    border-radius: 30px;
-    background: rgba(255, 255, 255, 0.1);
-    color: var(--text-secondary);
-    border: 1px solid var(--border);
-    cursor: pointer;
-    font-size: 0.85rem;
-    font-family: var(--font-body);
-    transition: all 0.2s ease;
-}
-
-.voice-overlay-close:hover {
-    background: rgba(255, 255, 255, 0.15);
-    color: var(--text-primary);
+@keyframes voicePulse {
+    0%, 100% { box-shadow: 0 0 15px rgba(168, 85, 247, 0.4); }
+    50% { box-shadow: 0 0 30px rgba(168, 85, 247, 0.7); }
 }
 
 /* ============================================
