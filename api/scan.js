@@ -181,12 +181,12 @@ function parseReport(message) {
         console.log('[scan] No valid JSON found, falling back to NL parser');
     }
 
-    // 2) Extract grades from natural language
+    // 2) Extract grades from natural language (explicit letter grades or inferred from keywords)
     const report = {
-        security: extractCategory(message, 'security'),
-        dependencies: extractCategory(message, 'dependenc'),
-        code_quality: extractCategory(message, 'code.?quality'),
-        test_coverage: extractCategory(message, 'test.?coverage'),
+        security: extractCategory(message, 'security') || inferSecurityGrade(message),
+        dependencies: extractCategory(message, 'dependenc') || inferDepsGrade(message),
+        code_quality: extractCategory(message, 'code.?quality') || inferQualityGrade(message),
+        test_coverage: extractCategory(message, 'test.?coverage') || inferTestGrade(message),
         findings: extractFindings(message),
         tech_debt_hours: extractTechDebt(message),
         summary: message.length > 500 ? message.slice(0, 500) + '...' : message
@@ -214,7 +214,76 @@ function extractCategory(text, category) {
         }
     }
 
-    return { grade: '?', details: 'Could not determine grade' };
+    return null; // return null so we fall through to inference
+}
+
+// --- Grade inference from keywords when explicit grades aren't found ---
+
+function inferSecurityGrade(text) {
+    const t = text.toLowerCase();
+    if (/hardcoded\s+(secret|api.?key|token|credential|password)/i.test(t) ||
+        /critical\s+security/i.test(t) ||
+        /exposed\s+.*client.?side/i.test(t)) {
+        return { grade: 'F', details: 'Critical security issues detected (hardcoded secrets/keys)' };
+    }
+    if (/security\s+(issue|vulnerabilit|concern|warning)/i.test(t)) {
+        return { grade: 'D', details: 'Security issues found' };
+    }
+    if (/no\s+(major\s+)?security\s+issue/i.test(t) || /security.*clean/i.test(t)) {
+        return { grade: 'A', details: 'No security issues found' };
+    }
+    return { grade: '?', details: 'Could not determine security grade' };
+}
+
+function inferDepsGrade(text) {
+    const t = text.toLowerCase();
+    if (/no\s+(package\.json|dependency\s+manage|dependenc)/i.test(t) ||
+        /lacks?\s+dependency\s+manage/i.test(t)) {
+        return { grade: 'D', details: 'No dependency management found' };
+    }
+    if (/severely\s+outdated|major.*outdated/i.test(t)) {
+        return { grade: 'F', details: 'Severely outdated dependencies' };
+    }
+    if (/outdated\s+(package|dependenc)/i.test(t)) {
+        return { grade: 'C', details: 'Some outdated dependencies' };
+    }
+    if (/dependenc.*up.?to.?date|all\s+current/i.test(t)) {
+        return { grade: 'A', details: 'Dependencies are up to date' };
+    }
+    return { grade: '?', details: 'Could not determine dependency grade' };
+}
+
+function inferQualityGrade(text) {
+    const t = text.toLowerCase();
+    if (/no\s+(linting|lint|eslint|formatting|prettier)/i.test(t) &&
+        /no\s+(type|typescript)/i.test(t)) {
+        return { grade: 'F', details: 'No linting or type checking configured' };
+    }
+    if (/no\s+(linting|lint|eslint|formatting)/i.test(t) ||
+        /lacks?\s+(linting|lint|formatting)/i.test(t)) {
+        return { grade: 'D', details: 'No linting/formatting configuration' };
+    }
+    if (/clean\s+code|well.?structured/i.test(t)) {
+        return { grade: 'A', details: 'Clean, well-structured code' };
+    }
+    return { grade: '?', details: 'Could not determine code quality grade' };
+}
+
+function inferTestGrade(text) {
+    const t = text.toLowerCase();
+    if (/zero\s+test\s+coverage/i.test(t) ||
+        /no\s+test/i.test(t) ||
+        /lacks?\s+test/i.test(t) ||
+        /missing\s+test/i.test(t)) {
+        return { grade: 'F', details: 'No tests found' };
+    }
+    if (/low\s+test\s+coverage/i.test(t) || /minimal\s+test/i.test(t)) {
+        return { grade: 'D', details: 'Low test coverage' };
+    }
+    if (/good\s+test\s+coverage|high\s+test\s+coverage|>?\s*80%/i.test(t)) {
+        return { grade: 'A', details: 'Good test coverage' };
+    }
+    return { grade: '?', details: 'Could not determine test coverage grade' };
 }
 
 function extractFindings(text) {
