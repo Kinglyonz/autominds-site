@@ -259,11 +259,10 @@ img {
     letter-spacing: -0.02em;
 }
 
-.brand-icon {
-    width: 24px;
-    height: 24px;
-    background: var(--accent);
-    border-radius: 6px;
+.brand-logo {
+    width: 32px;
+    height: 32px;
+    filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.4));
 }
 
 .nav-menu {
@@ -859,6 +858,26 @@ footer {
 footer p {
     font-size: 0.85rem;
     color: var(--text-secondary);
+}
+
+.btn-book-demo {
+    display: inline-block;
+    margin-top: 1.5rem;
+    padding: 1rem 3rem;
+    font-family: var(--font-heading);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #0071E3, #5856D6);
+    border-radius: 12px;
+    letter-spacing: 0.02em;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 20px rgba(0, 113, 227, 0.3);
+}
+
+.btn-book-demo:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 113, 227, 0.5);
 }
 
 .status-pulse {
