@@ -2,13 +2,6 @@
     "version": 2,
     "cleanUrls": true,
     "trailingSlash": false,
-    "redirects": [
-        {
-            "source": "/(.*)",
-            "destination": "https://autominds-email-production-8ed3.up.railway.app/$1",
-            "permanent": false
-        }
-    ],
     "headers": [
         {
             "source": "/(.*)",

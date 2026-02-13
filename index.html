@@ -4,17 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoMinds | AI Email Assistant</title>
-    <meta name="description" content="AutoMinds reads, sorts, drafts, and schedules your emails — so you don't have to. AI-powered email assistant for professionals.">
-    <!-- Fonts -->
+    <title>AutoMinds | AI Dev Team That Never Sleeps</title>
+    <meta name="description" content="AutoMinds is your AI-powered development team. We maintain, fix, and build features for your codebase — 24/7. Free repo health scan.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&family=Space+Grotesk:wght@500;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
     <link rel="icon" type="image/svg+xml" href="logo_white.svg">
-    <script src="https://js.stripe.com/v3/"></script>
 </head>
 
 <body>
@@ -27,31 +23,11 @@
                 AutoMinds
             </a>
             <div class="nav-menu">
-                <a href="#capabilities" class="nav-link">Features</a>
+                <a href="#scan" class="nav-link" style="color: #22c55e;">Free Scan</a>
+                <a href="#services" class="nav-link">Services</a>
                 <a href="#pricing" class="nav-link" style="color: #0071E3;">Pricing</a>
-                <a href="#protocol" class="nav-link" style="color: #22c55e;">How It Works</a>
+                <a href="#how-it-works" class="nav-link">How It Works</a>
                 <a href="#contact" class="nav-link" style="color: #ef4444;">Contact</a>
-                <button id="themedev-toggle" class="nav-link"
-                    style="background: none; border: none; cursor: pointer; display: flex; align-items: center; padding: 0.25rem;">
-                    <svg class="theme-icon-sun" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        style="display: block;">
-                        <circle cx="12" cy="12" r="5"></circle>
-                        <line x1="12" y1="1" x2="12" y2="3"></line>
-                        <line x1="12" y1="21" x2="12" y2="23"></line>
-                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
-                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
-                        <line x1="1" y1="12" x2="3" y2="12"></line>
-                        <line x1="21" y1="12" x2="23" y2="12"></line>
-                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
-                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
-                    </svg>
-                    <svg class="theme-icon-moon" width="20" height="20" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        style="display: none;">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                </button>
             </div>
         </div>
     </nav>
@@ -60,153 +36,236 @@
     <section class="hero">
         <canvas id="hero-canvas" class="hero-canvas"></canvas>
         <div class="container hero-content">
-            <span class="hero-Eyebrow">AI-Powered Email Assistant</span>
-            <h1 class="hero-title">Your Inbox.<br>On Autopilot.</h1>
+            <span class="hero-Eyebrow">AI-Powered Development Team</span>
+            <h1 class="hero-title">Your Codebase.<br>Always Maintained.</h1>
             <p class="hero-subtitle">
-                AutoMinds reads, sorts, drafts, and schedules your emails — so you don't have to.<br>
-                Save 50+ hours per month. Set up in 2 minutes.
+                AutoMinds is your 24/7 AI dev team. We fix bugs, update dependencies, patch vulnerabilities, 
+                and build features — while you sleep. Start with a free repo health scan.
             </p>
             <div class="hero-actions">
-                <a href="#pricing" class="btn btn-primary">Start Free →</a>
-                <a href="#capabilities" class="btn btn-secondary">See Features</a>
+                <a href="#scan" class="btn btn-primary">Free Repo Scan →</a>
+                <a href="#pricing" class="btn btn-secondary">See Pricing</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-num">2min</span>
+                    <span class="stat-label">Avg scan time</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <span class="stat-num">24/7</span>
+                    <span class="stat-label">Always shipping</span>
+                </div>
+                <div class="stat-divider"></div>
+                <div class="stat">
+                    <span class="stat-num">$0</span>
+                    <span class="stat-label">To start</span>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Capabilities (Bento) -->
-    <section id="capabilities" class="capabilities">
+    <!-- Free Repo Scan (Lead Magnet) -->
+    <section id="scan" class="scan-section">
+        <div class="container">
+            <div class="section-header center-text">
+                <h2 class="section-title">Free Repo Health Scan</h2>
+                <p>Paste your GitHub repo URL. Our AI agents analyze your codebase and deliver a full health report in minutes.</p>
+            </div>
+
+            <div class="scan-card">
+                <form id="scan-form" class="scan-form">
+                    <div class="scan-input-wrapper">
+                        <span class="scan-icon">
+                            <svg width="20" height="20" viewBox="0 0 16 16" fill="currentColor">
+                                <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/>
+                            </svg>
+                        </span>
+                        <input type="url" id="repo-url" placeholder="https://github.com/your-org/your-repo" required>
+                        <button type="submit" class="btn btn-primary scan-btn">
+                            <span class="scan-btn-text">Scan Repository</span>
+                            <span class="scan-btn-loading" style="display:none;">
+                                <svg class="spinner" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                                </svg>
+                                Scanning...
+                            </span>
+                        </button>
+                    </div>
+                    <p class="scan-note">Public repos only during beta. No sign-up required.</p>
+                </form>
+
+                <!-- Scan Results (hidden by default) -->
+                <div id="scan-results" class="scan-results" style="display: none;">
+                    <div class="scan-results-header">
+                        <h3>Repo Health Report</h3>
+                        <span id="scan-repo-name" class="scan-repo-name"></span>
+                    </div>
+                    <div class="scan-metrics">
+                        <div class="metric-card" id="metric-security">
+                            <span class="metric-icon">🛡️</span>
+                            <span class="metric-label">Security</span>
+                            <span class="metric-value" id="val-security">—</span>
+                        </div>
+                        <div class="metric-card" id="metric-deps">
+                            <span class="metric-icon">📦</span>
+                            <span class="metric-label">Dependencies</span>
+                            <span class="metric-value" id="val-deps">—</span>
+                        </div>
+                        <div class="metric-card" id="metric-quality">
+                            <span class="metric-icon">⚡</span>
+                            <span class="metric-label">Code Quality</span>
+                            <span class="metric-value" id="val-quality">—</span>
+                        </div>
+                        <div class="metric-card" id="metric-tests">
+                            <span class="metric-icon">🧪</span>
+                            <span class="metric-label">Test Coverage</span>
+                            <span class="metric-value" id="val-tests">—</span>
+                        </div>
+                    </div>
+                    <div id="scan-details" class="scan-details"></div>
+                    <div class="scan-cta">
+                        <p>Want us to <strong>fix these automatically</strong>?</p>
+                        <a href="#pricing" class="btn btn-primary">Start at $49/mo →</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="capabilities">
         <div class="container">
             <div class="section-header">
-                <h2 class="section-title">What Your Inbox Gets</h2>
-                <p>Everything you need to take control of your email. Nothing you don't.</p>
+                <h2 class="section-title">What Your Repo Gets</h2>
+                <p>A tireless dev team that keeps your codebase healthy, secure, and shipping — without meetings.</p>
             </div>
 
             <div class="bento-grid">
-                <!-- Feature 1: Smart Sorting -->
+                <!-- Service 1: Dependency Updates -->
                 <div class="bento-card span-2" style="position: relative; overflow: hidden;">
                     <div class="card-content">
-                        <div class="product-badge" style="color: #3B82F6; border-color: rgba(59, 130, 246, 0.3);">SMART SORTING</div>
-                        <h3>AI Inbox Organization</h3>
-                        <p><strong>Your emails, instantly categorized.</strong> Clients, promotions, urgent, follow-ups — the AI sorts everything the moment it lands.</p>
+                        <div class="product-badge" style="color: #3B82F6; border-color: rgba(59, 130, 246, 0.3);">ALWAYS CURRENT</div>
+                        <h3>Dependency Management</h3>
+                        <p><strong>No more stale packages.</strong> We detect outdated dependencies, test upgrades against your codebase, and open PRs that pass CI.</p>
                         <ul class="feature-list" style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.85rem;">
-                            <li>► Priority Flagging — VIPs surface first</li>
-                            <li>► Smart Categories — auto-organized</li>
-                            <li>► Thread Summaries — TLDR any chain</li>
+                            <li>► Auto-detect outdated packages</li>
+                            <li>► Test before updating — no breakage</li>
+                            <li>► PR opened with changelog summary</li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- Feature 2: Auto-Draft -->
-                <div class="bento-card span-vertical" style="background: linear-gradient(180deg, rgba(34, 197, 94, 0.05) 0%, rgba(0,0,0,0) 100%); border-color: rgba(34, 197, 94, 0.2);">
+                <!-- Service 2: Security Patching -->
+                <div class="bento-card span-vertical" style="background: linear-gradient(180deg, rgba(239, 68, 68, 0.05) 0%, rgba(0,0,0,0) 100%); border-color: rgba(239, 68, 68, 0.2);">
                     <div class="card-content">
-                        <div class="product-badge" style="color: #22c55e; border-color: rgba(34, 197, 94, 0.3);">AUTO-DRAFT</div>
-                        <h3>AI-Written Replies</h3>
-                        <p>Context-aware responses drafted in YOUR voice. Review, tweak, send — or let it fly automatically.</p>
+                        <div class="product-badge" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.3);">ZERO-DAY READY</div>
+                        <h3>Security Patching</h3>
+                        <p>CVEs detected and patched before they become incidents. Our agents monitor vulnerability databases 24/7.</p>
                         <ul class="feature-list" style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.85rem;">
-                            <li>► Learns your writing style</li>
-                            <li>► Context from full thread</li>
-                            <li>► One-click send</li>
+                            <li>► CVE monitoring &amp; auto-patch</li>
+                            <li>► Secret scanning</li>
+                            <li>► Security-focused PRs</li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- Feature 3: Follow-Up Scheduling -->
+                <!-- Service 3: Bug Fixes -->
                 <div class="bento-card span-2">
                     <div class="card-content">
-                        <div class="product-badge" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.3);">SCHEDULING</div>
-                        <h3>Follow-Up Automation</h3>
-                        <p>Never forget a thread. Automatic reminders, scheduled follow-ups, and timed sends — your email runs like clockwork.</p>
+                        <div class="product-badge" style="color: #22c55e; border-color: rgba(34, 197, 94, 0.3);">SELF-HEALING</div>
+                        <h3>Bug Fixes &amp; Feature Builds</h3>
+                        <p>Submit a ticket, get a PR. Our AI agents understand your codebase context, write the fix, add tests, and open a clean pull request.</p>
                         <ul class="feature-list" style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.85rem;">
-                            <li>► Auto follow-up reminders</li>
-                            <li>► Scheduled sends</li>
-                            <li>► Meeting coordination</li>
+                            <li>► File a ticket → get a PR</li>
+                            <li>► Tests included with every fix</li>
+                            <li>► Human-reviewed before merge</li>
                         </ul>
                     </div>
                 </div>
 
-                <!-- Feature 4: Analytics -->
+                <!-- Service 4: Code Quality -->
                 <div class="bento-card span-2" style="background: linear-gradient(180deg, rgba(255, 153, 0, 0.05) 0%, rgba(0,0,0,0) 100%); border-color: rgba(255, 153, 0, 0.2);">
                     <div class="card-content">
-                        <div class="product-badge" style="color: #ff9900; border-color: rgba(255, 153, 0, 0.3);">ANALYTICS</div>
-                        <h3>Email Intelligence</h3>
-                        <p>See your email patterns, response times, and productivity trends. Know exactly where your time goes.</p>
+                        <div class="product-badge" style="color: #ff9900; border-color: rgba(255, 153, 0, 0.3);">CLEAN CODE</div>
+                        <h3>Lint, Format &amp; Refactor</h3>
+                        <p>Consistent code style enforced on every push. Dead code removed. Type errors caught. Tech debt chipped away — automatically.</p>
                         <ul class="feature-list" style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.85rem;">
-                            <li>► Response time tracking</li>
-                            <li>► Volume analytics</li>
-                            <li>► Productivity insights</li>
+                            <li>► Auto-fix lint &amp; type errors</li>
+                            <li>► Remove dead code</li>
+                            <li>► Incremental refactoring PRs</li>
                         </ul>
                     </div>
                 </div>
             </div>
 
-            <!-- COMPARISON SECTION -->
+            <!-- Comparison -->
             <div style="margin-top: 6rem; margin-bottom: 4rem;">
-                <h2 class="section-title" style="text-align: center; font-size: 2rem; margin-bottom: 3rem;">Why AutoMinds vs. Doing It Yourself</h2>
+                <h2 class="section-title" style="text-align: center; font-size: 2rem; margin-bottom: 3rem;">AutoMinds vs. Doing It Yourself</h2>
                 <div style="overflow-x: auto;">
-                    <table style="width: 100%; border-collapse: collapse; color: white;">
+                    <table style="width: 100%; border-collapse: collapse; color: var(--text-primary);">
                         <thead>
                             <tr style="border-bottom: 1px solid var(--border);">
-                                <th style="text-align: left; padding: 1rem; color: var(--text-muted);">FEATURE</th>
-                                <th style="text-align: left; padding: 1rem; color: #3B82F6;">AUTOMINDS EMAIL ASSISTANT</th>
-                                <th style="text-align: left; padding: 1rem; color: var(--text-muted);">DOING IT MANUALLY</th>
+                                <th style="text-align: left; padding: 1rem; color: var(--text-muted);">METRIC</th>
+                                <th style="text-align: left; padding: 1rem; color: #3B82F6;">AUTOMINDS</th>
+                                <th style="text-align: left; padding: 1rem; color: var(--text-muted);">IN-HOUSE / MANUAL</th>
                             </tr>
                         </thead>
                         <tbody style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">
                             <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                <td style="padding: 1rem;">Time Spent on Email</td>
-                                <td style="padding: 1rem; color: #22c55e;">~20 min/day</td>
-                                <td style="padding: 1rem;">3+ hours/day</td>
+                                <td style="padding: 1rem;">Response time</td>
+                                <td style="padding: 1rem; color: #22c55e;">Minutes</td>
+                                <td style="padding: 1rem;">Days to weeks</td>
                             </tr>
                             <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                <td style="padding: 1rem;">Missed Follow-ups</td>
-                                <td style="padding: 1rem; color: #22c55e;">Zero (automated)</td>
-                                <td style="padding: 1rem;">Happens weekly</td>
+                                <td style="padding: 1rem;">Dependency drift</td>
+                                <td style="padding: 1rem; color: #22c55e;">Always current</td>
+                                <td style="padding: 1rem;">Months behind</td>
                             </tr>
                             <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                <td style="padding: 1rem;">Response Time</td>
-                                <td style="padding: 1rem; color: #22c55e;">Under 5 minutes</td>
-                                <td style="padding: 1rem;">Hours to days</td>
+                                <td style="padding: 1rem;">CVE patch time</td>
+                                <td style="padding: 1rem; color: #22c55e;">&lt; 1 hour</td>
+                                <td style="padding: 1rem;">Weeks (if ever)</td>
                             </tr>
                             <tr>
-                                <td style="padding: 1rem;">Cost</td>
-                                <td style="padding: 1rem; color: #22c55e;">From $0/mo (Free tier)</td>
-                                <td style="padding: 1rem;">Your time (≈$50+/hr)</td>
+                                <td style="padding: 1rem;">Monthly cost</td>
+                                <td style="padding: 1rem; color: #22c55e;">From $49/mo</td>
+                                <td style="padding: 1rem;">$5,000+ (dev salary)</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
-        </div>
     </section>
 
-    <!-- The Mandate (Who + Risk) -->
+    <!-- Who It's For -->
     <section id="mandate" class="mandate-section">
         <div class="container">
             <div class="split-layout">
                 <div class="split-col">
-                    <h2 class="section-title-sm">Built For Every Industry</h2>
+                    <h2 class="section-title-sm">Built For</h2>
                     <ul class="exclusive-list">
-                        <li><strong>Real Estate Agents</strong> — Auto-respond to leads, schedule showings</li>
-                        <li><strong>Law Firms</strong> — Prioritize client emails, draft case updates</li>
-                        <li><strong>Accounting Firms</strong> — Sort tax docs, manage seasonal surges</li>
-                        <li><strong>Healthcare</strong> — Triage patient inquiries, route referrals</li>
+                        <li><strong>Startups</strong> — Ship faster without hiring a full dev ops team</li>
+                        <li><strong>Agencies</strong> — Maintain client repos without the overhead</li>
+                        <li><strong>Solo Founders</strong> — Your AI CTO that never takes PTO</li>
+                        <li><strong>SMB Engineering</strong> — Extend your team without extending headcount</li>
                     </ul>
                 </div>
                 <div class="split-col">
-                    <h2 class="section-title-sm">Your Data, Your Control</h2>
+                    <h2 class="section-title-sm">What You Keep</h2>
                     <div class="risk-tiers">
                         <div class="risk-item">
-                            <span class="risk-label">Encrypted</span>
-                            <span class="risk-desc">Bank-level encryption for all email data</span>
+                            <span class="risk-label">Full Control</span>
+                            <span class="risk-desc">Every change is a PR you review and approve</span>
                         </div>
                         <div class="risk-item">
-                            <span class="risk-label">Private</span>
-                            <span class="risk-desc">We never store your email content on our servers</span>
+                            <span class="risk-label">Your Code, Your Repo</span>
+                            <span class="risk-desc">We never store your source code — everything runs in isolated containers</span>
                         </div>
                         <div class="risk-item">
-                            <span class="risk-label highlight">GDPR Compliant</span>
-                            <span class="risk-desc">Full data privacy compliance</span>
+                            <span class="risk-label highlight">Cancel Anytime</span>
+                            <span class="risk-desc">No contracts, no lock-ins. Month-to-month.</span>
                         </div>
                     </div>
                 </div>
@@ -214,231 +273,139 @@
         </div>
     </section>
 
-    <!-- The Doctrine (Refusals + Accountability) -->
-    <section id="doctrine" class="doctrine-section">
-        <div class="container">
-            <div class="doctrine-grid">
-                <div class="doctrine-card refusal">
-                    <h3 class="card-header-sm">What Makes Us Different</h3>
-                    <ul class="refusal-list">
-                        <li>AI that learns YOUR writing style, not generic templates</li>
-                        <li>Works with Gmail & Outlook — 2-click setup</li>
-                        <li>No training data sold or shared. Ever.</li>
-                        <li>Cancel anytime. 14-day money-back guarantee.</li>
-                    </ul>
-                    <p class="doctrine-note">Your inbox, your rules.</p>
-                </div>
-                <div class="doctrine-card accountability">
-                    <h3 class="card-header-sm">How Professionals Use It</h3>
-                    <p class="mb-4">Real professionals save real time. Here's what our early users report:</p>
-                    <ul class="check-list">
-                        <li>50+ hours saved per month</li>
-                        <li>99.7% sorting accuracy</li>
-                        <li>Zero missed follow-ups</li>
-                        <li>2-minute average setup time</li>
-                    </ul>
-                    <p class="doctrine-note">"AutoMinds cut my inbox time by 80%."</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- The Sovereign Difference (Comparison) -->
-    <section class="comparison-section" style="padding: var(--space-xl) 0; border-bottom: 1px solid var(--border);">
-        <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">Gmail & Outlook. Connected in Seconds.</h2>
-                <p>No IT team needed. No complex setup. Just connect your email and watch the AI go to work.</p>
-            </div>
-
-            <div class="comparison-table" style="overflow-x: auto;">
-                <table style="width: 100%; border-collapse: collapse; text-align: left; font-family: 'Inter', sans-serif;">
-                    <thead>
-                        <tr style="border-bottom: 1px solid var(--border);">
-                            <th style="padding: 1rem; color: var(--text-muted); font-weight: 500; text-transform: uppercase; font-size: 0.85rem;">Feature</th>
-                            <th style="padding: 1rem; color: var(--text-primary); font-size: 1.1rem;">AutoMinds</th>
-                            <th style="padding: 1rem; color: var(--text-secondary); font-weight: 400;">Other Email Tools</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                            <td style="padding: 1.5rem 1rem; color: var(--text-secondary); font-weight: 500;">Setup Time</td>
-                            <td style="padding: 1.5rem 1rem; color: #22c55e; font-weight: 600;">2 Minutes</td>
-                            <td style="padding: 1.5rem 1rem; color: var(--text-muted);">Hours to Days</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                            <td style="padding: 1.5rem 1rem; color: var(--text-secondary); font-weight: 500;">AI Draft Quality</td>
-                            <td style="padding: 1.5rem 1rem; color: #22c55e; font-weight: 600;">Learns Your Voice</td>
-                            <td style="padding: 1.5rem 1rem; color: var(--text-muted);">Generic Templates</td>
-                        </tr>
-                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                            <td style="padding: 1.5rem 1rem; color: var(--text-secondary); font-weight: 500;">Follow-Up Tracking</td>
-                            <td style="padding: 1.5rem 1rem; color: #22c55e; font-weight: 600;">Fully Automated</td>
-                            <td style="padding: 1.5rem 1rem; color: var(--text-muted);">Manual or None</td>
-                        </tr>
-                        <tr>
-                            <td style="padding: 1.5rem 1rem; color: var(--text-secondary); font-weight: 500;">Free Plan</td>
-                            <td style="padding: 1.5rem 1rem; color: #22c55e; font-weight: 600;">Yes — 50 actions/mo</td>
-                            <td style="padding: 1.5rem 1rem; color: var(--text-muted);">Limited or None</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
-
-    <!-- What We Actually Do -->
-    <section id="pricing" class="pricing-section" style="padding: var(--space-xl) 0; background: var(--bg-surface);">
-        <div class="container">
-            <div class="section-header center-text">
-                <h2 class="section-title">Simple, Transparent Pricing</h2>
-                <p>Start free. Upgrade when you're ready. Cancel anytime.</p>
-            </div>
-
-            <div class="bento-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
-                <!-- Free Tier -->
-                <div class="bento-card" style="border: 1px solid var(--border);">
-                    <div class="card-content">
-                        <div style="margin-bottom: 1rem; font-family: 'Roboto Mono'; font-size: 0.8rem; color: var(--text-muted);">FREE</div>
-                        <h3>Starter</h3>
-                        <p style="margin-bottom: 1rem;">Try it out — no credit card required.</p>
-                        <div style="font-size: 2.5rem; font-weight: 700; color: #fff; margin-bottom: 1.5rem;">$0<span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 400;">/month</span></div>
-                        <ul class="check-list" style="margin-bottom: auto;">
-                            <li>50 email actions/month</li>
-                            <li>Basic inbox sorting</li>
-                            <li>1 email account</li>
-                            <li>Email support</li>
-                        </ul>
-                        <a href="https://calendly.com/admin-autominds/30min" class="btn btn-secondary" style="width: 100%; margin-top: 2rem;">Get Started Free</a>
-                    </div>
-                </div>
-
-                <!-- Pro Tier (Featured) -->
-                <div class="bento-card" style="border: 1px solid #3B82F6; background: rgba(59, 130, 246, 0.05);">
-                    <div class="card-content">
-                        <div style="margin-bottom: 1rem; font-family: 'Roboto Mono'; font-size: 0.8rem; color: #60A5FA;">MOST POPULAR</div>
-                        <h3>Pro</h3>
-                        <p style="margin-bottom: 1rem;">For professionals who live in their inbox.</p>
-                        <div style="font-size: 2.5rem; font-weight: 700; color: #fff; margin-bottom: 1.5rem;">$29<span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 400;">/month</span></div>
-                        <ul class="check-list" style="margin-bottom: auto;">
-                            <li>Unlimited email actions</li>
-                            <li>AI draft replies</li>
-                            <li>Follow-up scheduling</li>
-                            <li>Thread summaries</li>
-                            <li>Priority flagging</li>
-                            <li>Priority support</li>
-                        </ul>
-                        <a href="https://calendly.com/admin-autominds/30min" class="btn btn-primary" style="width: 100%; margin-top: 2rem;">Start Pro Trial →</a>
-                    </div>
-                </div>
-
-                <!-- Business Tier -->
-                <div class="bento-card" style="border: 1px solid var(--border);">
-                    <div class="card-content">
-                        <div style="margin-bottom: 1rem; font-family: 'Roboto Mono'; font-size: 0.8rem; color: var(--text-muted);">TEAMS</div>
-                        <h3>Business</h3>
-                        <p style="margin-bottom: 1rem;">For teams that need full control.</p>
-                        <div style="font-size: 2.5rem; font-weight: 700; color: #fff; margin-bottom: 1.5rem;">$99<span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 400;">/month</span></div>
-                        <ul class="check-list" style="margin-bottom: auto;">
-                            <li>Everything in Pro</li>
-                            <li>Multi-inbox support</li>
-                            <li>Team collaboration</li>
-                            <li>Custom AI rules</li>
-                            <li>Analytics dashboard</li>
-                            <li>Dedicated support</li>
-                        </ul>
-                        <a href="https://calendly.com/admin-autominds/30min" class="btn btn-secondary" style="width: 100%; margin-top: 2rem;">Contact Sales</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Engagement Protocol -->
-    <section id="protocol" class="protocol-section">
+    <!-- How It Works -->
+    <section id="how-it-works" class="protocol-section">
         <div class="container">
             <div class="section-header center-text">
                 <h2 class="section-title">How It Works</h2>
-                <p>From signup to inbox zen in three simple steps.</p>
+                <p>From repo scan to auto-maintained codebase in three steps.</p>
             </div>
             <div class="protocol-steps">
                 <div class="step">
                     <span class="step-num">01</span>
-                    <h4>Connect Your Email</h4>
-                    <p>Gmail or Outlook — two clicks and you're linked. No IT team needed.</p>
+                    <h4>Connect Your Repo</h4>
+                    <p>Give us access to your GitHub repo. We analyze the stack, dependencies, and architecture.</p>
                 </div>
                 <div class="step-connector"></div>
                 <div class="step">
                     <span class="step-num">02</span>
-                    <h4>Set Your Preferences</h4>
-                    <p>Tell the AI your rules, tone, and priorities. It learns and adapts to you.</p>
+                    <h4>AI Agents Go to Work</h4>
+                    <p>Our agents continuously scan for issues — outdated deps, CVEs, broken tests, code smells — and fix them.</p>
                 </div>
                 <div class="step-connector"></div>
                 <div class="step">
                     <span class="step-num">03</span>
-                    <h4>Watch It Work</h4>
-                    <p>Your inbox is sorted, drafted, and managed — automatically. You just review and send.</p>
+                    <h4>Review &amp; Merge PRs</h4>
+                    <p>Every fix comes as a clean PR with tests. You review, approve, and merge. Full control, zero effort.</p>
                 </div>
             </div>
         </div>
+    </section>
 
-        <!-- Social Proof / Testimonials -->
-        <section class="testimonials" style="border-top: 1px solid var(--border); padding: 4rem 0;">
-            <div class="container" style="text-align: center;">
-                <p
-                    style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); margin-bottom: 2rem;">
-                    What Professionals Are Saying</p>
+    <!-- Pricing -->
+    <section id="pricing" class="pricing-section" style="padding: var(--space-xl) 0; background: var(--bg-surface);">
+        <div class="container">
+            <div class="section-header center-text">
+                <h2 class="section-title">Simple Pricing. Real Results.</h2>
+                <p>Start with a free scan. Scale to full dev team. Cancel anytime.</p>
+            </div>
+            <div class="bento-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+                <!-- Free Scan -->
+                <div class="bento-card" style="border: 1px solid var(--border);">
+                    <div class="card-content">
+                        <div style="margin-bottom: 1rem; font-family: 'JetBrains Mono'; font-size: 0.8rem; color: #22c55e;">FREE</div>
+                        <h3>Repo Scan</h3>
+                        <p style="margin-bottom: 1rem;">See what's wrong. No commitment.</p>
+                        <div style="font-size: 2.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1.5rem;">$0</div>
+                        <ul class="check-list" style="margin-bottom: auto;">
+                            <li>Full repo health report</li>
+                            <li>Security vulnerability scan</li>
+                            <li>Outdated dependency check</li>
+                            <li>Code quality analysis</li>
+                            <li>Tech debt estimate</li>
+                        </ul>
+                        <a href="#scan" class="btn btn-secondary" style="width: 100%; margin-top: 2rem;">Scan Now — Free →</a>
+                    </div>
+                </div>
 
-                <div class="testimonial-card"
-                    style="max-width: 800px; margin: 0 auto; background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%); border: 1px solid var(--border); padding: 3rem; border-radius: 2px;">
-                    <blockquote
-                        style="font-size: 1.25rem; font-weight: 400; line-height: 1.6; color: var(--text-primary); margin: 0; font-family: 'Inter', sans-serif;">
-                        "I used to spend 2 hours a day on email. Now it's 15 minutes. <br>
-                        AutoMinds drafts replies that sound exactly like me — my clients can't tell the difference."
-                    </blockquote>
-                    <div
-                        style="margin-top: 2rem; display: flex; align-items: center; justify-content: center; gap: 1rem;">
-                        <div style="color: var(--text-secondary); font-size: 0.9rem;">— Licensed Real Estate Agent, Virginia</div>
+                <!-- Repo Maintenance -->
+                <div class="bento-card" style="border: 1px solid #3B82F6; background: rgba(59, 130, 246, 0.05);">
+                    <div class="card-content">
+                        <div style="margin-bottom: 1rem; font-family: 'JetBrains Mono'; font-size: 0.8rem; color: #60A5FA;">MOST POPULAR</div>
+                        <h3>Repo Maintenance</h3>
+                        <p style="margin-bottom: 1rem;">Your repo, always healthy.</p>
+                        <div style="font-size: 2.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1.5rem;">$49<span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 400;">/mo per repo</span></div>
+                        <ul class="check-list" style="margin-bottom: auto;">
+                            <li>Everything in Free Scan</li>
+                            <li>Auto dependency updates</li>
+                            <li>CVE detection &amp; patching</li>
+                            <li>Lint &amp; type error fixes</li>
+                            <li>Dead code removal</li>
+                            <li>Weekly health reports</li>
+                            <li>Slack notifications</li>
+                        </ul>
+                        <a href="https://calendly.com/admin-autominds/30min" class="btn btn-primary" style="width: 100%; margin-top: 2rem;">Start Maintenance →</a>
+                    </div>
+                </div>
+
+                <!-- Dev Team -->
+                <div class="bento-card" style="border: 1px solid var(--border);">
+                    <div class="card-content">
+                        <div style="margin-bottom: 1rem; font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--text-muted);">FULL SERVICE</div>
+                        <h3>AI Dev Team</h3>
+                        <p style="margin-bottom: 1rem;">Like a dev team, but cheaper &amp; faster.</p>
+                        <div style="font-size: 2.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1.5rem;">$499<span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 400;">/mo</span></div>
+                        <ul class="check-list" style="margin-bottom: auto;">
+                            <li>Everything in Maintenance</li>
+                            <li>Unlimited repos</li>
+                            <li>Bug fixes on demand</li>
+                            <li>Feature builds (ticket → PR)</li>
+                            <li>Architecture reviews</li>
+                            <li>Priority 1-hour response</li>
+                            <li>Dedicated Slack channel</li>
+                            <li>Human QA review</li>
+                        </ul>
+                        <a href="https://calendly.com/admin-autominds/30min" class="btn btn-secondary" style="width: 100%; margin-top: 2rem;">Book a Call →</a>
                     </div>
                 </div>
             </div>
-        </section>
-        <footer id="contact">
-            <div class="container">
-                <p><span class="status-pulse"></span> &copy; 2026 AutoMinds LLC. AI Email Assistant for Professionals.</p>
-                <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-muted);"><a href="mailto:admin@autominds.org" style="color: var(--text-secondary);">admin@autominds.org</a> &nbsp;|&nbsp; <a href="https://calendly.com/admin-autominds/30min" style="color: var(--text-secondary);">Book a Demo</a></p>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="testimonials" style="border-top: 1px solid var(--border); padding: 4rem 0;">
+        <div class="container" style="text-align: center;">
+            <p style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-secondary); margin-bottom: 2rem;">
+                How Teams Describe It</p>
+
+            <div class="testimonial-card"
+                style="max-width: 800px; margin: 0 auto; background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%); border: 1px solid var(--border); padding: 3rem; border-radius: 2px;">
+                <blockquote
+                    style="font-size: 1.25rem; font-weight: 400; line-height: 1.6; color: var(--text-primary); margin: 0; font-family: 'Inter', sans-serif;">
+                    "It's like having a senior dev that only does the work nobody wants to do — 
+                    dependency updates, security patches, dead code cleanup — and does it <em>perfectly</em>, at 3am."
+                </blockquote>
+                <div style="margin-top: 2rem; display: flex; align-items: center; justify-content: center; gap: 1rem;">
+                    <div style="color: var(--text-secondary); font-size: 0.9rem;">— What our first clients will say</div>
+                </div>
             </div>
-        </footer>
+        </div>
+    </section>
 
-        <script>
-            const toggleBtn = document.getElementById('themedev-toggle');
-            const sunIcon = document.querySelector('.theme-icon-sun');
-            const moonIcon = document.querySelector('.theme-icon-moon');
-            const body = document.body;
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <p><span class="status-pulse"></span> &copy; 2026 AutoMinds LLC. AI Dev Team for Modern Codebases.</p>
+            <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">
+                <a href="mailto:admin@autominds.org" style="color: var(--text-secondary);">admin@autominds.org</a> &nbsp;|&nbsp;
+                <a href="https://calendly.com/admin-autominds/30min" style="color: var(--text-secondary);">Book a Demo</a> &nbsp;|&nbsp;
+                <a href="https://github.com/Kinglyonz" style="color: var(--text-secondary);">GitHub</a>
+            </p>
+        </div>
+    </footer>
 
-            // Check local storage
-            if (localStorage.getItem('theme') === 'light') {
-                body.classList.add('light-mode');
-                sunIcon.style.display = 'none';
-                moonIcon.style.display = 'block';
-            }
-
-            toggleBtn.addEventListener('click', () => {
-                body.classList.toggle('light-mode');
-
-                if (body.classList.contains('light-mode')) {
-                    localStorage.setItem('theme', 'light');
-                    sunIcon.style.display = 'none';
-                    moonIcon.style.display = 'block';
-                } else {
-                    localStorage.setItem('theme', 'dark');
-                    sunIcon.style.display = 'block';
-                    moonIcon.style.display = 'none';
-                }
-            });
-        </script>
-        <script src="js/background-paths.js"></script>
-        <script src="js/payment.js"></script>
+    <script src="js/background-paths.js"></script>
+    <script src="js/scan.js"></script>
 </body>
 
 </html>
