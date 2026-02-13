@@ -6,11 +6,11 @@ let width, height;
 let paths = [];
 
 const config = {
-    pathCount: 15, // Reduced for subtlety
-    segmentCount: 8, // Number of points per path
+    pathCount: 20,
+    segmentCount: 10,
     speed: 0.002,
-    amplitude: 80, // Vertical waviness
-    verticalSpread: 200, // How spread out vertically
+    amplitude: 100,
+    verticalSpread: 600,
 };
 
 class Path {
@@ -60,10 +60,9 @@ function resize() {
 
 function createPaths() {
     paths = [];
-    const centerY = height / 2;
     for (let i = 0; i < config.pathCount; i++) {
-        // Distribute paths around the center
-        const y = centerY - (config.verticalSpread / 2) + Math.random() * config.verticalSpread;
+        // Distribute paths across the entire viewport
+        const y = (height * i) / config.pathCount + Math.random() * (height / config.pathCount);
         paths.push(new Path(y));
     }
 }
