@@ -75,7 +75,6 @@ module.exports = async function handler(req, res) {
             },
             // Collect customer info
             billing_address_collection: 'auto',
-            customer_creation: 'always',
             // Allow promo codes
             allow_promotion_codes: true,
         });
