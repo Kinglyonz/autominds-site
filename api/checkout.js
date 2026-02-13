@@ -3,11 +3,12 @@
  * Creates a Stripe Checkout Session for subscription plans.
  * 
  * POST /api/checkout
- * Body: { plan: "maintenance" | "devteam", repo_url?: string }
+ * Body: { plan: "maintenance" | "reviews" | "devteam", repo_url?: string }
  * 
  * Requires env vars:
  *   STRIPE_SECRET_KEY - Stripe secret key (sk_live_...)
  *   STRIPE_PRICE_MAINTENANCE - Price ID for $49/mo plan
+ *   STRIPE_PRICE_REVIEWS - Price ID for $149/mo plan
  *   STRIPE_PRICE_DEVTEAM - Price ID for $499/mo plan
  */
 
@@ -17,11 +18,13 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY?.trim());
 
 const PRICE_MAP = {
     maintenance: process.env.STRIPE_PRICE_MAINTENANCE?.trim(),
+    reviews: process.env.STRIPE_PRICE_REVIEWS?.trim(),
     devteam: process.env.STRIPE_PRICE_DEVTEAM?.trim(),
 };
 
 const PLAN_NAMES = {
     maintenance: 'Repo Maintenance',
+    reviews: 'AI Code Reviews',
     devteam: 'AI Dev Team',
 };
 
@@ -39,7 +42,7 @@ module.exports = async function handler(req, res) {
 
         if (!plan || !PRICE_MAP[plan]) {
             return res.status(400).json({ 
-                error: 'Invalid plan. Use "maintenance" or "devteam".' 
+                error: 'Invalid plan. Use "maintenance", "reviews", or "devteam".' 
             });
         }
 

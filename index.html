@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AutoMinds | AI Dev Team That Never Sleeps</title>
-    <meta name="description" content="AutoMinds is your AI-powered development team. We maintain, fix, and build features for your codebase — 24/7. Free repo health scan.">
+    <meta name="description" content="AutoMinds is your AI-powered development team. We maintain repos, review PRs, and build features — 24/7. Talk to our AI or start with a free scan.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -27,7 +27,15 @@
                 <a href="#services" class="nav-link">Services</a>
                 <a href="#pricing" class="nav-link" style="color: #0071E3;">Pricing</a>
                 <a href="#how-it-works" class="nav-link">How It Works</a>
-                <a href="#contact" class="nav-link" style="color: #ef4444;">Contact</a>
+                <button class="nav-voice-btn" onclick="startVoice('general')" title="Talk to AutoMinds AI">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                        <line x1="12" y1="19" x2="12" y2="23"/>
+                        <line x1="8" y1="23" x2="16" y2="23"/>
+                    </svg>
+                    Talk to AI
+                </button>
             </div>
         </div>
     </nav>
@@ -36,20 +44,27 @@
     <section class="hero">
         <canvas id="hero-canvas" class="hero-canvas"></canvas>
         <div class="container hero-content">
-            <span class="hero-Eyebrow">AI-Powered Development Team</span>
+            <span class="hero-eyebrow">AI-Powered Development Team</span>
             <h1 class="hero-title">Your Codebase.<br>Always Maintained.</h1>
             <p class="hero-subtitle">
-                AutoMinds is your 24/7 AI dev team. We fix bugs, update dependencies, patch vulnerabilities, 
-                and build features — while you sleep. Start with a free repo health scan.
+                AutoMinds is your 24/7 AI dev team. We maintain repos, review PRs, and build features — while you sleep.
             </p>
             <div class="hero-actions">
                 <a href="#scan" class="btn btn-primary">Free Repo Scan →</a>
-                <a href="#pricing" class="btn btn-secondary">See Pricing</a>
+                <button class="btn btn-voice" onclick="startVoice('hero')">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                        <line x1="12" y1="19" x2="12" y2="23"/>
+                        <line x1="8" y1="23" x2="16" y2="23"/>
+                    </svg>
+                    Talk to Us Instead
+                </button>
             </div>
             <div class="hero-stats">
                 <div class="stat">
-                    <span class="stat-num">2min</span>
-                    <span class="stat-label">Avg scan time</span>
+                    <span class="stat-num">Voice</span>
+                    <span class="stat-label">Talk to our AI</span>
                 </div>
                 <div class="stat-divider"></div>
                 <div class="stat">
@@ -65,12 +80,21 @@
         </div>
     </section>
 
-    <!-- Free Repo Scan (Lead Magnet) -->
+    <!-- Free Repo Scan -->
     <section id="scan" class="scan-section">
         <div class="container">
             <div class="section-header center-text">
                 <h2 class="section-title">Free Repo Health Scan</h2>
-                <p>Paste your GitHub repo URL. Our AI agents analyze your codebase and deliver a full health report in minutes.</p>
+                <p>Paste your GitHub repo URL — or just tell us.</p>
+                <button class="voice-cta" onclick="startVoice('scan')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                        <line x1="12" y1="19" x2="12" y2="23"/>
+                        <line x1="8" y1="23" x2="16" y2="23"/>
+                    </svg>
+                    "Scan my repo" — just say it
+                </button>
             </div>
 
             <div class="scan-card">
@@ -127,115 +151,197 @@
                     <div class="scan-cta">
                         <p>Want us to <strong>fix these automatically</strong>?</p>
                         <button onclick="startCheckoutFromScan('maintenance')" class="btn btn-primary" style="margin-right: 0.5rem;">Fix My Repo — $49/mo →</button>
-                        <button onclick="startCheckoutFromScan('devteam')" class="btn btn-secondary">Full Dev Team — $499/mo →</button>
+                        <button onclick="startVoice('results')" class="btn btn-voice-sm">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                                <line x1="12" y1="19" x2="12" y2="23"/>
+                                <line x1="8" y1="23" x2="16" y2="23"/>
+                            </svg>
+                            Explain My Results
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Services -->
-    <section id="services" class="capabilities">
+    <!-- 3 Core Services -->
+    <section id="services" class="services-section">
         <div class="container">
-            <div class="section-header">
-                <h2 class="section-title">What Your Repo Gets</h2>
-                <p>A tireless dev team that keeps your codebase healthy, secure, and shipping — without meetings.</p>
+            <div class="section-header center-text">
+                <h2 class="section-title">Three Services. One AI Team.</h2>
+                <p>Everything your codebase needs to stay healthy, reviewed, and shipping.</p>
+                <button class="voice-cta" onclick="startVoice('services')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                        <line x1="12" y1="19" x2="12" y2="23"/>
+                        <line x1="8" y1="23" x2="16" y2="23"/>
+                    </svg>
+                    Ask about our services
+                </button>
             </div>
 
-            <div class="bento-grid">
-                <!-- Service 1: Dependency Updates -->
-                <div class="bento-card span-2" style="position: relative; overflow: hidden;">
-                    <div class="card-content">
-                        <div class="product-badge" style="color: #3B82F6; border-color: rgba(59, 130, 246, 0.3);">ALWAYS CURRENT</div>
-                        <h3>Dependency Management</h3>
-                        <p><strong>No more stale packages.</strong> We detect outdated dependencies, test upgrades against your codebase, and open PRs that pass CI.</p>
-                        <ul class="feature-list" style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.85rem;">
-                            <li>► Auto-detect outdated packages</li>
-                            <li>► Test before updating — no breakage</li>
-                            <li>► PR opened with changelog summary</li>
-                        </ul>
+            <div class="services-grid">
+                <!-- Service 1: Repo Maintenance -->
+                <div class="service-card">
+                    <div class="service-number">01</div>
+                    <div class="service-badge" style="color: #3B82F6; border-color: rgba(59, 130, 246, 0.3);">AUTOMATED</div>
+                    <h3>Repo Maintenance</h3>
+                    <p class="service-price">$49<span>/mo per repo</span></p>
+                    <p class="service-desc">Your codebase on autopilot. We continuously scan, update, patch, and clean — you just merge PRs.</p>
+                    <ul class="service-features">
+                        <li>
+                            <span class="feature-icon" style="color: #3B82F6;">→</span>
+                            Dependency updates with CI testing
+                        </li>
+                        <li>
+                            <span class="feature-icon" style="color: #ef4444;">→</span>
+                            CVE detection &amp; auto-patching
+                        </li>
+                        <li>
+                            <span class="feature-icon" style="color: #22c55e;">→</span>
+                            Lint, format &amp; dead code removal
+                        </li>
+                        <li>
+                            <span class="feature-icon" style="color: #ff9900;">→</span>
+                            Weekly health reports + Slack alerts
+                        </li>
+                    </ul>
+                    <div class="service-actions">
+                        <button onclick="startCheckout('maintenance')" class="btn btn-primary">Start Maintenance →</button>
+                        <button onclick="startVoice('maintenance')" class="btn btn-voice-sm" title="Ask about maintenance">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                                <line x1="12" y1="19" x2="12" y2="23"/>
+                                <line x1="8" y1="23" x2="16" y2="23"/>
+                            </svg>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Service 2: Security Patching -->
-                <div class="bento-card span-vertical" style="background: linear-gradient(180deg, rgba(239, 68, 68, 0.05) 0%, rgba(0,0,0,0) 100%); border-color: rgba(239, 68, 68, 0.2);">
-                    <div class="card-content">
-                        <div class="product-badge" style="color: #ef4444; border-color: rgba(239, 68, 68, 0.3);">ZERO-DAY READY</div>
-                        <h3>Security Patching</h3>
-                        <p>CVEs detected and patched before they become incidents. Our agents monitor vulnerability databases 24/7.</p>
-                        <ul class="feature-list" style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.85rem;">
-                            <li>► CVE monitoring &amp; auto-patch</li>
-                            <li>► Secret scanning</li>
-                            <li>► Security-focused PRs</li>
-                        </ul>
+                <!-- Service 2: AI Code Reviews -->
+                <div class="service-card service-card-featured">
+                    <div class="service-number">02</div>
+                    <div class="service-badge" style="color: #A855F7; border-color: rgba(168, 85, 247, 0.3);">NEW</div>
+                    <h3>AI Code Reviews</h3>
+                    <p class="service-price">$149<span>/mo per repo</span></p>
+                    <p class="service-desc">A senior engineer reviewing every PR — 24/7. Catches bugs, enforces standards, suggests improvements before anything hits main.</p>
+                    <ul class="service-features">
+                        <li>
+                            <span class="feature-icon" style="color: #A855F7;">→</span>
+                            Every PR reviewed in &lt; 5 minutes
+                        </li>
+                        <li>
+                            <span class="feature-icon" style="color: #A855F7;">→</span>
+                            Bug detection &amp; security analysis
+                        </li>
+                        <li>
+                            <span class="feature-icon" style="color: #A855F7;">→</span>
+                            Style &amp; architecture enforcement
+                        </li>
+                        <li>
+                            <span class="feature-icon" style="color: #A855F7;">→</span>
+                            Auto-suggest tests for uncovered code
+                        </li>
+                    </ul>
+                    <div class="service-actions">
+                        <button onclick="startCheckout('reviews')" class="btn btn-primary" style="background: #A855F7; color: #fff;">Start Reviews →</button>
+                        <button onclick="startVoice('reviews')" class="btn btn-voice-sm" title="Ask about code reviews">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                                <line x1="12" y1="19" x2="12" y2="23"/>
+                                <line x1="8" y1="23" x2="16" y2="23"/>
+                            </svg>
+                        </button>
                     </div>
                 </div>
 
-                <!-- Service 3: Bug Fixes -->
-                <div class="bento-card span-2">
-                    <div class="card-content">
-                        <div class="product-badge" style="color: #22c55e; border-color: rgba(34, 197, 94, 0.3);">SELF-HEALING</div>
-                        <h3>Bug Fixes &amp; Feature Builds</h3>
-                        <p>Submit a ticket, get a PR. Our AI agents understand your codebase context, write the fix, add tests, and open a clean pull request.</p>
-                        <ul class="feature-list" style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.85rem;">
-                            <li>► File a ticket → get a PR</li>
-                            <li>► Tests included with every fix</li>
-                            <li>► Human-reviewed before merge</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <!-- Service 4: Code Quality -->
-                <div class="bento-card span-2" style="background: linear-gradient(180deg, rgba(255, 153, 0, 0.05) 0%, rgba(0,0,0,0) 100%); border-color: rgba(255, 153, 0, 0.2);">
-                    <div class="card-content">
-                        <div class="product-badge" style="color: #ff9900; border-color: rgba(255, 153, 0, 0.3);">CLEAN CODE</div>
-                        <h3>Lint, Format &amp; Refactor</h3>
-                        <p>Consistent code style enforced on every push. Dead code removed. Type errors caught. Tech debt chipped away — automatically.</p>
-                        <ul class="feature-list" style="margin-top: 1rem; color: var(--text-secondary); font-size: 0.85rem;">
-                            <li>► Auto-fix lint &amp; type errors</li>
-                            <li>► Remove dead code</li>
-                            <li>► Incremental refactoring PRs</li>
-                        </ul>
+                <!-- Service 3: AI Dev Team -->
+                <div class="service-card">
+                    <div class="service-number">03</div>
+                    <div class="service-badge" style="color: #22c55e; border-color: rgba(34, 197, 94, 0.3);">FULL SERVICE</div>
+                    <h3>AI Dev Team</h3>
+                    <p class="service-price">$499<span>/mo unlimited repos</span></p>
+                    <p class="service-desc">Everything in Maintenance + Reviews, plus on-demand feature builds, bug fixes, and architecture reviews. File a ticket, get a PR.</p>
+                    <ul class="service-features">
+                        <li>
+                            <span class="feature-icon" style="color: #22c55e;">→</span>
+                            Ticket → PR pipeline (features &amp; bugs)
+                        </li>
+                        <li>
+                            <span class="feature-icon" style="color: #22c55e;">→</span>
+                            Architecture reviews &amp; refactors
+                        </li>
+                        <li>
+                            <span class="feature-icon" style="color: #22c55e;">→</span>
+                            Priority 1-hour response time
+                        </li>
+                        <li>
+                            <span class="feature-icon" style="color: #22c55e;">→</span>
+                            Dedicated Slack + voice standups
+                        </li>
+                    </ul>
+                    <div class="service-actions">
+                        <button onclick="startCheckout('devteam')" class="btn btn-primary">Start Dev Team →</button>
+                        <button onclick="startVoice('devteam')" class="btn btn-voice-sm" title="Ask about dev team">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                                <line x1="12" y1="19" x2="12" y2="23"/>
+                                <line x1="8" y1="23" x2="16" y2="23"/>
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>
+        </div>
+    </section>
 
-            <!-- Comparison -->
-            <div style="margin-top: 6rem; margin-bottom: 4rem;">
-                <h2 class="section-title" style="text-align: center; font-size: 2rem; margin-bottom: 3rem;">AutoMinds vs. Doing It Yourself</h2>
-                <div style="overflow-x: auto;">
-                    <table style="width: 100%; border-collapse: collapse; color: var(--text-primary);">
-                        <thead>
-                            <tr style="border-bottom: 1px solid var(--border);">
-                                <th style="text-align: left; padding: 1rem; color: var(--text-muted);">METRIC</th>
-                                <th style="text-align: left; padding: 1rem; color: #3B82F6;">AUTOMINDS</th>
-                                <th style="text-align: left; padding: 1rem; color: var(--text-muted);">IN-HOUSE / MANUAL</th>
-                            </tr>
-                        </thead>
-                        <tbody style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">
-                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                <td style="padding: 1rem;">Response time</td>
-                                <td style="padding: 1rem; color: #22c55e;">Minutes</td>
-                                <td style="padding: 1rem;">Days to weeks</td>
-                            </tr>
-                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                <td style="padding: 1rem;">Dependency drift</td>
-                                <td style="padding: 1rem; color: #22c55e;">Always current</td>
-                                <td style="padding: 1rem;">Months behind</td>
-                            </tr>
-                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                                <td style="padding: 1rem;">CVE patch time</td>
-                                <td style="padding: 1rem; color: #22c55e;">&lt; 1 hour</td>
-                                <td style="padding: 1rem;">Weeks (if ever)</td>
-                            </tr>
-                            <tr>
-                                <td style="padding: 1rem;">Monthly cost</td>
-                                <td style="padding: 1rem; color: #22c55e;">From $49/mo</td>
-                                <td style="padding: 1rem;">$5,000+ (dev salary)</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
+    <!-- Comparison Table -->
+    <section class="comparison-section">
+        <div class="container">
+            <h2 class="section-title" style="text-align: center; font-size: 2rem; margin-bottom: 3rem;">AutoMinds vs. Doing It Yourself</h2>
+            <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; color: var(--text-primary);">
+                    <thead>
+                        <tr style="border-bottom: 1px solid var(--border);">
+                            <th style="text-align: left; padding: 1rem; color: var(--text-muted);">METRIC</th>
+                            <th style="text-align: left; padding: 1rem; color: #3B82F6;">AUTOMINDS</th>
+                            <th style="text-align: left; padding: 1rem; color: var(--text-muted);">IN-HOUSE / MANUAL</th>
+                        </tr>
+                    </thead>
+                    <tbody style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                            <td style="padding: 1rem;">PR review time</td>
+                            <td style="padding: 1rem; color: #22c55e;">&lt; 5 minutes</td>
+                            <td style="padding: 1rem;">Hours to days</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                            <td style="padding: 1rem;">Dependency drift</td>
+                            <td style="padding: 1rem; color: #22c55e;">Always current</td>
+                            <td style="padding: 1rem;">Months behind</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                            <td style="padding: 1rem;">CVE patch time</td>
+                            <td style="padding: 1rem; color: #22c55e;">&lt; 1 hour</td>
+                            <td style="padding: 1rem;">Weeks (if ever)</td>
+                        </tr>
+                        <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                            <td style="padding: 1rem;">Code review coverage</td>
+                            <td style="padding: 1rem; color: #22c55e;">100% of PRs</td>
+                            <td style="padding: 1rem;">~60% on a good day</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem;">Monthly cost</td>
+                            <td style="padding: 1rem; color: #22c55e;">From $49/mo</td>
+                            <td style="padding: 1rem;">$8,000+ (dev salary)</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
     </section>
@@ -284,14 +390,14 @@
             <div class="protocol-steps">
                 <div class="step">
                     <span class="step-num">01</span>
-                    <h4>Connect Your Repo</h4>
-                    <p>Give us access to your GitHub repo. We analyze the stack, dependencies, and architecture.</p>
+                    <h4>Talk to Us or Scan</h4>
+                    <p>Hit the mic button and tell us about your repo — or paste a URL for a free health scan. Our AI understands your stack instantly.</p>
                 </div>
                 <div class="step-connector"></div>
                 <div class="step">
                     <span class="step-num">02</span>
                     <h4>AI Agents Go to Work</h4>
-                    <p>Our agents continuously scan for issues — outdated deps, CVEs, broken tests, code smells — and fix them.</p>
+                    <p>Our agents continuously scan, review PRs, fix issues, and build features — all in isolated containers. Zero access to your secrets.</p>
                 </div>
                 <div class="step-connector"></div>
                 <div class="step">
@@ -303,72 +409,27 @@
         </div>
     </section>
 
-    <!-- Pricing -->
-    <section id="pricing" class="pricing-section" style="padding: var(--space-xl) 0; background: var(--bg-surface);">
-        <div class="container">
-            <div class="section-header center-text">
-                <h2 class="section-title">Simple Pricing. Real Results.</h2>
-                <p>Start with a free scan. Scale to full dev team. Cancel anytime.</p>
-            </div>
-            <div class="bento-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
-                <!-- Free Scan -->
-                <div class="bento-card" style="border: 1px solid var(--border);">
-                    <div class="card-content">
-                        <div style="margin-bottom: 1rem; font-family: 'JetBrains Mono'; font-size: 0.8rem; color: #22c55e;">FREE</div>
-                        <h3>Repo Scan</h3>
-                        <p style="margin-bottom: 1rem;">See what's wrong. No commitment.</p>
-                        <div style="font-size: 2.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1.5rem;">$0</div>
-                        <ul class="check-list" style="margin-bottom: auto;">
-                            <li>Full repo health report</li>
-                            <li>Security vulnerability scan</li>
-                            <li>Outdated dependency check</li>
-                            <li>Code quality analysis</li>
-                            <li>Tech debt estimate</li>
-                        </ul>
-                        <a href="#scan" class="btn btn-secondary" style="width: 100%; margin-top: 2rem;">Scan Now — Free →</a>
-                    </div>
-                </div>
-
-                <!-- Repo Maintenance -->
-                <div class="bento-card" style="border: 1px solid #3B82F6; background: rgba(59, 130, 246, 0.05);">
-                    <div class="card-content">
-                        <div style="margin-bottom: 1rem; font-family: 'JetBrains Mono'; font-size: 0.8rem; color: #60A5FA;">MOST POPULAR</div>
-                        <h3>Repo Maintenance</h3>
-                        <p style="margin-bottom: 1rem;">Your repo, always healthy.</p>
-                        <div style="font-size: 2.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1.5rem;">$49<span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 400;">/mo per repo</span></div>
-                        <ul class="check-list" style="margin-bottom: auto;">
-                            <li>Everything in Free Scan</li>
-                            <li>Auto dependency updates</li>
-                            <li>CVE detection &amp; patching</li>
-                            <li>Lint &amp; type error fixes</li>
-                            <li>Dead code removal</li>
-                            <li>Weekly health reports</li>
-                            <li>Slack notifications</li>
-                        </ul>
-                        <button onclick="startCheckout('maintenance')" class="btn btn-primary" style="width: 100%; margin-top: 2rem; border: none; cursor: pointer;">Start Maintenance →</button>
-                    </div>
-                </div>
-
-                <!-- Dev Team -->
-                <div class="bento-card" style="border: 1px solid var(--border);">
-                    <div class="card-content">
-                        <div style="margin-bottom: 1rem; font-family: 'JetBrains Mono'; font-size: 0.8rem; color: var(--text-muted);">FULL SERVICE</div>
-                        <h3>AI Dev Team</h3>
-                        <p style="margin-bottom: 1rem;">Like a dev team, but cheaper &amp; faster.</p>
-                        <div style="font-size: 2.5rem; font-weight: 700; color: var(--text-primary); margin-bottom: 1.5rem;">$499<span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 400;">/mo</span></div>
-                        <ul class="check-list" style="margin-bottom: auto;">
-                            <li>Everything in Maintenance</li>
-                            <li>Unlimited repos</li>
-                            <li>Bug fixes on demand</li>
-                            <li>Feature builds (ticket → PR)</li>
-                            <li>Architecture reviews</li>
-                            <li>Priority 1-hour response</li>
-                            <li>Dedicated Slack channel</li>
-                            <li>Human QA review</li>
-                        </ul>
-                        <button onclick="startCheckout('devteam')" class="btn btn-secondary" style="width: 100%; margin-top: 2rem; border: none; cursor: pointer;">Start Dev Team →</button>
-                    </div>
-                </div>
+    <!-- Voice CTA Section -->
+    <section class="voice-section">
+        <div class="container" style="text-align: center;">
+            <div class="voice-hero-card">
+                <h2 class="section-title" style="margin-bottom: 1rem;">Talk to AutoMinds AI</h2>
+                <p style="max-width: 500px; margin: 0 auto 2rem; color: var(--text-secondary);">
+                    Not sure which service fits? Have questions about how it works? Just ask. Our AI knows everything about your codebase health.
+                </p>
+                <button class="btn btn-voice-large" onclick="startVoice('general')">
+                    <div class="voice-pulse"></div>
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                        <line x1="12" y1="19" x2="12" y2="23"/>
+                        <line x1="8" y1="23" x2="16" y2="23"/>
+                    </svg>
+                    Start a Conversation
+                </button>
+                <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);">
+                    Powered by ElevenLabs voice AI — natural conversation, not a chatbot
+                </p>
             </div>
         </div>
     </section>
@@ -383,8 +444,8 @@
                 style="max-width: 800px; margin: 0 auto; background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%); border: 1px solid var(--border); padding: 3rem; border-radius: 2px;">
                 <blockquote
                     style="font-size: 1.25rem; font-weight: 400; line-height: 1.6; color: var(--text-primary); margin: 0; font-family: 'Inter', sans-serif;">
-                    "It's like having a senior dev that only does the work nobody wants to do — 
-                    dependency updates, security patches, dead code cleanup — and does it <em>perfectly</em>, at 3am."
+                    "I told their AI to scan my repo, and 2 minutes later it found 3 critical CVEs I'd been sitting on for months.
+                    Then it fixed them. I just merged the PR."
                 </blockquote>
                 <div style="margin-top: 2rem; display: flex; align-items: center; justify-content: center; gap: 1rem;">
                     <div style="color: var(--text-secondary); font-size: 0.9rem;">— What our first clients will say</div>
@@ -396,7 +457,7 @@
     <!-- Footer -->
     <footer id="contact">
         <div class="container">
-            <p><span class="status-pulse"></span> &copy; 2026 AutoMinds LLC. AI Dev Team for Modern Codebases.</p>
+            <p><span class="status-pulse"></span> &copy; 2025 AutoMinds LLC. AI Dev Team for Modern Codebases.</p>
             <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">
                 <a href="mailto:admin@autominds.org" style="color: var(--text-secondary);">admin@autominds.org</a> &nbsp;|&nbsp;
                 <a href="https://calendly.com/admin-autominds/30min" style="color: var(--text-secondary);">Book a Demo</a> &nbsp;|&nbsp;
@@ -408,8 +469,9 @@
     <script src="js/background-paths.js"></script>
     <script src="js/payment.js"></script>
     <script src="js/scan.js"></script>
+    <script src="js/voice.js"></script>
 
-    <!-- AutoMinds AI Voice Agent (ElevenLabs) -->
+    <!-- ElevenLabs Conversational AI (widget triggered by voice buttons) -->
     <elevenlabs-convai agent-id="agent_2001khceanyje7t93re8wsyf59m9"></elevenlabs-convai>
     <script src="https://unpkg.com/@elevenlabs/convai-widget-embed" async type="text/javascript"></script>
 </body>
