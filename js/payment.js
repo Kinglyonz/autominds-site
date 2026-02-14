@@ -15,8 +15,8 @@ const CHECKOUT_API = '/api/checkout';
  * @param {string} [repoUrl] - Optional repo URL to pre-fill onboarding
  */
 async function startCheckout(plan, repoUrl) {
-    // Show loading state on the clicked button
-    const btn = event?.target;
+    // Get the button that triggered the checkout - pass event from onclick
+    const btn = document.querySelector(`[onclick*="startCheckout('${plan}')"]`);
     const originalText = btn?.textContent;
     if (btn) {
         btn.disabled = true;

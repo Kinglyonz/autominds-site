@@ -10,33 +10,34 @@
  * For devteam plan: executes arbitrary dev tasks (features, bugs, refactors)
  */
 
+const { handlePreflight, setCors, validateRepoUrl } = require('./_cors');
+
 const WARP_API_BASE = 'https://app.warp.dev/api/v1';
 const WARP_API_KEY = process.env.WARP_API_KEY;
 const WARP_ENVIRONMENT_ID = process.env.WARP_ENVIRONMENT_ID;
 
 module.exports = async function handler(req, res) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-    if (req.method === 'OPTIONS') return res.status(200).end();
+    if (handlePreflight(req, res)) return;
+    setCors(req, res);
     if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
     try {
         const { repo_url, plan, task } = req.body;
 
-        if (!repo_url) {
-            return res.status(400).json({ error: 'repo_url is required' });
+        const validation = validateRepoUrl(repo_url);
+        if (!validation.valid) {
+            return res.status(400).json({ error: validation.error });
         }
 
-        const repoSlug = repo_url.replace('https://github.com/', '');
+        const repoSlug = validation.slug;
+        const safeUrl = validation.url;
         console.log(`[autofix] Starting ${plan || 'maintenance'} run for ${repoSlug}`);
 
         let prompt;
         if (plan === 'devteam' && task) {
-            prompt = buildDevTeamPrompt(repo_url, repoSlug, task);
+            prompt = buildDevTeamPrompt(safeUrl, repoSlug, task);
         } else {
-            prompt = buildMaintenancePrompt(repo_url, repoSlug);
+            prompt = buildMaintenancePrompt(safeUrl, repoSlug);
         }
 
         // Trigger Warp Oz agent

@@ -11,6 +11,7 @@
 
 let widgetReady = false;
 let widgetActive = false;
+let watchIntervalId = null;
 
 /**
  * Start voice — just opens the ElevenLabs widget.
@@ -83,8 +84,11 @@ function watchWidgetState() {
     const widget = document.querySelector('elevenlabs-convai');
     if (!widget) return;
 
+    // Clear any existing interval to prevent leaks
+    if (watchIntervalId) clearInterval(watchIntervalId);
+
     // Poll the widget's shadow DOM for disconnect state
-    setInterval(() => {
+    watchIntervalId = setInterval(() => {
         if (!widgetActive || !widget.shadowRoot) return;
 
         // Check if there's an "End" button (means call is active)

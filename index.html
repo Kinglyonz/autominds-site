@@ -36,6 +36,7 @@
                     </svg>
                     Talk to AI
                 </button>
+                <div id="nav-github-auth"></div>
             </div>
         </div>
     </nav>
@@ -100,6 +101,18 @@
             </div>
 
             <div class="scan-card">
+                <!-- GitHub Connect -->
+                <div id="scan-github-auth" class="scan-github-auth"></div>
+
+                <!-- Repo Picker (shown when signed in) -->
+                <div id="repo-picker-wrapper" class="repo-picker-wrapper" style="display: none;">
+                    <label for="repo-select" class="repo-picker-label">Your Repositories</label>
+                    <select id="repo-select" class="repo-select">
+                        <option value="">Pick a repo to scan...</option>
+                    </select>
+                    <div class="repo-picker-divider"><span>or paste a URL</span></div>
+                </div>
+
                 <form id="scan-form" class="scan-form">
                     <div class="scan-input-wrapper">
                         <span class="scan-icon">
@@ -470,6 +483,7 @@
     </footer>
 
     <script src="js/background-paths.js"></script>
+    <script src="js/github.js"></script>
     <script src="js/payment.js"></script>
     <script src="js/scan.js"></script>
     <script src="js/voice.js"></script>

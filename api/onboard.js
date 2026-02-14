@@ -7,26 +7,27 @@
  * Body: { repo_url, email, slack, priorities, session_id, timestamp }
  */
 
+const { handlePreflight, setCors, validateRepoUrl } = require('./_cors');
+
 const WARP_API_BASE = 'https://app.warp.dev/api/v1';
 const WARP_API_KEY = process.env.WARP_API_KEY;
 const WARP_ENVIRONMENT_ID = process.env.WARP_ENVIRONMENT_ID;
 
 module.exports = async function handler(req, res) {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
-    if (req.method === 'OPTIONS') return res.status(200).end();
+    if (handlePreflight(req, res)) return;
+    setCors(req, res);
     if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
     try {
         const { repo_url, email, slack, priorities, session_id, timestamp } = req.body;
 
-        if (!repo_url) {
-            return res.status(400).json({ error: 'repo_url is required' });
+        const validation = validateRepoUrl(repo_url);
+        if (!validation.valid) {
+            return res.status(400).json({ error: validation.error });
         }
 
-        const repoSlug = repo_url.replace('https://github.com/', '');
+        const repoSlug = validation.slug;
+        const safeUrl = validation.url;
 
         // Log the onboarding (visible in Vercel Function Logs)
         console.log('=== NEW CUSTOMER ONBOARDING ===');
@@ -41,7 +42,7 @@ module.exports = async function handler(req, res) {
         // Auto-trigger first maintenance scan via Warp Oz
         let firstScanId = null;
         try {
-            firstScanId = await triggerFirstScan(repo_url, repoSlug);
+            firstScanId = await triggerFirstScan(safeUrl, repoSlug);
             console.log(`[onboard] First scan triggered: ${firstScanId}`);
         } catch (scanErr) {
             console.error(`[onboard] First scan failed to start: ${scanErr.message}`);
