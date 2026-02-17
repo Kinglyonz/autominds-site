@@ -4,479 +4,188 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoMinds | AI Email Agent — Try Free</title>
-    <meta name="description" content="AI-powered email assistant that triages, summarizes, and drafts replies. Try it free — no sign-up required.">
+    <title>AutoMinds | AI Email Agent</title>
+    <meta name="description" content="AI-powered email assistant that reads your real inbox, triages, summarizes, and drafts replies. Connect Gmail or try the demo free.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="logo_white.svg">
     <style>
         :root {
-            --bg-primary: #0a0a0a;
-            --bg-secondary: #111111;
-            --bg-card: rgba(255, 255, 255, 0.03);
-            --text-primary: #f5f5f5;
-            --text-secondary: rgba(255, 255, 255, 0.6);
-            --text-muted: rgba(255, 255, 255, 0.35);
+            --bg: #0a0a0a;
+            --bg2: #111111;
+            --bg3: rgba(255,255,255,0.03);
+            --text: #f5f5f5;
+            --text2: rgba(255,255,255,0.6);
+            --text3: rgba(255,255,255,0.35);
             --accent: #3B82F6;
-            --accent-green: #22c55e;
-            --accent-purple: #A855F7;
-            --accent-red: #ef4444;
-            --accent-orange: #ff9900;
-            --border: rgba(255, 255, 255, 0.08);
-            --border-strong: rgba(255, 255, 255, 0.15);
-            --font-body: 'Inter', -apple-system, sans-serif;
-            --font-heading: 'Space Grotesk', sans-serif;
-            --font-mono: 'JetBrains Mono', monospace;
-            --radius: 12px;
-            --radius-sm: 8px;
+            --green: #22c55e;
+            --purple: #A855F7;
+            --red: #ef4444;
+            --orange: #ff9900;
+            --border: rgba(255,255,255,0.08);
+            --border2: rgba(255,255,255,0.15);
+            --font: 'Inter', -apple-system, sans-serif;
+            --heading: 'Space Grotesk', sans-serif;
+            --mono: 'JetBrains Mono', monospace;
+            --r: 12px;
+            --rs: 8px;
         }
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+        body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh}
 
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+        /* ─── Nav ─────────────────────────────────────────────── */
+        .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;border-bottom:1px solid var(--border);background:rgba(10,10,10,.85);backdrop-filter:blur(16px);position:sticky;top:0;z-index:50}
+        .nav-left{display:flex;align-items:center;gap:12px}
+        .nav-logo{width:32px;height:32px}
+        .nav-brand{font-family:var(--heading);font-size:18px;font-weight:700;color:var(--text);text-decoration:none}
+        .nav-badge{font-size:11px;padding:3px 10px;border-radius:20px;background:linear-gradient(135deg,var(--purple),var(--accent));color:#fff;font-weight:600}
+        .nav-right{display:flex;align-items:center;gap:12px}
+        .nav-link{font-size:13px;color:var(--text3);text-decoration:none;padding:6px 12px;border:1px solid var(--border);border-radius:var(--rs);transition:all .2s}
+        .nav-link:hover{border-color:var(--border2);color:var(--text2)}
+        .btn-book{font-size:13px;padding:7px 16px;border-radius:var(--rs);border:none;background:linear-gradient(135deg,var(--purple),var(--accent));color:#fff;font-weight:600;cursor:pointer;text-decoration:none;transition:opacity .2s}
+        .btn-book:hover{opacity:.9}
 
-        body {
-            font-family: var(--font-body);
-            background: var(--bg-primary);
-            color: var(--text-primary);
-            min-height: 100vh;
-        }
+        /* ─── Status ──────────────────────────────────────────── */
+        .status-bar{max-width:960px;margin:0 auto;padding:16px 24px 0}
+        .status-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500}
+        .status-pill.online{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+        .status-pill.offline{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}
+        .status-dot{width:6px;height:6px;border-radius:50%;background:currentColor;animation:pulse 2s ease-in-out infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-        /* ─── Nav ─────────────────────────────────────────────────────── */
-        .topbar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 16px 32px;
-            border-bottom: 1px solid var(--border);
-            background: rgba(10, 10, 10, 0.85);
-            backdrop-filter: blur(16px);
-            position: sticky;
-            top: 0;
-            z-index: 50;
-        }
+        /* ─── Mode Switcher ───────────────────────────────────── */
+        .container{max-width:960px;margin:0 auto;padding:0 24px}
+        .mode-hero{text-align:center;padding:48px 0 32px}
+        .mode-hero h1{font-family:var(--heading);font-size:32px;font-weight:700;margin-bottom:10px;line-height:1.15}
+        .mode-hero h1 span{background:linear-gradient(135deg,var(--purple),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .mode-hero p{color:var(--text2);font-size:15px;max-width:500px;margin:0 auto}
 
-        .topbar-left { display: flex; align-items: center; gap: 12px; }
-        .topbar-logo { width: 32px; height: 32px; }
-        .topbar-brand {
-            font-family: var(--font-heading);
-            font-size: 18px;
-            font-weight: 700;
-            color: var(--text-primary);
-            text-decoration: none;
-        }
-        .topbar-badge {
-            font-size: 11px;
-            padding: 3px 10px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent));
-            color: white;
-            font-weight: 600;
-        }
-        .topbar-right { display: flex; align-items: center; gap: 12px; }
-        .topbar-link {
-            font-size: 13px;
-            color: var(--text-muted);
-            text-decoration: none;
-            padding: 6px 12px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            transition: all 0.2s;
-        }
-        .topbar-link:hover {
-            border-color: var(--border-strong);
-            color: var(--text-secondary);
-        }
-        .btn-upgrade {
-            font-size: 13px;
-            padding: 7px 16px;
-            border-radius: var(--radius-sm);
-            border: none;
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent));
-            color: white;
-            font-weight: 600;
-            cursor: pointer;
-            text-decoration: none;
-            transition: opacity 0.2s;
-        }
-        .btn-upgrade:hover { opacity: 0.9; }
+        .mode-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px}
+        .mode-card{padding:28px 24px;border:2px solid var(--border);border-radius:var(--r);background:var(--bg2);cursor:pointer;transition:all .2s;text-align:center}
+        .mode-card:hover{border-color:var(--border2);background:rgba(255,255,255,.04)}
+        .mode-card.active{border-color:var(--purple);background:rgba(168,85,247,.06)}
+        .mode-icon{font-size:40px;margin-bottom:12px}
+        .mode-title{font-weight:700;font-size:16px;margin-bottom:4px}
+        .mode-desc{font-size:13px;color:var(--text3);line-height:1.5}
+        .mode-tag{display:inline-block;margin-top:10px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
+        .tag-free{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.25)}
+        .tag-full{background:rgba(168,85,247,.1);color:var(--purple);border:1px solid rgba(168,85,247,.25)}
 
-        /* ─── Hero ────────────────────────────────────────────────────── */
-        .hero {
-            text-align: center;
-            padding: 60px 24px 40px;
-            max-width: 720px;
-            margin: 0 auto;
-        }
-        .hero-icon { font-size: 56px; margin-bottom: 20px; }
-        .hero h1 {
-            font-family: var(--font-heading);
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 12px;
-            line-height: 1.15;
-        }
-        .hero h1 span {
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .hero p {
-            color: var(--text-secondary);
-            font-size: 16px;
-            line-height: 1.6;
-            max-width: 520px;
-            margin: 0 auto 24px;
-        }
-        .free-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 14px;
-            border-radius: 20px;
-            background: rgba(34, 197, 94, 0.1);
-            border: 1px solid rgba(34, 197, 94, 0.25);
-            color: var(--accent-green);
-            font-size: 13px;
-            font-weight: 600;
-        }
+        /* ─── Panel: shared card style ────────────────────────── */
+        .panel{border:1px solid var(--border);border-radius:16px;background:var(--bg2);overflow:hidden;margin-bottom:40px;display:none}
+        .panel.visible{display:block}
 
-        /* ─── Status indicator ────────────────────────────────────────── */
-        .status-bar {
-            max-width: 860px;
-            margin: 0 auto 20px;
-            padding: 0 24px;
-        }
-        .status-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 12px;
-            font-weight: 500;
-        }
-        .status-pill.online {
-            background: rgba(34,197,94,0.1);
-            color: var(--accent-green);
-            border: 1px solid rgba(34,197,94,0.2);
-        }
-        .status-pill.offline {
-            background: rgba(239,68,68,0.1);
-            color: var(--accent-red);
-            border: 1px solid rgba(239,68,68,0.2);
-        }
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: currentColor;
-            animation: pulse 2s ease-in-out infinite;
-        }
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.4; }
-        }
+        /* ─── Demo Panel ──────────────────────────────────────── */
+        .demo-tabs{display:flex;border-bottom:1px solid var(--border)}
+        .demo-tab{flex:1;padding:14px 16px;background:none;border:none;color:var(--text3);font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;border-bottom:2px solid transparent}
+        .demo-tab:hover{color:var(--text2);background:rgba(255,255,255,.02)}
+        .demo-tab.active{color:var(--purple);border-bottom-color:var(--purple);background:rgba(168,85,247,.05)}
+        .demo-body{padding:24px}
+        .demo-label{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:8px;display:block}
+        .demo-textarea{width:100%;min-height:140px;padding:16px;border:1px solid var(--border);border-radius:var(--rs);background:rgba(255,255,255,.02);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.6;resize:vertical;outline:none;transition:border-color .2s}
+        .demo-textarea:focus{border-color:var(--purple)}
+        .demo-textarea::placeholder{color:var(--text3)}
+        .demo-actions{display:flex;align-items:center;justify-content:space-between;margin-top:16px;gap:12px}
 
-        /* ─── Demo Section ────────────────────────────────────────────── */
-        .demo-section {
-            max-width: 860px;
-            margin: 0 auto;
-            padding: 0 24px 60px;
-        }
+        /* ─── Gmail Panel ─────────────────────────────────────── */
+        .gmail-connect{text-align:center;padding:60px 24px}
+        .gmail-connect-icon{font-size:56px;margin-bottom:20px}
+        .gmail-connect h2{font-family:var(--heading);font-size:24px;font-weight:700;margin-bottom:8px}
+        .gmail-connect p{color:var(--text2);font-size:14px;max-width:400px;margin:0 auto 24px;line-height:1.6}
+        .gmail-perms{text-align:left;max-width:340px;margin:0 auto 24px;font-size:13px;color:var(--text3)}
+        .gmail-perms li{margin-bottom:6px;list-style:none;padding-left:20px;position:relative}
+        .gmail-perms li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:700}
 
-        .demo-card {
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            background: var(--bg-secondary);
-            overflow: hidden;
-        }
+        .gmail-dashboard{display:none}
+        .gmail-dashboard.visible{display:block}
+        .gmail-header{padding:24px;border-bottom:1px solid var(--border)}
+        .gmail-greeting{font-family:var(--heading);font-size:22px;font-weight:700;margin-bottom:4px}
+        .gmail-status{font-size:13px;color:var(--text2)}
+        .gmail-status .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:6px}
+        .gmail-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:20px 24px;border-bottom:1px solid var(--border)}
+        .gmail-action{padding:16px;border:1px solid var(--border);border-radius:var(--rs);background:var(--bg3);cursor:pointer;transition:all .2s;text-align:center}
+        .gmail-action:hover{border-color:var(--border2);background:rgba(255,255,255,.05);transform:translateY(-2px)}
+        .gmail-action.active{border-color:var(--purple);background:rgba(168,85,247,.08)}
+        .gmail-action-icon{font-size:24px;margin-bottom:8px}
+        .gmail-action-title{font-weight:600;font-size:13px;margin-bottom:2px}
+        .gmail-action-desc{font-size:11px;color:var(--text3)}
+        .gmail-results{padding:24px;min-height:200px}
+        .gmail-disconnect{position:absolute;right:24px;top:24px;font-size:12px;color:var(--text3);background:none;border:1px solid var(--border);border-radius:var(--rs);padding:5px 12px;cursor:pointer;transition:all .2s}
+        .gmail-disconnect:hover{color:var(--red);border-color:rgba(239,68,68,.3)}
 
-        .demo-tabs {
-            display: flex;
-            border-bottom: 1px solid var(--border);
-        }
-        .demo-tab {
-            flex: 1;
-            padding: 14px 16px;
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-family: var(--font-body);
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-            border-bottom: 2px solid transparent;
-        }
-        .demo-tab:hover { color: var(--text-secondary); background: rgba(255,255,255,0.02); }
-        .demo-tab.active {
-            color: var(--accent-purple);
-            border-bottom-color: var(--accent-purple);
-            background: rgba(168, 85, 247, 0.05);
-        }
+        /* ─── Shared result styles ────────────────────────────── */
+        .run-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:var(--rs);border:none;background:linear-gradient(135deg,var(--purple),var(--accent));color:#fff;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
+        .run-btn:hover{opacity:.9;transform:translateY(-1px)}
+        .run-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+        .example-btn{font-size:13px;color:var(--text3);background:none;border:1px solid var(--border);border-radius:var(--rs);padding:8px 14px;cursor:pointer;transition:all .2s}
+        .example-btn:hover{border-color:var(--border2);color:var(--text2)}
 
-        .demo-body { padding: 24px; }
+        .result-area{margin-top:24px;border-top:1px solid var(--border);padding-top:24px;display:none}
+        .result-area.visible{display:block}
+        .result-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+        .result-title{font-weight:600;font-size:15px}
+        .result-time{font-size:12px;color:var(--text3);font-family:var(--mono)}
+        .result-body{font-size:14px;line-height:1.8;color:var(--text2);white-space:pre-wrap;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:var(--rs);padding:20px}
+        .loading-box{text-align:center;padding:40px 20px;color:var(--text3)}
+        .spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--purple);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
+        @keyframes spin{to{transform:rotate(360deg)}}
 
-        .demo-input-label {
-            font-size: 13px;
-            font-weight: 600;
-            color: var(--text-secondary);
-            margin-bottom: 8px;
-            display: block;
-        }
+        /* Email cards */
+        .email-card{padding:14px 16px;border:1px solid var(--border);border-radius:var(--rs);margin-bottom:10px;transition:border-color .2s}
+        .email-card:hover{border-color:var(--border2)}
+        .email-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+        .email-from{font-weight:600;font-size:14px}
+        .badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px}
+        .badge.URGENT{background:rgba(239,68,68,.15);color:var(--red)}
+        .badge.IMPORTANT{background:rgba(255,153,0,.15);color:var(--orange)}
+        .badge.FYI{background:rgba(59,130,246,.15);color:var(--accent)}
+        .badge.SPAM{background:rgba(255,255,255,.05);color:var(--text3)}
+        .email-subject{font-size:13px;margin-bottom:4px}
+        .email-snippet{font-size:13px;color:var(--text3);line-height:1.5}
+        .email-reason{font-size:12px;color:var(--text2);margin-top:6px;font-style:italic}
 
-        .demo-textarea {
-            width: 100%;
-            min-height: 140px;
-            padding: 16px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            background: rgba(255, 255, 255, 0.02);
-            color: var(--text-primary);
-            font-family: var(--font-body);
-            font-size: 14px;
-            line-height: 1.6;
-            resize: vertical;
-            outline: none;
-            transition: border-color 0.2s;
-        }
-        .demo-textarea:focus { border-color: var(--accent-purple); }
-        .demo-textarea::placeholder { color: var(--text-muted); }
+        /* ─── CTA ─────────────────────────────────────────────── */
+        .cta{max-width:960px;margin:0 auto;padding:0 24px 80px}
+        .cta-card{border:1px solid var(--border);border-radius:16px;padding:48px 32px;text-align:center;background:linear-gradient(180deg,rgba(168,85,247,.05),rgba(59,130,246,.03))}
+        .cta-card h2{font-family:var(--heading);font-size:22px;font-weight:700;margin-bottom:10px}
+        .cta-card p{color:var(--text2);font-size:14px;max-width:460px;margin:0 auto 24px;line-height:1.6}
+        .cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+        .cta-primary{padding:12px 28px;border-radius:var(--rs);border:none;background:linear-gradient(135deg,var(--purple),var(--accent));color:#fff;font-weight:600;font-size:14px;cursor:pointer;text-decoration:none}
+        .cta-primary:hover{opacity:.9}
+        .cta-secondary{padding:12px 28px;border-radius:var(--rs);border:1px solid var(--border);background:none;color:var(--text2);font-weight:600;font-size:14px;text-decoration:none}
+        .cta-secondary:hover{border-color:var(--border2);color:var(--text)}
 
-        .demo-actions {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 16px;
-            gap: 12px;
-        }
+        /* ─── Footer ──────────────────────────────────────────── */
+        .footer{border-top:1px solid var(--border);padding:24px 32px;text-align:center;font-size:13px;color:var(--text3)}
+        .footer a{color:var(--text2);text-decoration:none}
 
-        .demo-run-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 24px;
-            border-radius: var(--radius-sm);
-            border: none;
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent));
-            color: white;
-            font-family: var(--font-body);
-            font-size: 14px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .demo-run-btn:hover { opacity: 0.9; transform: translateY(-1px); }
-        .demo-run-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
-
-        .demo-example-btn {
-            font-size: 13px;
-            color: var(--text-muted);
-            background: none;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 8px 14px;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .demo-example-btn:hover { border-color: var(--border-strong); color: var(--text-secondary); }
-
-        .demo-result {
-            margin-top: 24px;
-            border-top: 1px solid var(--border);
-            padding-top: 24px;
-            display: none;
-        }
-        .demo-result.visible { display: block; }
-
-        .demo-result-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 16px;
-        }
-        .demo-result-title {
-            font-weight: 600;
-            font-size: 15px;
-            color: var(--text-primary);
-        }
-        .demo-result-time {
-            font-size: 12px;
-            color: var(--text-muted);
-            font-family: var(--font-mono);
-        }
-
-        .demo-result-body {
-            font-size: 14px;
-            line-height: 1.8;
-            color: var(--text-secondary);
-            white-space: pre-wrap;
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            padding: 20px;
-        }
-
-        .demo-loading {
-            text-align: center;
-            padding: 40px 20px;
-            color: var(--text-muted);
-        }
-        .demo-loading .spinner {
-            width: 28px;
-            height: 28px;
-            border: 3px solid var(--border);
-            border-top-color: var(--accent-purple);
-            border-radius: 50%;
-            animation: spin 0.8s linear infinite;
-            margin: 0 auto 12px;
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-
-        /* Triage cards */
-        .triage-card {
-            padding: 14px 16px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            margin-bottom: 10px;
-        }
-        .triage-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
-        .triage-from { font-weight: 600; font-size: 14px; }
-        .triage-badge {
-            font-size: 11px;
-            font-weight: 700;
-            padding: 3px 10px;
-            border-radius: 20px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        .triage-badge.URGENT { background: rgba(239,68,68,0.15); color: var(--accent-red); }
-        .triage-badge.IMPORTANT { background: rgba(255,153,0,0.15); color: var(--accent-orange); }
-        .triage-badge.FYI { background: rgba(59,130,246,0.15); color: var(--accent); }
-        .triage-badge.SPAM { background: rgba(255,255,255,0.05); color: var(--text-muted); }
-        .triage-subject { font-size: 13px; margin-bottom: 4px; }
-        .triage-reason { font-size: 12px; color: var(--text-muted); font-style: italic; }
-
-        /* ─── CTA Section ─────────────────────────────────────────────── */
-        .cta-section {
-            max-width: 860px;
-            margin: 0 auto;
-            padding: 0 24px 80px;
-        }
-        .cta-card {
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 48px 32px;
-            text-align: center;
-            background: linear-gradient(180deg, rgba(168,85,247,0.05) 0%, rgba(59,130,246,0.03) 100%);
-        }
-        .cta-card h2 {
-            font-family: var(--font-heading);
-            font-size: 24px;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        .cta-card p {
-            color: var(--text-secondary);
-            font-size: 15px;
-            max-width: 480px;
-            margin: 0 auto 24px;
-            line-height: 1.6;
-        }
-        .cta-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            margin-top: 32px;
-            text-align: left;
-        }
-        .cta-feature {
-            padding: 16px;
-            border: 1px solid var(--border);
-            border-radius: var(--radius-sm);
-            background: rgba(255, 255, 255, 0.02);
-        }
-        .cta-feature-icon { font-size: 24px; margin-bottom: 8px; }
-        .cta-feature-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
-        .cta-feature-desc { font-size: 13px; color: var(--text-muted); }
-
-        .cta-buttons { display: flex; gap: 12px; justify-content: center; margin-top: 28px; flex-wrap: wrap; }
-        .cta-btn-primary {
-            padding: 12px 28px;
-            border-radius: var(--radius-sm);
-            border: none;
-            background: linear-gradient(135deg, var(--accent-purple), var(--accent));
-            color: white;
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: opacity 0.2s;
-        }
-        .cta-btn-primary:hover { opacity: 0.9; }
-        .cta-btn-secondary {
-            padding: 12px 28px;
-            border-radius: var(--radius-sm);
-            border: 1px solid var(--border);
-            background: none;
-            color: var(--text-secondary);
-            font-weight: 600;
-            font-size: 14px;
-            cursor: pointer;
-            text-decoration: none;
-            transition: all 0.2s;
-        }
-        .cta-btn-secondary:hover { border-color: var(--border-strong); color: var(--text-primary); }
-
-        /* ─── Footer ──────────────────────────────────────────────────── */
-        .footer {
-            border-top: 1px solid var(--border);
-            padding: 24px 32px;
-            text-align: center;
-            font-size: 13px;
-            color: var(--text-muted);
-        }
-        .footer a { color: var(--text-secondary); text-decoration: none; }
-
-        @media (max-width: 600px) {
-            .topbar { padding: 12px 16px; }
-            .hero { padding: 40px 16px 24px; }
-            .hero h1 { font-size: 28px; }
-            .demo-section, .cta-section { padding-left: 16px; padding-right: 16px; }
-            .demo-tabs { flex-wrap: wrap; }
-            .demo-actions { flex-direction: column; }
-            .cta-buttons { flex-direction: column; align-items: center; }
+        @media(max-width:640px){
+            .nav{padding:12px 16px}
+            .mode-cards{grid-template-columns:1fr}
+            .gmail-actions{grid-template-columns:1fr 1fr}
+            .demo-actions{flex-direction:column}
+            .cta-btns{flex-direction:column;align-items:center}
         }
     </style>
 </head>
 
 <body>
     <!-- Nav -->
-    <div class="topbar">
-        <div class="topbar-left">
-            <img src="logo_white.svg" alt="AutoMinds" class="topbar-logo">
-            <a href="index.html" class="topbar-brand">AutoMinds</a>
-            <span class="topbar-badge">Email Agent</span>
+    <div class="nav">
+        <div class="nav-left">
+            <img src="logo_white.svg" alt="AutoMinds" class="nav-logo">
+            <a href="index.html" class="nav-brand">AutoMinds</a>
+            <span class="nav-badge">Email Agent</span>
         </div>
-        <div class="topbar-right">
-            <a href="index.html" class="topbar-link">← Home</a>
-            <a href="https://calendly.com/admin-autominds/30min" class="btn-upgrade" target="_blank">Book a Demo</a>
+        <div class="nav-right">
+            <a href="index.html" class="nav-link">&larr; Home</a>
+            <a href="https://calendly.com/admin-autominds/30min" class="btn-book" target="_blank">Book a Demo</a>
         </div>
     </div>
 
-    <!-- Hero -->
-    <section class="hero">
-        <div class="hero-icon">📧</div>
-        <h1>Your AI <span>Email Assistant</span></h1>
-        <p>Paste any email below and watch our AI instantly triage, summarize, and draft a reply. No sign-up required.</p>
-        <div class="free-badge">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-            Free to try — no account needed
-        </div>
-    </section>
-
-    <!-- Status bar -->
+    <!-- Status -->
     <div class="status-bar" id="statusBar">
         <span class="status-pill" id="statusPill">
             <span class="status-dot"></span>
@@ -484,247 +193,425 @@
         </span>
     </div>
 
-    <!-- Demo Card -->
-    <section class="demo-section">
-        <div class="demo-card">
+    <div class="container">
+        <!-- Hero -->
+        <div class="mode-hero">
+            <h1>AI <span>Email Agent</span></h1>
+            <p>Connect your Gmail and let AI handle your inbox &mdash; or paste an email to try it instantly.</p>
+        </div>
+
+        <!-- Mode Selection -->
+        <div class="mode-cards">
+            <div class="mode-card active" id="modeGmail" onclick="setMode('gmail')">
+                <div class="mode-icon">📬</div>
+                <div class="mode-title">Connect Gmail</div>
+                <div class="mode-desc">Sign in with your real email. AI reads, triages, and drafts replies from your actual inbox.</div>
+                <span class="mode-tag tag-full">FULL AGENT</span>
+            </div>
+            <div class="mode-card" id="modeDemo" onclick="setMode('demo')">
+                <div class="mode-icon">⚡</div>
+                <div class="mode-title">Quick Demo</div>
+                <div class="mode-desc">Paste any email text and see the AI analyze it instantly. No sign-up needed.</div>
+                <span class="mode-tag tag-free">FREE DEMO</span>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════════
+             GMAIL PANEL
+             ══════════════════════════════════════════════════════ -->
+        <div class="panel visible" id="panelGmail">
+            <!-- Connect state -->
+            <div class="gmail-connect" id="gmailConnect">
+                <div class="gmail-connect-icon">📧</div>
+                <h2>Connect Your Gmail</h2>
+                <p>Sign in with Google to let the AI agent work with your real inbox. We only read emails &mdash; we never store them.</p>
+                <ul class="gmail-perms">
+                    <li>Read your inbox to triage &amp; summarize</li>
+                    <li>Draft replies (you always review first)</li>
+                    <li>Surface urgent items automatically</li>
+                    <li>Your data is never stored or shared</li>
+                </ul>
+                <a class="run-btn" id="gmailConnectBtn" href="/api/email-proxy?action=gmail-auth">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                        <polyline points="22,6 12,13 2,6"/>
+                    </svg>
+                    Connect Gmail Account
+                </a>
+            </div>
+
+            <!-- Dashboard state (after connected) -->
+            <div class="gmail-dashboard" id="gmailDashboard" style="position:relative">
+                <button class="gmail-disconnect" onclick="disconnectGmail()">Disconnect Gmail</button>
+                <div class="gmail-header">
+                    <div class="gmail-greeting" id="gmailGreeting">Your Inbox</div>
+                    <div class="gmail-status"><span class="dot"></span>Gmail connected &middot; AI ready</div>
+                </div>
+
+                <div class="gmail-actions">
+                    <div class="gmail-action" onclick="runGmailAction('triage')" id="ga-triage">
+                        <div class="gmail-action-icon">🏷️</div>
+                        <div class="gmail-action-title">Triage</div>
+                        <div class="gmail-action-desc">Categorize by priority</div>
+                    </div>
+                    <div class="gmail-action" onclick="runGmailAction('summarize')" id="ga-summarize">
+                        <div class="gmail-action-icon">📝</div>
+                        <div class="gmail-action-title">Summarize</div>
+                        <div class="gmail-action-desc">Quick inbox overview</div>
+                    </div>
+                    <div class="gmail-action" onclick="runGmailAction('priorities')" id="ga-priorities">
+                        <div class="gmail-action-icon">🔥</div>
+                        <div class="gmail-action-title">Priorities</div>
+                        <div class="gmail-action-desc">Urgent items only</div>
+                    </div>
+                    <div class="gmail-action" onclick="runGmailAction('draft')" id="ga-draft">
+                        <div class="gmail-action-icon">✍️</div>
+                        <div class="gmail-action-title">Draft Reply</div>
+                        <div class="gmail-action-desc">AI-written response</div>
+                    </div>
+                </div>
+
+                <div class="gmail-results" id="gmailResults">
+                    <div style="text-align:center;padding:40px;color:var(--text3)">
+                        Select an action above to analyze your inbox with AI.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════════
+             DEMO PANEL
+             ══════════════════════════════════════════════════════ -->
+        <div class="panel" id="panelDemo">
             <div class="demo-tabs">
                 <button class="demo-tab active" onclick="switchTab('analyze')" id="tab-analyze">Full Analysis</button>
                 <button class="demo-tab" onclick="switchTab('triage')" id="tab-triage">Triage</button>
                 <button class="demo-tab" onclick="switchTab('summarize')" id="tab-summarize">Summarize</button>
                 <button class="demo-tab" onclick="switchTab('draft')" id="tab-draft">Draft Reply</button>
             </div>
-
             <div class="demo-body">
-                <label class="demo-input-label">Paste an email below</label>
-                <textarea class="demo-textarea" id="emailInput" placeholder="From: jane@example.com&#10;Subject: Q1 Budget Review Meeting&#10;&#10;Hi,&#10;&#10;Can we schedule a meeting this week to review the Q1 budget numbers? I noticed a few discrepancies in the marketing spend that we need to address before the board presentation on Friday.&#10;&#10;Let me know your availability.&#10;&#10;Best,&#10;Jane"></textarea>
-
+                <label class="demo-label">Paste an email below</label>
+                <textarea class="demo-textarea" id="emailInput" placeholder="From: jane@example.com&#10;Subject: Q1 Budget Review Meeting&#10;&#10;Hi,&#10;&#10;Can we schedule a meeting this week to review the Q1 budget numbers?&#10;&#10;Best,&#10;Jane"></textarea>
                 <div class="demo-actions">
-                    <button class="demo-run-btn" onclick="runDemo()" id="runBtn">
+                    <button class="run-btn" onclick="runDemo()" id="demoRunBtn">
                         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                         Analyze with AI
                     </button>
-                    <button class="demo-example-btn" onclick="loadExample()">Load example email</button>
+                    <button class="example-btn" onclick="loadExample()">Load example email</button>
                 </div>
-
-                <div class="demo-result" id="demoResult">
-                    <div class="demo-result-header">
-                        <span class="demo-result-title" id="resultTitle">AI Analysis</span>
-                        <span class="demo-result-time" id="resultTime"></span>
+                <div class="result-area" id="demoResult">
+                    <div class="result-header">
+                        <span class="result-title" id="demoResultTitle">AI Analysis</span>
+                        <span class="result-time" id="demoResultTime"></span>
                     </div>
-                    <div class="demo-result-body" id="resultBody"></div>
+                    <div class="result-body" id="demoResultBody"></div>
                 </div>
             </div>
         </div>
-    </section>
-
-    <!-- CTA -->
-    <section class="cta-section">
-        <div class="cta-card">
-            <h2>Want this for your entire inbox?</h2>
-            <p>We build custom AI solutions for businesses. Email is just the beginning — we can automate any workflow your business needs.</p>
-
-            <div class="cta-grid">
-                <div class="cta-feature">
-                    <div class="cta-feature-icon">📬</div>
-                    <div class="cta-feature-title">Email Automation</div>
-                    <div class="cta-feature-desc">Auto-triage, daily briefings, and AI-drafted replies for your entire inbox</div>
-                </div>
-                <div class="cta-feature">
-                    <div class="cta-feature-icon">📊</div>
-                    <div class="cta-feature-title">Custom AI Agents</div>
-                    <div class="cta-feature-desc">We build AI solutions tailored to your specific business workflows</div>
-                </div>
-                <div class="cta-feature">
-                    <div class="cta-feature-icon">🔗</div>
-                    <div class="cta-feature-title">System Integration</div>
-                    <div class="cta-feature-desc">Connect your Google Drive, CRM, Slack, and more to AI</div>
-                </div>
-                <div class="cta-feature">
-                    <div class="cta-feature-icon">🤖</div>
-                    <div class="cta-feature-title">24/7 AI Team</div>
-                    <div class="cta-feature-desc">Your AI agents work around the clock — never call in sick</div>
-                </div>
-            </div>
-
-            <div class="cta-buttons">
-                <a href="https://calendly.com/admin-autominds/30min" class="cta-btn-primary" target="_blank">Book a Free Consultation →</a>
-                <a href="mailto:admin@autominds.org" class="cta-btn-secondary">admin@autominds.org</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- Footer -->
-    <div class="footer">
-        &copy; 2025 AutoMinds LLC · <a href="mailto:admin@autominds.org">admin@autominds.org</a> · Custom AI Solutions for Business
     </div>
 
+    <!-- CTA -->
+    <div class="cta">
+        <div class="cta-card">
+            <h2>Need more than email?</h2>
+            <p>We build custom AI agents for any business workflow &mdash; sales, operations, customer service, data analysis. Email is just the beginning.</p>
+            <div class="cta-btns">
+                <a href="https://calendly.com/admin-autominds/30min" target="_blank" class="cta-primary">Book a Free Consultation &rarr;</a>
+                <a href="mailto:admin@autominds.org" class="cta-secondary">admin@autominds.org</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">&copy; 2025 AutoMinds LLC &middot; <a href="mailto:admin@autominds.org">admin@autominds.org</a> &middot; Custom AI Solutions for Business</div>
+
     <script>
-        // ─── Config ─────────────────────────────────────────────────────
-        const API_PROXY = '/api/email-proxy';
-        const HEALTH_URL = '/api/email-proxy?action=health';
+    // ═══════════════════════════════════════════════════════════
+    // Config
+    // ═══════════════════════════════════════════════════════════
+    var API = '/api/email-proxy';
 
-        // ─── State ──────────────────────────────────────────────────────
-        let currentTab = 'analyze';
-
-        // ─── Health Check ───────────────────────────────────────────────
-        async function checkHealth() {
-            const pill = document.getElementById('statusPill');
-            const text = document.getElementById('statusText');
-            try {
-                const resp = await fetch(HEALTH_URL);
-                const data = await resp.json();
-                if (data.status === 'ok') {
-                    pill.className = 'status-pill online';
-                    text.textContent = 'AI Online — ' + (data.model || 'ready');
-                } else {
-                    pill.className = 'status-pill offline';
-                    text.textContent = 'AI agent starting up...';
-                }
-            } catch {
+    // ═══════════════════════════════════════════════════════════
+    // Health check
+    // ═══════════════════════════════════════════════════════════
+    (function checkHealth() {
+        fetch(API + '?action=health').then(function(r){return r.json()}).then(function(d){
+            var pill = document.getElementById('statusPill');
+            var txt = document.getElementById('statusText');
+            if (d.status === 'ok') {
+                pill.className = 'status-pill online';
+                txt.textContent = 'AI Online — ' + (d.model || 'ready');
+            } else {
                 pill.className = 'status-pill offline';
-                text.textContent = 'AI agent connecting...';
+                txt.textContent = 'AI starting up...';
+            }
+        }).catch(function(){
+            document.getElementById('statusPill').className = 'status-pill offline';
+            document.getElementById('statusText').textContent = 'Connecting...';
+        });
+    })();
+
+    // ═══════════════════════════════════════════════════════════
+    // Mode switcher
+    // ═══════════════════════════════════════════════════════════
+    var currentMode = 'gmail';
+
+    function setMode(mode) {
+        currentMode = mode;
+        document.getElementById('modeGmail').className = 'mode-card' + (mode === 'gmail' ? ' active' : '');
+        document.getElementById('modeDemo').className = 'mode-card' + (mode === 'demo' ? ' active' : '');
+        document.getElementById('panelGmail').className = 'panel' + (mode === 'gmail' ? ' visible' : '');
+        document.getElementById('panelDemo').className = 'panel' + (mode === 'demo' ? ' visible' : '');
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // Gmail OAuth flow
+    // ═══════════════════════════════════════════════════════════
+    function initGmail() {
+        // Check for OAuth callback tokens in URL hash
+        if (window.location.hash.indexOf('gmail_tokens=') !== -1) {
+            try {
+                var match = window.location.hash.match(/gmail_tokens=([^&]+)/);
+                if (match) {
+                    var tokens = JSON.parse(decodeURIComponent(match[1]));
+                    localStorage.setItem('autominds_gmail', JSON.stringify(tokens));
+                    // Clean the URL
+                    history.replaceState(null, '', window.location.pathname);
+                }
+            } catch (e) {
+                console.error('Gmail token parse error:', e);
             }
         }
-        checkHealth();
 
-        // ─── Tabs ───────────────────────────────────────────────────────
-        function switchTab(tab) {
-            currentTab = tab;
-            document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
-            document.getElementById('tab-' + tab).classList.add('active');
+        // If tokens exist, show dashboard
+        var stored = localStorage.getItem('autominds_gmail');
+        if (stored) {
+            showGmailDashboard();
+        }
+    }
 
-            const btnLabel = {
-                analyze: 'Analyze with AI',
-                triage: 'Triage Emails',
-                summarize: 'Summarize Email',
-                draft: 'Draft Reply',
-            };
-            document.getElementById('runBtn').innerHTML =
-                '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> ' +
-                btnLabel[tab];
+    function showGmailDashboard() {
+        document.getElementById('gmailConnect').style.display = 'none';
+        document.getElementById('gmailDashboard').style.display = 'block';
+        document.getElementById('gmailDashboard').className = 'gmail-dashboard visible';
+
+        // Set greeting
+        var hour = new Date().getHours();
+        var greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
+        document.getElementById('gmailGreeting').textContent = greeting;
+
+        // Auto-switch to Gmail mode
+        setMode('gmail');
+    }
+
+    function disconnectGmail() {
+        localStorage.removeItem('autominds_gmail');
+        document.getElementById('gmailConnect').style.display = '';
+        document.getElementById('gmailDashboard').style.display = 'none';
+        document.getElementById('gmailDashboard').className = 'gmail-dashboard';
+        document.getElementById('gmailResults').innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3)">Select an action above to analyze your inbox with AI.</div>';
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // Gmail real-inbox actions
+    // ═══════════════════════════════════════════════════════════
+    var currentGmailAction = null;
+
+    function runGmailAction(action) {
+        var tokensRaw = localStorage.getItem('autominds_gmail');
+        if (!tokensRaw) { alert('Please connect Gmail first.'); return; }
+        var tokens = JSON.parse(tokensRaw);
+
+        // Highlight active
+        document.querySelectorAll('.gmail-action').forEach(function(el){ el.classList.remove('active'); });
+        document.getElementById('ga-' + action).classList.add('active');
+        currentGmailAction = action;
+
+        var out = document.getElementById('gmailResults');
+        out.innerHTML = '<div class="loading-box"><div class="spinner"></div>Reading your inbox and analyzing with AI...</div>';
+
+        var endpoint, body;
+        if (action === 'draft') {
+            // First triage to find an email, then draft reply to the first one
+            fetch(API + '?action=email/triage', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ tokens: tokens }),
+            }).then(function(r){return r.json()}).then(function(d) {
+                if (d.success && d.data.emails && d.data.emails.length > 0) {
+                    return fetch(API + '?action=email/draft', {
+                        method: 'POST',
+                        headers: {'Content-Type': 'application/json'},
+                        body: JSON.stringify({ tokens: tokens, threadId: d.data.emails[0].threadId, tone: 'professional' }),
+                    });
+                } else {
+                    throw new Error('No emails found to draft a reply for.');
+                }
+            }).then(function(r){return r.json()}).then(function(d) {
+                if (!d.success) throw new Error(d.error || 'Draft failed');
+                renderGmailResult('draft', d.data);
+            }).catch(function(e) {
+                out.innerHTML = '<div style="text-align:center;padding:40px;color:var(--red)">' + esc(e.message) + '</div>';
+            });
+            return;
         }
 
-        // ─── Example Emails ─────────────────────────────────────────────
-        const EXAMPLES = [
-            "From: sarah@techcorp.com\nSubject: URGENT: Production server down\n\nHi,\n\nOur main production server went down at 3:47 AM and we're losing approximately $5,000/hour in revenue. The DevOps team has been paged but we need all hands on deck.\n\nThe error logs show a database connection pool exhaustion. Can you check the application layer and see if there's a connection leak?\n\nThis is our highest priority right now.\n\nSarah\nVP Engineering, TechCorp",
-            "From: newsletter@marketing-weekly.com\nSubject: 10 Marketing Trends for 2026\n\nHey there,\n\nHere are this week's top marketing insights:\n1. AI-powered personalization is up 340%\n2. Short-form video continues to dominate\n3. Email marketing ROI still leads at $42 per $1 spent\n\nClick here to read the full report.\n\nBest,\nMarketing Weekly Team",
-            "From: david.chen@bigclient.com\nSubject: Re: Proposal for Q2 Partnership\n\nHi,\n\nThanks for sending over the proposal. The team reviewed it and we're very interested. We'd like to move forward but have a few questions:\n\n1. Can you do a pilot program for 30 days before we commit to the annual contract?\n2. What's the SLA for response times?\n3. Do you offer custom integrations with Salesforce?\n\nIf you can address these by Thursday, we can get this on the agenda for our Friday executive meeting.\n\nBest regards,\nDavid Chen\nHead of Operations, BigClient Inc.",
-            "From: hr@company.com\nSubject: Updated PTO Policy - Please Acknowledge\n\nDear Team,\n\nPlease review the updated PTO policy attached. Key changes:\n- Unlimited PTO replaced with 25 days/year\n- Rollover limited to 5 days\n- Blackout dates during Q4 closing\n\nPlease acknowledge receipt by clicking the link below by end of week.\n\nThank you,\nHR Department",
-        ];
+        endpoint = 'email/' + action;
+        body = { tokens: tokens };
 
-        function loadExample() {
-            const idx = Math.floor(Math.random() * EXAMPLES.length);
-            document.getElementById('emailInput').value = EXAMPLES[idx];
-            document.getElementById('emailInput').focus();
-        }
+        fetch(API + '?action=' + endpoint, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(body),
+        }).then(function(r){return r.json()}).then(function(d) {
+            if (!d.success) throw new Error(d.error || 'Request failed');
+            renderGmailResult(action, d.data);
+        }).catch(function(e) {
+            out.innerHTML = '<div style="text-align:center;padding:40px;color:var(--red)">' + esc(e.message) + '<br><br><span style="color:var(--text3);font-size:12px">Your Gmail token may have expired. Try disconnecting and reconnecting.</span></div>';
+        });
+    }
 
-        // ─── Run Demo ───────────────────────────────────────────────────
-        async function runDemo() {
-            const emailText = document.getElementById('emailInput').value.trim();
-            if (!emailText) {
-                alert('Please paste an email to analyze.');
+    function renderGmailResult(action, data) {
+        var out = document.getElementById('gmailResults');
+
+        if (action === 'triage') {
+            if (!data.categories || data.categories.length === 0) {
+                out.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3)">No unread emails to triage. Inbox zero! 🎉</div>';
                 return;
             }
-
-            const btn = document.getElementById('runBtn');
-            btn.disabled = true;
-
-            const resultDiv = document.getElementById('demoResult');
-            resultDiv.classList.add('visible');
-            document.getElementById('resultTitle').textContent = 'Processing...';
-            document.getElementById('resultTime').textContent = '';
-            document.getElementById('resultBody').innerHTML =
-                '<div class="demo-loading"><div class="spinner"></div>AI is analyzing your email...</div>';
-
-            const startTime = Date.now();
-
-            try {
-                let endpoint, body;
-
-                switch (currentTab) {
-                    case 'triage':
-                        endpoint = 'demo/triage';
-                        body = { emails: emailText };
-                        break;
-                    case 'summarize':
-                        endpoint = 'demo/summarize';
-                        body = { email: emailText };
-                        break;
-                    case 'draft':
-                        endpoint = 'demo/draft';
-                        body = { email: emailText, tone: 'professional' };
-                        break;
-                    default:
-                        endpoint = 'demo/analyze';
-                        body = { email: emailText };
-                }
-
-                const resp = await fetch(API_PROXY + '?action=' + endpoint, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(body),
-                });
-
-                const data = await resp.json();
-                const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-
-                if (!data.success) {
-                    throw new Error(data.error || 'Analysis failed');
-                }
-
-                renderResult(currentTab, data.data, elapsed);
-
-            } catch (err) {
-                document.getElementById('resultTitle').textContent = 'Error';
-                document.getElementById('resultBody').innerHTML =
-                    '<span style="color:var(--accent-red)">' + escHtml(err.message) + '</span>' +
-                    '<br><br><span style="color:var(--text-muted);font-size:12px">If this persists, our AI server may be restarting. Try again in a moment.</span>';
-            } finally {
-                btn.disabled = false;
-            }
+            out.innerHTML = '<div style="padding:0 4px">' + data.categories.map(function(c) {
+                var e = c.email || {};
+                return '<div class="email-card">' +
+                    '<div class="email-card-top"><span class="email-from">' + esc(e.from || 'Unknown') + '</span><span class="badge ' + c.category + '">' + c.category + '</span></div>' +
+                    '<div class="email-subject">' + esc(e.subject || '') + '</div>' +
+                    '<div class="email-snippet">' + esc(e.snippet || '') + '</div>' +
+                    (c.reason ? '<div class="email-reason">' + esc(c.reason) + '</div>' : '') +
+                '</div>';
+            }).join('') + '</div>';
         }
-
-        function renderResult(tab, data, elapsed) {
-            const titles = {
-                analyze: 'AI Analysis',
-                triage: 'Email Triage',
-                summarize: 'Email Summary',
-                draft: 'Drafted Reply',
-            };
-            document.getElementById('resultTitle').textContent = titles[tab];
-            document.getElementById('resultTime').textContent = elapsed + 's';
-
-            const body = document.getElementById('resultBody');
-
-            if (tab === 'triage' && data.categories && data.categories.length > 0) {
-                body.innerHTML = data.categories.map(function(c) {
-                    return '<div class="triage-card">' +
-                        '<div class="triage-card-top">' +
-                            '<span class="triage-from">' + escHtml(c.from || 'Email ' + c.index) + '</span>' +
-                            '<span class="triage-badge ' + c.category + '">' + c.category + '</span>' +
-                        '</div>' +
-                        (c.subject ? '<div class="triage-subject">' + escHtml(c.subject) + '</div>' : '') +
-                        (c.reason ? '<div class="triage-reason">' + escHtml(c.reason) + '</div>' : '') +
+        else if (action === 'summarize') {
+            out.innerHTML = '<div class="result-body" style="margin:0">' + esc(data.summary || 'No summary available.') +
+                '</div><p style="padding:16px 0 0;font-size:12px;color:var(--text3)">' + (data.emailCount || 0) + ' emails analyzed</p>';
+        }
+        else if (action === 'priorities') {
+            out.innerHTML = '<p style="padding:0 4px 16px;font-size:14px;color:var(--text2)">' + esc(data.message || '') + '</p>';
+            if (data.items && data.items.length > 0) {
+                out.innerHTML += '<div style="padding:0 4px">' + data.items.map(function(c) {
+                    var e = c.email || {};
+                    return '<div class="email-card">' +
+                        '<div class="email-card-top"><span class="email-from">' + esc(e.from || 'Unknown') + '</span><span class="badge ' + c.category + '">' + c.category + '</span></div>' +
+                        '<div class="email-subject">' + esc(e.subject || '') + '</div>' +
+                        '<div class="email-snippet">' + esc(e.snippet || '') + '</div>' +
                     '</div>';
-                }).join('');
-            } else if (tab === 'summarize') {
-                body.textContent = data.summary || 'No summary available.';
-            } else if (tab === 'draft') {
-                body.textContent = data.draft || 'No draft generated.';
-            } else if (tab === 'analyze') {
-                body.textContent = data.analysis || 'No analysis available.';
-            } else if (data.raw) {
-                body.textContent = data.raw;
-            } else {
-                body.textContent = JSON.stringify(data, null, 2);
+                }).join('') + '</div>';
             }
         }
-
-        function escHtml(str) {
-            var d = document.createElement('div');
-            d.textContent = str;
-            return d.innerHTML;
+        else if (action === 'draft') {
+            out.innerHTML = '<div class="result-body" style="margin:0">' + esc(data.draft || 'No draft generated.') +
+                '</div><p style="padding:12px 0 0;font-size:12px;color:var(--text3)">Tone: ' + (data.tone || 'professional') + '</p>';
         }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // Demo mode (paste email)
+    // ═══════════════════════════════════════════════════════════
+    var currentTab = 'analyze';
+
+    function switchTab(tab) {
+        currentTab = tab;
+        document.querySelectorAll('.demo-tab').forEach(function(t){t.classList.remove('active')});
+        document.getElementById('tab-' + tab).classList.add('active');
+        var labels = { analyze:'Analyze with AI', triage:'Triage Emails', summarize:'Summarize Email', draft:'Draft Reply' };
+        document.getElementById('demoRunBtn').innerHTML = '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> ' + labels[tab];
+    }
+
+    var EXAMPLES = [
+        "From: sarah@techcorp.com\nSubject: URGENT: Production server down\n\nHi,\n\nOur main production server went down at 3:47 AM and we're losing approximately $5,000/hour in revenue. The DevOps team has been paged but we need all hands on deck.\n\nThe error logs show a database connection pool exhaustion. Can you check the application layer and see if there's a connection leak?\n\nThis is our highest priority right now.\n\nSarah\nVP Engineering, TechCorp",
+        "From: david.chen@bigclient.com\nSubject: Re: Proposal for Q2 Partnership\n\nHi,\n\nThanks for sending over the proposal. The team reviewed it and we're very interested. We'd like to move forward but have a few questions:\n\n1. Can you do a pilot program for 30 days before we commit?\n2. What's the SLA for response times?\n3. Do you offer custom integrations with Salesforce?\n\nIf you can address these by Thursday, we can get this on the agenda for our Friday executive meeting.\n\nBest regards,\nDavid Chen\nHead of Operations, BigClient Inc.",
+        "From: newsletter@marketing-weekly.com\nSubject: 10 Marketing Trends for 2026\n\nHey there,\n\nHere are this week's top marketing insights:\n1. AI-powered personalization is up 340%\n2. Short-form video continues to dominate\n3. Email marketing ROI still leads at $42 per $1 spent\n\nClick here to read the full report.\n\nBest,\nMarketing Weekly Team",
+        "From: hr@company.com\nSubject: Updated PTO Policy - Please Acknowledge\n\nDear Team,\n\nPlease review the updated PTO policy. Key changes:\n- Unlimited PTO replaced with 25 days/year\n- Rollover limited to 5 days\n- Blackout dates during Q4 closing\n\nPlease acknowledge receipt by end of week.\n\nThank you,\nHR Department",
+    ];
+
+    function loadExample() {
+        var idx = Math.floor(Math.random() * EXAMPLES.length);
+        document.getElementById('emailInput').value = EXAMPLES[idx];
+        document.getElementById('emailInput').focus();
+    }
+
+    function runDemo() {
+        var text = document.getElementById('emailInput').value.trim();
+        if (!text) { alert('Please paste an email to analyze.'); return; }
+
+        var btn = document.getElementById('demoRunBtn');
+        btn.disabled = true;
+
+        var rd = document.getElementById('demoResult');
+        rd.classList.add('visible');
+        document.getElementById('demoResultTitle').textContent = 'Processing...';
+        document.getElementById('demoResultTime').textContent = '';
+        document.getElementById('demoResultBody').innerHTML = '<div class="loading-box"><div class="spinner"></div>AI is analyzing your email...</div>';
+
+        var t0 = Date.now();
+        var endpoint, body;
+        switch (currentTab) {
+            case 'triage': endpoint='demo/triage'; body={emails:text}; break;
+            case 'summarize': endpoint='demo/summarize'; body={email:text}; break;
+            case 'draft': endpoint='demo/draft'; body={email:text,tone:'professional'}; break;
+            default: endpoint='demo/analyze'; body={email:text};
+        }
+
+        fetch(API + '?action=' + endpoint, {
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(body),
+        }).then(function(r){return r.json()}).then(function(d) {
+            var elapsed = ((Date.now()-t0)/1000).toFixed(1);
+            if (!d.success) throw new Error(d.error || 'Analysis failed');
+            renderDemoResult(currentTab, d.data, elapsed);
+        }).catch(function(e) {
+            document.getElementById('demoResultTitle').textContent = 'Error';
+            document.getElementById('demoResultBody').innerHTML = '<span style="color:var(--red)">' + esc(e.message) + '</span><br><br><span style="color:var(--text3);font-size:12px">If this persists, the AI server may be restarting. Try again in a moment.</span>';
+        }).finally(function() {
+            btn.disabled = false;
+        });
+    }
+
+    function renderDemoResult(tab, data, elapsed) {
+        var titles = { analyze:'AI Analysis', triage:'Email Triage', summarize:'Email Summary', draft:'Drafted Reply' };
+        document.getElementById('demoResultTitle').textContent = titles[tab];
+        document.getElementById('demoResultTime').textContent = elapsed + 's';
+        var body = document.getElementById('demoResultBody');
+
+        if (tab === 'triage' && data.categories && data.categories.length > 0) {
+            body.innerHTML = data.categories.map(function(c){
+                return '<div class="email-card">' +
+                    '<div class="email-card-top"><span class="email-from">' + esc(c.from || 'Email ' + c.index) + '</span><span class="badge ' + c.category + '">' + c.category + '</span></div>' +
+                    (c.subject ? '<div class="email-subject">' + esc(c.subject) + '</div>' : '') +
+                    (c.reason ? '<div class="email-reason">' + esc(c.reason) + '</div>' : '') +
+                '</div>';
+            }).join('');
+        } else if (tab === 'summarize') {
+            body.textContent = data.summary || 'No summary.';
+        } else if (tab === 'draft') {
+            body.textContent = data.draft || 'No draft.';
+        } else if (tab === 'analyze') {
+            body.textContent = data.analysis || 'No analysis.';
+        } else if (data.raw) {
+            body.textContent = data.raw;
+        } else {
+            body.textContent = JSON.stringify(data, null, 2);
+        }
+    }
+
+    // ═══════════════════════════════════════════════════════════
+    // Utility
+    // ═══════════════════════════════════════════════════════════
+    function esc(s) { var d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+
+    // ═══════════════════════════════════════════════════════════
+    // Init
+    // ═══════════════════════════════════════════════════════════
+    initGmail();
     </script>
 </body>
 

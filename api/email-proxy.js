@@ -27,6 +27,11 @@ module.exports = async function handler(req, res) {
     }
   }
 
+  // Gmail OAuth — redirect user to VPS /auth/gmail which sends them to Google
+  if (action === 'gmail-auth') {
+    return res.redirect(302, `${VPS_URL}/auth/gmail`);
+  }
+
   const targetUrl = `${VPS_URL}/api/${action}`;
 
   try {
