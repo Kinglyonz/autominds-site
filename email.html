@@ -4,19 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AutoMinds | AI Email Agent</title>
-    <meta name="description" content="Talk to your AI email assistant. Connect Gmail and ask questions about your inbox, get summaries, draft replies, and more.">
+    <meta name="description" content="Talk to your AI email assistant. Connect Gmail and get instant inbox insights.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="logo_white.svg">
     <style>
         :root {
-            --bg:#0a0a0a;--bg2:#111111;--bg3:#161616;--bg4:rgba(255,255,255,.03);
+            --bg:#0a0a0a;--bg2:#111111;--bg3:#161616;
             --text:#f5f5f5;--text2:rgba(255,255,255,.65);--text3:rgba(255,255,255,.35);
-            --accent:#3B82F6;--green:#22c55e;--purple:#A855F7;--red:#ef4444;--orange:#ff9900;
+            --accent:#3B82F6;--green:#22c55e;--purple:#A855F7;--red:#ef4444;
             --border:rgba(255,255,255,.08);--border2:rgba(255,255,255,.15);
             --font:'Inter',-apple-system,sans-serif;--heading:'Space Grotesk',sans-serif;--mono:'JetBrains Mono',monospace;
-            --r:12px;--rs:8px;
+            --rs:8px;
         }
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
         html{-webkit-font-smoothing:antialiased}
@@ -37,78 +37,59 @@
         .dot-off{background:var(--red)}
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-        /* ─── Layout ──────────────────────────────────────── */
-        .app{display:flex;flex:1;overflow:hidden}
+        /* Gmail pill */
+        .gmail-pill{display:flex;align-items:center;gap:6px;font-size:12px;padding:5px 12px;border-radius:20px;border:none;cursor:pointer;font-family:var(--font);font-weight:500;transition:all .2s;text-decoration:none}
+        .gmail-pill.connect{background:rgba(168,85,247,.12);color:var(--purple);border:1px solid rgba(168,85,247,.25)}
+        .gmail-pill.connect:hover{background:rgba(168,85,247,.2)}
+        .gmail-pill.connected{background:rgba(34,197,94,.08);color:var(--green);border:1px solid rgba(34,197,94,.15)}
+        .gmail-pill .pill-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
+        .gmail-wrap{position:relative}
+        .disconnect-dropdown{display:none;position:absolute;top:100%;right:0;margin-top:4px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rs);padding:4px;z-index:100;min-width:140px}
+        .disconnect-dropdown.show{display:block}
+        .disconnect-option{display:block;width:100%;padding:8px 12px;border:none;background:none;color:var(--red);font-family:var(--font);font-size:12px;cursor:pointer;text-align:left;border-radius:4px}
+        .disconnect-option:hover{background:rgba(239,68,68,.1)}
 
-        /* ─── Sidebar ─────────────────────────────────────── */
-        .sidebar{width:260px;border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;background:var(--bg2)}
-        .sidebar-header{padding:16px;border-bottom:1px solid var(--border)}
-        .sidebar-title{font-family:var(--heading);font-size:14px;font-weight:700;margin-bottom:4px}
-        .sidebar-sub{font-size:11px;color:var(--text3)}
-        .gmail-section{padding:12px 16px;border-bottom:1px solid var(--border)}
-        .gmail-btn{display:flex;align-items:center;gap:8px;width:100%;padding:10px 14px;border-radius:var(--rs);border:none;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none}
-        .gmail-connect-btn{background:linear-gradient(135deg,var(--purple),var(--accent));color:#fff}
-        .gmail-connect-btn:hover{opacity:.9}
-        .gmail-connected-btn{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2)}
-        .gmail-disconnect{font-size:11px;color:var(--text3);background:none;border:none;cursor:pointer;margin-top:6px;padding:2px 0;text-decoration:underline}
-        .gmail-disconnect:hover{color:var(--red)}
-
-        /* Quick Actions */
-        .quick-actions{padding:8px;flex:1;overflow-y:auto}
-        .qa-label{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;padding:8px 10px 4px}
-        .qa-btn{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:none;border-radius:var(--rs);background:transparent;color:var(--text2);font-family:var(--font);font-size:13px;cursor:pointer;transition:all .15s;text-align:left}
-        .qa-btn:hover{background:rgba(255,255,255,.05);color:var(--text)}
-        .qa-btn .icon{font-size:18px;width:24px;text-align:center;flex-shrink:0}
-        .qa-btn .label{flex:1}
-        .qa-divider{height:1px;background:var(--border);margin:6px 10px}
-
-        /* ─── Chat Area ───────────────────────────────────── */
-        .chat{flex:1;display:flex;flex-direction:column;overflow:hidden}
-
-        /* Messages */
-        .messages{flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:16px}
+        /* ─── Chat ────────────────────────────────────────── */
+        .chat{flex:1;display:flex;flex-direction:column;overflow:hidden;max-width:800px;margin:0 auto;width:100%}
+        .messages{flex:1;overflow-y:auto;padding:24px 20px;display:flex;flex-direction:column;gap:16px}
         .messages::-webkit-scrollbar{width:5px}
         .messages::-webkit-scrollbar-track{background:transparent}
         .messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
 
-        /* Welcome Screen */
-        .welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center}
-        .welcome-icon{font-size:56px;margin-bottom:20px}
-        .welcome h2{font-family:var(--heading);font-size:24px;font-weight:700;margin-bottom:8px}
-        .welcome p{color:var(--text2);font-size:14px;max-width:420px;line-height:1.6;margin-bottom:32px}
-        .welcome-suggestions{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:480px;width:100%}
-        .suggestion{padding:14px 16px;border:1px solid var(--border);border-radius:var(--rs);background:var(--bg3);cursor:pointer;text-align:left;transition:all .15s;font-size:13px;color:var(--text2);line-height:1.4}
-        .suggestion:hover{border-color:var(--purple);background:rgba(168,85,247,.05);color:var(--text)}
-        .suggestion .s-icon{font-size:18px;margin-bottom:6px}
-        .suggestion .s-text{display:block}
+        /* Welcome */
+        .welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px 20px;text-align:center}
+        .welcome-icon{font-size:48px;margin-bottom:16px}
+        .welcome h2{font-family:var(--heading);font-size:22px;font-weight:700;margin-bottom:6px}
+        .welcome p{color:var(--text2);font-size:14px;max-width:400px;line-height:1.6;margin-bottom:8px}
+        .welcome .scope-note{color:var(--text3);font-size:12px;margin-bottom:28px}
+        .suggestions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:520px}
+        .suggestion{padding:10px 16px;border:1px solid var(--border);border-radius:20px;background:transparent;cursor:pointer;font-size:13px;color:var(--text2);font-family:var(--font);transition:all .2s;white-space:nowrap}
+        .suggestion:hover{border-color:var(--purple);color:var(--text);background:rgba(168,85,247,.06)}
 
-        /* Message Bubble */
-        .msg{display:flex;gap:12px;max-width:720px}
+        /* Messages */
+        .msg{display:flex;gap:12px;max-width:680px;width:100%}
         .msg.user{align-self:flex-end;flex-direction:row-reverse}
-        .msg-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;margin-top:2px}
+        .msg-avatar{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;margin-top:2px}
         .msg.assistant .msg-avatar{background:linear-gradient(135deg,var(--purple),var(--accent))}
         .msg.user .msg-avatar{background:rgba(255,255,255,.1)}
-        .msg-body{padding:14px 18px;border-radius:16px;font-size:14px;line-height:1.7;max-width:600px}
+        .msg-body{padding:14px 18px;border-radius:16px;font-size:14px;line-height:1.7;max-width:580px}
         .msg.assistant .msg-body{background:var(--bg3);border:1px solid var(--border);border-top-left-radius:4px}
         .msg.user .msg-body{background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.2);border-top-right-radius:4px;color:var(--text)}
-        .msg-body p{margin-bottom:8px}
-        .msg-body p:last-child{margin-bottom:0}
+        .msg-body p{margin-bottom:8px}.msg-body p:last-child{margin-bottom:0}
         .msg-body ul,.msg-body ol{margin:8px 0;padding-left:20px}
         .msg-body li{margin-bottom:4px}
         .msg-body strong{color:var(--text);font-weight:600}
         .msg-body code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;font-family:var(--mono);font-size:12px}
         .msg-time{font-size:10px;color:var(--text3);margin-top:4px}
-
-        /* Typing indicator */
         .typing{display:flex;gap:4px;padding:12px 18px;align-items:center}
         .typing-dot{width:6px;height:6px;border-radius:50%;background:var(--text3);animation:bounce .6s ease-in-out infinite}
         .typing-dot:nth-child(2){animation-delay:.15s}
         .typing-dot:nth-child(3){animation-delay:.3s}
         @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
-        /* ─── Input Bar ───────────────────────────────────── */
-        .input-bar{padding:16px 24px;border-top:1px solid var(--border);background:var(--bg2);flex-shrink:0}
-        .input-row{display:flex;align-items:flex-end;gap:10px;max-width:720px;margin:0 auto}
+        /* Input */
+        .input-bar{padding:16px 20px;border-top:1px solid var(--border);background:var(--bg2);flex-shrink:0}
+        .input-row{display:flex;align-items:flex-end;gap:10px;max-width:680px;margin:0 auto}
         .input-wrap{flex:1;position:relative}
         .input-field{width:100%;padding:14px 18px;padding-right:44px;border:1px solid var(--border);border-radius:16px;background:var(--bg3);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.5;resize:none;outline:none;transition:border-color .2s;max-height:120px;overflow-y:auto}
         .input-field:focus{border-color:var(--purple)}
@@ -121,23 +102,15 @@
         .send-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
         .input-hint{text-align:center;font-size:11px;color:var(--text3);margin-top:8px}
 
-        /* ─── Mobile ──────────────────────────────────────── */
-        .sidebar-toggle{display:none;width:36px;height:36px;border:1px solid var(--border);border-radius:var(--rs);background:none;color:var(--text2);cursor:pointer;font-size:18px;align-items:center;justify-content:center}
-        @media(max-width:768px){
-            .sidebar{position:fixed;left:-280px;top:0;bottom:0;z-index:100;transition:left .3s;box-shadow:4px 0 20px rgba(0,0,0,.5)}
-            .sidebar.open{left:0}
-            .sidebar-toggle{display:flex}
-            .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99}
-            .sidebar-overlay.open{display:block}
-            .welcome-suggestions{grid-template-columns:1fr}
+        @media(max-width:640px){
+            .suggestions{flex-direction:column;align-items:center}
+            .nav-link{display:none}
         }
     </style>
 </head>
 <body>
-    <!-- Nav -->
     <div class="nav">
         <div class="nav-left">
-            <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
             <img src="logo_white.svg" alt="AutoMinds" class="nav-logo">
             <a href="index.html" class="nav-brand">AutoMinds</a>
             <span class="nav-badge">Email Agent</span>
@@ -147,150 +120,72 @@
                 <span class="dot dot-off" id="statusDot"></span>
                 <span id="statusText">Connecting...</span>
             </span>
+            <div class="gmail-wrap">
+                <a class="gmail-pill connect" id="gmailConnectBtn" href="/api/email-proxy?action=gmail-auth">
+                    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    Connect Gmail
+                </a>
+                <button class="gmail-pill connected" id="gmailConnectedBtn" style="display:none" onclick="toggleDisconnect()">
+                    <span class="pill-dot"></span>
+                    Gmail Connected
+                </button>
+                <div class="disconnect-dropdown" id="disconnectDropdown">
+                    <button class="disconnect-option" onclick="disconnectGmail()">Disconnect Gmail</button>
+                </div>
+            </div>
             <a href="index.html" class="nav-link">&larr; Home</a>
         </div>
     </div>
 
-    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
-
-    <div class="app">
-        <!-- Sidebar -->
-        <div class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-title">Email Agent</div>
-                <div class="sidebar-sub" id="sidebarSub">AI-powered inbox assistant</div>
-            </div>
-
-            <!-- Gmail Connection -->
-            <div class="gmail-section" id="gmailSection">
-                <a class="gmail-btn gmail-connect-btn" id="gmailConnectBtn" href="/api/email-proxy?action=gmail-auth">
-                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-                    Connect Gmail
-                </a>
-                <div id="gmailConnectedState" style="display:none">
-                    <div class="gmail-btn gmail-connected-btn">
-                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
-                        Gmail Connected
-                    </div>
-                    <button class="gmail-disconnect" onclick="disconnectGmail()">Disconnect account</button>
+    <div class="chat">
+        <div class="messages" id="messagesArea">
+            <div class="welcome" id="welcomeScreen">
+                <div class="welcome-icon">📬</div>
+                <h2>Your AI email assistant</h2>
+                <p>Connect your Gmail and ask me anything. I'll read your actual emails and give you a real answer.</p>
+                <div class="scope-note">By default I look at the last 3 days. Say "today" or "this week" for different ranges.</div>
+                <div class="suggestions">
+                    <button class="suggestion" onclick="quickAction('What\'s important today?')">What's important today?</button>
+                    <button class="suggestion" onclick="quickAction('Summarize my week')">Summarize my week</button>
+                    <button class="suggestion" onclick="quickAction('Anything I need to reply to?')">Anything I need to reply to?</button>
                 </div>
-            </div>
-
-            <!-- Quick Actions -->
-            <div class="quick-actions">
-                <div class="qa-label">Quick Actions</div>
-                <button class="qa-btn" onclick="quickAction('What\'s urgent in my inbox right now?')">
-                    <span class="icon">🔥</span><span class="label">Urgent emails</span>
-                </button>
-                <button class="qa-btn" onclick="quickAction('Give me a summary of my inbox')">
-                    <span class="icon">📝</span><span class="label">Inbox summary</span>
-                </button>
-                <button class="qa-btn" onclick="quickAction('Triage my unread emails by priority')">
-                    <span class="icon">🏷️</span><span class="label">Triage inbox</span>
-                </button>
-                <button class="qa-btn" onclick="quickAction('Give me a weekend summary of important emails I may have missed')">
-                    <span class="icon">☀️</span><span class="label">Weekend summary</span>
-                </button>
-                <button class="qa-btn" onclick="quickAction('Draft a reply to the most recent email')">
-                    <span class="icon">✍️</span><span class="label">Draft a reply</span>
-                </button>
-                <button class="qa-btn" onclick="quickAction('What emails need a response today?')">
-                    <span class="icon">⏰</span><span class="label">Needs response</span>
-                </button>
-                <div class="qa-divider"></div>
-                <div class="qa-label">More</div>
-                <button class="qa-btn" onclick="quickAction('How many unread emails do I have and who are they from?')">
-                    <span class="icon">📬</span><span class="label">Unread count</span>
-                </button>
-                <button class="qa-btn" onclick="quickAction('Are there any emails about meetings or scheduling?')">
-                    <span class="icon">📅</span><span class="label">Meeting emails</span>
-                </button>
-                <button class="qa-btn" onclick="quickAction('Which emails can I probably ignore or archive?')">
-                    <span class="icon">🗑️</span><span class="label">Safe to ignore</span>
-                </button>
             </div>
         </div>
 
-        <!-- Chat Area -->
-        <div class="chat">
-            <!-- Welcome / Messages -->
-            <div class="messages" id="messagesArea">
-                <div class="welcome" id="welcomeScreen">
-                    <div class="welcome-icon">🤖</div>
-                    <h2>Hey, I'm your email agent</h2>
-                    <p>Ask me anything about your inbox. I can triage, summarize, draft replies, and more. Connect Gmail for the full experience, or just chat.</p>
-                    <div class="welcome-suggestions">
-                        <div class="suggestion" onclick="quickAction('What\'s urgent in my inbox?')">
-                            <div class="s-icon">🔥</div>
-                            <span class="s-text">What's urgent in my inbox?</span>
-                        </div>
-                        <div class="suggestion" onclick="quickAction('Summarize my unread emails')">
-                            <div class="s-icon">📝</div>
-                            <span class="s-text">Summarize my unread emails</span>
-                        </div>
-                        <div class="suggestion" onclick="quickAction('Give me a weekend summary')">
-                            <div class="s-icon">☀️</div>
-                            <span class="s-text">Give me a weekend summary</span>
-                        </div>
-                        <div class="suggestion" onclick="quickAction('Draft a reply to my latest email')">
-                            <div class="s-icon">✍️</div>
-                            <span class="s-text">Draft a reply to my latest email</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Input -->
-            <div class="input-bar">
-                <div class="input-row">
-                    <div class="input-wrap">
-                        <textarea class="input-field" id="chatInput" placeholder="Ask about your inbox..." rows="1" onkeydown="handleKey(event)" oninput="autoGrow(this)"></textarea>
-                        <button class="mic-btn" id="micBtn" onclick="toggleVoice()" title="Voice input">
-                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-                        </button>
-                    </div>
-                    <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="Send message">
-                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        <div class="input-bar">
+            <div class="input-row">
+                <div class="input-wrap">
+                    <textarea class="input-field" id="chatInput" placeholder="Ask about your inbox..." rows="1" onkeydown="handleKey(event)" oninput="autoGrow(this)"></textarea>
+                    <button class="mic-btn" id="micBtn" onclick="toggleVoice()" title="Voice input">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
                     </button>
                 </div>
-                <div class="input-hint">Press Enter to send · Shift+Enter for new line · Click 🎤 to talk</div>
+                <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="Send message">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                </button>
             </div>
+            <div class="input-hint">Press Enter to send · Shift+Enter for new line · Click 🎤 to talk</div>
         </div>
     </div>
 
 <script>
-// ═══════════════════════════════════════════════════════════════════════════
-// Config
-// ═══════════════════════════════════════════════════════════════════════════
 var API = '/api/email-proxy';
 var chatHistory = [];
 var isProcessing = false;
 
-// ═══════════════════════════════════════════════════════════════════════════
-// Health Check
-// ═══════════════════════════════════════════════════════════════════════════
 (function checkHealth() {
     fetch(API + '?action=health').then(function(r){return r.json()}).then(function(d){
         var dot = document.getElementById('statusDot');
         var txt = document.getElementById('statusText');
-        if (d.status === 'ok') {
-            dot.className = 'dot dot-on';
-            txt.textContent = 'AI Online';
-        } else {
-            dot.className = 'dot dot-off';
-            txt.textContent = 'Starting...';
-        }
+        if (d.status === 'ok') { dot.className = 'dot dot-on'; txt.textContent = 'AI Online'; }
+        else { dot.className = 'dot dot-off'; txt.textContent = 'Starting...'; }
     }).catch(function(){
         document.getElementById('statusDot').className = 'dot dot-off';
         document.getElementById('statusText').textContent = 'Offline';
     });
 })();
 
-// ═══════════════════════════════════════════════════════════════════════════
-// Gmail OAuth
-// ═══════════════════════════════════════════════════════════════════════════
 function initGmail() {
-    // Check for callback tokens in URL hash
     if (window.location.hash.indexOf('gmail_tokens=') !== -1) {
         try {
             var match = window.location.hash.match(/gmail_tokens=([^&]+)/);
@@ -298,33 +193,36 @@ function initGmail() {
                 var tokens = JSON.parse(decodeURIComponent(match[1]));
                 localStorage.setItem('autominds_gmail', JSON.stringify(tokens));
                 history.replaceState(null, '', window.location.pathname);
-                // Show welcome message from agent
-                addMessage('assistant', "Gmail connected! 🎉 I can now see your inbox. Ask me anything — try \"What's urgent?\" or \"Summarize my emails\".");
+                addMessage('assistant', "Gmail connected! Try asking \"What's important today?\" or \"Summarize my week.\"");
             }
         } catch (e) { console.error('Token parse error:', e); }
     }
-
-    // Check URL error param
     var urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('error')) {
-        addMessage('assistant', "Sorry, I couldn't connect to Gmail. Please try again. (Error: " + urlParams.get('error') + ")");
+        addMessage('assistant', "Couldn't connect Gmail. Please try again. (" + urlParams.get('error') + ")");
         history.replaceState(null, '', window.location.pathname);
     }
-
     updateGmailUI();
 }
 
 function updateGmailUI() {
     var connected = !!localStorage.getItem('autominds_gmail');
     document.getElementById('gmailConnectBtn').style.display = connected ? 'none' : 'flex';
-    document.getElementById('gmailConnectedState').style.display = connected ? 'block' : 'none';
-    document.getElementById('sidebarSub').textContent = connected ? 'Gmail connected · AI ready' : 'Connect Gmail for full access';
+    document.getElementById('gmailConnectedBtn').style.display = connected ? 'flex' : 'none';
+}
+
+function toggleDisconnect() {
+    var dd = document.getElementById('disconnectDropdown');
+    dd.classList.toggle('show');
+    if (dd.classList.contains('show')) {
+        setTimeout(function() { document.addEventListener('click', function cl() { dd.classList.remove('show'); document.removeEventListener('click', cl); }, { once: true }); }, 10);
+    }
 }
 
 function disconnectGmail() {
     localStorage.removeItem('autominds_gmail');
     updateGmailUI();
-    addMessage('assistant', "Gmail disconnected. You can still chat with me — connect again anytime for full inbox access.");
+    addMessage('assistant', "Gmail disconnected. Connect again anytime.");
 }
 
 function getTokens() {
@@ -332,37 +230,23 @@ function getTokens() {
     return raw ? JSON.parse(raw) : null;
 }
 
-// ═══════════════════════════════════════════════════════════════════════════
-// Chat
-// ═══════════════════════════════════════════════════════════════════════════
 function sendMessage(text) {
     var input = document.getElementById('chatInput');
     var msg = text || input.value.trim();
     if (!msg || isProcessing) return;
-
-    // Hide welcome screen
     var welcome = document.getElementById('welcomeScreen');
     if (welcome) welcome.remove();
-
-    // Show user message
     addMessage('user', msg);
     input.value = '';
     input.style.height = 'auto';
-
-    // Add to history
     chatHistory.push({ role: 'user', content: msg });
-
-    // Show typing
     var typingId = showTyping();
     isProcessing = true;
     document.getElementById('sendBtn').disabled = true;
-
-    // Determine endpoint
     var tokens = getTokens();
     var endpoint = tokens ? 'email/chat' : 'demo/chat';
     var body = { message: msg, history: chatHistory.slice(-10) };
     if (tokens) body.tokens = tokens;
-
     fetch(API + '?action=' + endpoint, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -373,11 +257,11 @@ function sendMessage(text) {
             addMessage('assistant', d.data.reply);
             chatHistory.push({ role: 'assistant', content: d.data.reply });
         } else {
-            addMessage('assistant', 'Sorry, something went wrong. ' + (d.error || 'Please try again.'));
+            addMessage('assistant', 'Something went wrong. ' + (d.error || 'Try again.'));
         }
-    }).catch(function(e) {
+    }).catch(function() {
         removeTyping(typingId);
-        addMessage('assistant', "I'm having trouble connecting. The AI server may be restarting — try again in a moment.");
+        addMessage('assistant', "Connection issue — try again in a moment.");
     }).finally(function() {
         isProcessing = false;
         document.getElementById('sendBtn').disabled = false;
@@ -385,38 +269,24 @@ function sendMessage(text) {
     });
 }
 
-function quickAction(text) {
-    document.getElementById('chatInput').value = text;
-    sendMessage(text);
-    // Close sidebar on mobile
-    document.getElementById('sidebar').classList.remove('open');
-    document.getElementById('sidebarOverlay').classList.remove('open');
-}
+function quickAction(text) { document.getElementById('chatInput').value = text; sendMessage(text); }
 
 function addMessage(role, content) {
     var area = document.getElementById('messagesArea');
     var div = document.createElement('div');
     div.className = 'msg ' + role;
-
     var avatar = role === 'assistant' ? '🤖' : '👤';
-    var formatted = formatMessage(content);
-
     div.innerHTML =
         '<div class="msg-avatar">' + avatar + '</div>' +
-        '<div><div class="msg-body">' + formatted + '</div>' +
+        '<div><div class="msg-body">' + formatMessage(content) + '</div>' +
         '<div class="msg-time">' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) + '</div></div>';
-
     area.appendChild(div);
     area.scrollTop = area.scrollHeight;
 }
 
 function formatMessage(text) {
-    // Escape HTML first
-    var d = document.createElement('div');
-    d.textContent = text;
-    var escaped = d.innerHTML;
-    // Convert markdown-like formatting to HTML
-    return escaped
+    var d = document.createElement('div'); d.textContent = text; var e = d.innerHTML;
+    return e
         .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
         .replace(/^[\s]*[-•]\s+(.+)/gm, '<li>$1</li>')
         .replace(/^[\s]*(\d+)\.\s+(.+)/gm, '<li>$2</li>')
@@ -430,101 +300,34 @@ function showTyping() {
     var id = 'typing-' + (++typingCounter);
     var area = document.getElementById('messagesArea');
     var div = document.createElement('div');
-    div.className = 'msg assistant';
-    div.id = id;
-    div.innerHTML =
-        '<div class="msg-avatar">🤖</div>' +
-        '<div class="typing"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
-    area.appendChild(div);
-    area.scrollTop = area.scrollHeight;
+    div.className = 'msg assistant'; div.id = id;
+    div.innerHTML = '<div class="msg-avatar">🤖</div><div class="typing"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
+    area.appendChild(div); area.scrollTop = area.scrollHeight;
     return id;
 }
+function removeTyping(id) { var el = document.getElementById(id); if (el) el.remove(); }
 
-function removeTyping(id) {
-    var el = document.getElementById(id);
-    if (el) el.remove();
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// Voice Input (Web Speech API)
-// ═══════════════════════════════════════════════════════════════════════════
-var recognition = null;
-var isRecording = false;
-
+var recognition = null, isRecording = false;
 function initVoice() {
     var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SR) {
-        document.getElementById('micBtn').style.display = 'none';
-        return;
-    }
-    recognition = new SR();
-    recognition.continuous = false;
-    recognition.interimResults = true;
-    recognition.lang = 'en-US';
-
-    recognition.onresult = function(event) {
-        var transcript = '';
-        for (var i = event.resultIndex; i < event.results.length; i++) {
-            transcript += event.results[i][0].transcript;
-        }
-        document.getElementById('chatInput').value = transcript;
-        if (event.results[event.results.length - 1].isFinal) {
-            stopVoice();
-            if (transcript.trim()) {
-                setTimeout(function() { sendMessage(); }, 300);
-            }
-        }
+    if (!SR) { document.getElementById('micBtn').style.display = 'none'; return; }
+    recognition = new SR(); recognition.continuous = false; recognition.interimResults = true; recognition.lang = 'en-US';
+    recognition.onresult = function(ev) {
+        var t = ''; for (var i = ev.resultIndex; i < ev.results.length; i++) t += ev.results[i][0].transcript;
+        document.getElementById('chatInput').value = t;
+        if (ev.results[ev.results.length - 1].isFinal) { stopVoice(); if (t.trim()) setTimeout(function() { sendMessage(); }, 300); }
     };
-
     recognition.onerror = function() { stopVoice(); };
     recognition.onend = function() { stopVoice(); };
 }
+function toggleVoice() { isRecording ? stopVoice() : startVoice(); }
+function startVoice() { if (!recognition) return; isRecording = true; document.getElementById('micBtn').classList.add('recording'); document.getElementById('chatInput').placeholder = 'Listening...'; recognition.start(); }
+function stopVoice() { isRecording = false; document.getElementById('micBtn').classList.remove('recording'); document.getElementById('chatInput').placeholder = 'Ask about your inbox...'; if (recognition) try { recognition.stop(); } catch(e) {} }
 
-function toggleVoice() {
-    if (isRecording) { stopVoice(); } else { startVoice(); }
-}
+function handleKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
+function autoGrow(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 120) + 'px'; }
 
-function startVoice() {
-    if (!recognition) return;
-    isRecording = true;
-    document.getElementById('micBtn').classList.add('recording');
-    document.getElementById('chatInput').placeholder = 'Listening...';
-    recognition.start();
-}
-
-function stopVoice() {
-    isRecording = false;
-    document.getElementById('micBtn').classList.remove('recording');
-    document.getElementById('chatInput').placeholder = 'Ask about your inbox...';
-    if (recognition) try { recognition.stop(); } catch(e) {}
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// Input Handling
-// ═══════════════════════════════════════════════════════════════════════════
-function handleKey(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        sendMessage();
-    }
-}
-
-function autoGrow(el) {
-    el.style.height = 'auto';
-    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
-}
-
-function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
-    document.getElementById('sidebarOverlay').classList.toggle('open');
-}
-
-// ═══════════════════════════════════════════════════════════════════════════
-// Init
-// ═══════════════════════════════════════════════════════════════════════════
-initGmail();
-initVoice();
-document.getElementById('chatInput').focus();
+initGmail(); initVoice(); document.getElementById('chatInput').focus();
 </script>
 </body>
 </html>
