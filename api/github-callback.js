@@ -65,7 +65,7 @@ module.exports = async function handler(req, res) {
         }));
 
         res.writeHead(302, {
-            Location: `${proto}://${host}/#github_auth=${payload}`
+            Location: `${proto}://${host}/login.html#github_auth=${payload}`
         });
         res.end();
 

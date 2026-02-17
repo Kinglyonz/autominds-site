@@ -4,8 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AutoMinds | AI Dev Team That Never Sleeps</title>
-    <meta name="description" content="AutoMinds is your AI-powered development team. We maintain repos, review PRs, and build features — 24/7. Talk to our AI or start with a free scan.">
+    <title>AutoMinds | Custom AI Solutions for Business</title>
+    <meta name="description" content="AutoMinds builds custom AI agents for your business. Email automation, workflow intelligence, and 24/7 AI teams — tailored to your needs. Try our free email agent.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -15,6 +15,8 @@
 
 <body>
 
+    <!-- Auth Gate removed — site is public, email agent tool is the free hook -->
+
     <!-- Nav -->
     <nav class="nav">
         <div class="container nav-wrapper">
@@ -23,10 +25,10 @@
                 AutoMinds
             </a>
             <div class="nav-menu">
-                <a href="#scan" class="nav-link" style="color: #22c55e;">Free Scan</a>
+                <a href="email.html" class="nav-link" style="color: #22c55e;">Free Email Agent</a>
                 <a href="#services" class="nav-link">Services</a>
-                <a href="#pricing" class="nav-link" style="color: #0071E3;">Pricing</a>
                 <a href="#how-it-works" class="nav-link">How It Works</a>
+                <a href="https://calendly.com/admin-autominds/30min" class="nav-link" style="color: #0071E3;" target="_blank">Book a Call</a>
                 <button class="nav-voice-btn" onclick="startVoice('general')" title="Talk to AutoMinds AI">
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
@@ -37,6 +39,7 @@
                     Talk to AI
                 </button>
                 <div id="nav-github-auth"></div>
+                <div id="nav-user" style="display:flex;align-items:center;gap:8px;"></div>
             </div>
         </div>
     </nav>
@@ -47,37 +50,34 @@
     <!-- Hero -->
     <section class="hero">
         <div class="container hero-content">
-            <span class="hero-eyebrow">AI-Powered Development Team</span>
-            <h1 class="hero-title">Your Codebase.<br>Always Maintained.</h1>
+            <span class="hero-eyebrow">Custom AI Solutions for Business</span>
+            <h1 class="hero-title">Your AI Team.<br>Always Working.</h1>
             <p class="hero-subtitle">
-                AutoMinds is your 24/7 AI dev team. We maintain repos, review PRs, and build features — while you sleep.
+                AutoMinds builds custom AI agents that handle your email, workflows, and operations — 24/7. Try our free email agent and see what AI can do for your business.
             </p>
             <div class="hero-actions">
-                <a href="#scan" class="btn btn-primary">Free Repo Scan →</a>
-                <button class="btn btn-voice" onclick="startVoice('hero')">
+                <a href="email.html" class="btn btn-primary">Try Free Email Agent →</a>
+                <a href="https://calendly.com/admin-autominds/30min" class="btn btn-voice" target="_blank" style="text-decoration:none">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                        <line x1="12" y1="19" x2="12" y2="23"/>
-                        <line x1="8" y1="23" x2="16" y2="23"/>
+                        <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
                     </svg>
-                    Talk to Us Instead
-                </button>
+                    Book a Free Consultation
+                </a>
             </div>
             <div class="hero-stats">
                 <div class="stat">
-                    <span class="stat-num">Voice</span>
-                    <span class="stat-label">Talk to our AI</span>
+                    <span class="stat-num">Free</span>
+                    <span class="stat-label">Email agent demo</span>
                 </div>
                 <div class="stat-divider"></div>
                 <div class="stat">
                     <span class="stat-num">24/7</span>
-                    <span class="stat-label">Always shipping</span>
+                    <span class="stat-label">AI agents running</span>
                 </div>
                 <div class="stat-divider"></div>
                 <div class="stat">
-                    <span class="stat-num">$0</span>
-                    <span class="stat-label">To start</span>
+                    <span class="stat-num">Custom</span>
+                    <span class="stat-label">Built for you</span>
                 </div>
             </div>
         </div>
@@ -185,131 +185,98 @@
     <section id="services" class="services-section">
         <div class="container">
             <div class="section-header center-text">
-                <h2 class="section-title">Three Services. One AI Team.</h2>
-                <p>Everything your codebase needs to stay healthy, reviewed, and shipping.</p>
-                <button class="voice-cta" onclick="startVoice('services')">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                        <line x1="12" y1="19" x2="12" y2="23"/>
-                        <line x1="8" y1="23" x2="16" y2="23"/>
-                    </svg>
-                    Ask about our services
-                </button>
+                <h2 class="section-title">AI Solutions That Work While You Sleep</h2>
+                <p>From email automation to fully custom AI agents — we build what your business needs.</p>
             </div>
 
             <div class="services-grid">
-                <!-- Service 1: Repo Maintenance -->
+                <!-- Service 1: Email Agent -->
                 <div class="service-card">
                     <div class="service-number">01</div>
-                    <div class="service-badge" style="color: #3B82F6; border-color: rgba(59, 130, 246, 0.3);">AUTOMATED</div>
-                    <h3>Repo Maintenance</h3>
-                    <p class="service-price">$49<span>/mo per repo</span></p>
-                    <p class="service-desc">Your codebase on autopilot. We continuously scan, update, patch, and clean — you just merge PRs.</p>
+                    <div class="service-badge" style="color: #22c55e; border-color: rgba(34, 197, 94, 0.3);">FREE TO TRY</div>
+                    <h3>AI Email Agent</h3>
+                    <p class="service-price">Free<span> &mdash; try now</span></p>
+                    <p class="service-desc">AI that reads, triages, summarizes, and drafts replies to your emails. Paste any email and see it work instantly.</p>
                     <ul class="service-features">
                         <li>
-                            <span class="feature-icon" style="color: #3B82F6;">→</span>
-                            Dependency updates with CI testing
-                        </li>
-                        <li>
-                            <span class="feature-icon" style="color: #ef4444;">→</span>
-                            CVE detection &amp; auto-patching
-                        </li>
-                        <li>
                             <span class="feature-icon" style="color: #22c55e;">→</span>
-                            Lint, format &amp; dead code removal
+                            Instant email triage by priority
+                        </li>
+                        <li>
+                            <span class="feature-icon" style="color: #3B82F6;">→</span>
+                            Smart inbox summaries
+                        </li>
+                        <li>
+                            <span class="feature-icon" style="color: #A855F7;">→</span>
+                            AI-drafted professional replies
                         </li>
                         <li>
                             <span class="feature-icon" style="color: #ff9900;">→</span>
-                            Weekly health reports + Slack alerts
+                            Full analysis with action items
                         </li>
                     </ul>
                     <div class="service-actions">
-                        <button onclick="startCheckout('maintenance')" class="btn btn-primary">Start Maintenance →</button>
-                        <button onclick="startVoice('maintenance')" class="btn btn-voice-sm" title="Ask about maintenance">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                                <line x1="12" y1="19" x2="12" y2="23"/>
-                                <line x1="8" y1="23" x2="16" y2="23"/>
-                            </svg>
-                        </button>
+                        <a href="email.html" class="btn btn-primary" style="text-decoration:none;">Try Email Agent Free →</a>
                     </div>
                 </div>
 
-                <!-- Service 2: AI Code Reviews -->
+                <!-- Service 2: Custom AI Agents -->
                 <div class="service-card service-card-featured">
                     <div class="service-number">02</div>
-                    <div class="service-badge" style="color: #A855F7; border-color: rgba(168, 85, 247, 0.3);">NEW</div>
-                    <h3>AI Code Reviews</h3>
-                    <p class="service-price">$149<span>/mo per repo</span></p>
-                    <p class="service-desc">A senior engineer reviewing every PR — 24/7. Catches bugs, enforces standards, suggests improvements before anything hits main.</p>
+                    <div class="service-badge" style="color: #A855F7; border-color: rgba(168, 85, 247, 0.3);">POPULAR</div>
+                    <h3>Custom AI Agents</h3>
+                    <p class="service-price">Custom<span> project pricing</span></p>
+                    <p class="service-desc">We build AI agents tailored to your business. Sales, operations, customer service, data analysis — whatever workflow you need automated.</p>
                     <ul class="service-features">
                         <li>
                             <span class="feature-icon" style="color: #A855F7;">→</span>
-                            Every PR reviewed in &lt; 5 minutes
+                            AI trained on your company data
                         </li>
                         <li>
                             <span class="feature-icon" style="color: #A855F7;">→</span>
-                            Bug detection &amp; security analysis
+                            Google Drive &amp; document RAG
                         </li>
                         <li>
                             <span class="feature-icon" style="color: #A855F7;">→</span>
-                            Style &amp; architecture enforcement
+                            CRM, Slack, and tool integrations
                         </li>
                         <li>
                             <span class="feature-icon" style="color: #A855F7;">→</span>
-                            Auto-suggest tests for uncovered code
+                            Runs 24/7 on your workflows
                         </li>
                     </ul>
                     <div class="service-actions">
-                        <button onclick="startCheckout('reviews')" class="btn btn-primary" style="background: #A855F7; color: #fff;">Start Reviews →</button>
-                        <button onclick="startVoice('reviews')" class="btn btn-voice-sm" title="Ask about code reviews">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                                <line x1="12" y1="19" x2="12" y2="23"/>
-                                <line x1="8" y1="23" x2="16" y2="23"/>
-                            </svg>
-                        </button>
+                        <a href="https://calendly.com/admin-autominds/30min" target="_blank" class="btn btn-primary" style="background: #A855F7; color: #fff; text-decoration:none;">Book a Consultation →</a>
                     </div>
                 </div>
 
-                <!-- Service 3: AI Dev Team -->
+                <!-- Service 3: AI Development Team -->
                 <div class="service-card">
                     <div class="service-number">03</div>
-                    <div class="service-badge" style="color: #22c55e; border-color: rgba(34, 197, 94, 0.3);">FULL SERVICE</div>
-                    <h3>AI Dev Team</h3>
-                    <p class="service-price">$499<span>/mo unlimited repos</span></p>
-                    <p class="service-desc">Everything in Maintenance + Reviews, plus on-demand feature builds, bug fixes, and architecture reviews. File a ticket, get a PR.</p>
+                    <div class="service-badge" style="color: #3B82F6; border-color: rgba(59, 130, 246, 0.3);">FULL SERVICE</div>
+                    <h3>AI Development Team</h3>
+                    <p class="service-price">Retainer<span> monthly partnership</span></p>
+                    <p class="service-desc">We become your AI team. Strategy, development, deployment, and maintenance — an ongoing partnership to transform your business with AI.</p>
                     <ul class="service-features">
                         <li>
-                            <span class="feature-icon" style="color: #22c55e;">→</span>
-                            Ticket → PR pipeline (features &amp; bugs)
+                            <span class="feature-icon" style="color: #3B82F6;">→</span>
+                            Dedicated AI engineering team
                         </li>
                         <li>
-                            <span class="feature-icon" style="color: #22c55e;">→</span>
-                            Architecture reviews &amp; refactors
+                            <span class="feature-icon" style="color: #3B82F6;">→</span>
+                            Multiple AI agents &amp; integrations
                         </li>
                         <li>
-                            <span class="feature-icon" style="color: #22c55e;">→</span>
-                            Priority 1-hour response time
+                            <span class="feature-icon" style="color: #3B82F6;">→</span>
+                            Priority support &amp; voice standups
                         </li>
                         <li>
-                            <span class="feature-icon" style="color: #22c55e;">→</span>
-                            Dedicated Slack + voice standups
+                            <span class="feature-icon" style="color: #3B82F6;">→</span>
+                            Continuous optimization &amp; new features
                         </li>
                     </ul>
                     <div class="service-actions">
-                        <button onclick="startCheckout('devteam')" class="btn btn-primary">Start Dev Team →</button>
-                        <button onclick="startVoice('devteam')" class="btn btn-voice-sm" title="Ask about dev team">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                                <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                                <line x1="12" y1="19" x2="12" y2="23"/>
-                                <line x1="8" y1="23" x2="16" y2="23"/>
-                            </svg>
-                        </button>
+                        <a href="https://calendly.com/admin-autominds/30min" target="_blank" class="btn btn-primary" style="text-decoration:none;">Let's Talk →</a>
                     </div>
                 </div>
             </div>
@@ -319,41 +286,41 @@
     <!-- Comparison Table -->
     <section class="comparison-section">
         <div class="container">
-            <h2 class="section-title" style="text-align: center; font-size: 2rem; margin-bottom: 3rem;">AutoMinds vs. Doing It Yourself</h2>
+            <h2 class="section-title" style="text-align: center; font-size: 2rem; margin-bottom: 3rem;">AutoMinds vs. Hiring In-House</h2>
             <div style="overflow-x: auto;">
                 <table style="width: 100%; border-collapse: collapse; color: var(--text-primary);">
                     <thead>
                         <tr style="border-bottom: 1px solid var(--border);">
                             <th style="text-align: left; padding: 1rem; color: var(--text-muted);">METRIC</th>
-                            <th style="text-align: left; padding: 1rem; color: #3B82F6;">AUTOMINDS</th>
-                            <th style="text-align: left; padding: 1rem; color: var(--text-muted);">IN-HOUSE / MANUAL</th>
+                            <th style="text-align: left; padding: 1rem; color: #A855F7;">AUTOMINDS</th>
+                            <th style="text-align: left; padding: 1rem; color: var(--text-muted);">DOING IT YOURSELF</th>
                         </tr>
                     </thead>
                     <tbody style="font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;">
                         <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                            <td style="padding: 1rem;">PR review time</td>
-                            <td style="padding: 1rem; color: #22c55e;">&lt; 5 minutes</td>
-                            <td style="padding: 1rem;">Hours to days</td>
+                            <td style="padding: 1rem;">Email triage time</td>
+                            <td style="padding: 1rem; color: #22c55e;">Instant (AI)</td>
+                            <td style="padding: 1rem;">30-60 min/day</td>
                         </tr>
                         <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                            <td style="padding: 1rem;">Dependency drift</td>
-                            <td style="padding: 1rem; color: #22c55e;">Always current</td>
-                            <td style="padding: 1rem;">Months behind</td>
+                            <td style="padding: 1rem;">Custom AI agent build</td>
+                            <td style="padding: 1rem; color: #22c55e;">1-2 weeks</td>
+                            <td style="padding: 1rem;">3-6 months</td>
                         </tr>
                         <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                            <td style="padding: 1rem;">CVE patch time</td>
-                            <td style="padding: 1rem; color: #22c55e;">&lt; 1 hour</td>
-                            <td style="padding: 1rem;">Weeks (if ever)</td>
+                            <td style="padding: 1rem;">AI availability</td>
+                            <td style="padding: 1rem; color: #22c55e;">24/7/365</td>
+                            <td style="padding: 1rem;">Business hours only</td>
                         </tr>
                         <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
-                            <td style="padding: 1rem;">Code review coverage</td>
-                            <td style="padding: 1rem; color: #22c55e;">100% of PRs</td>
-                            <td style="padding: 1rem;">~60% on a good day</td>
+                            <td style="padding: 1rem;">Expertise required</td>
+                            <td style="padding: 1rem; color: #22c55e;">None — we handle it</td>
+                            <td style="padding: 1rem;">ML + DevOps + Engineering</td>
                         </tr>
                         <tr>
                             <td style="padding: 1rem;">Monthly cost</td>
-                            <td style="padding: 1rem; color: #22c55e;">From $49/mo</td>
-                            <td style="padding: 1rem;">$8,000+ (dev salary)</td>
+                            <td style="padding: 1rem; color: #22c55e;">Fraction of a hire</td>
+                            <td style="padding: 1rem;">$8,000+ (AI engineer)</td>
                         </tr>
                     </tbody>
                 </table>
@@ -368,26 +335,26 @@
                 <div class="split-col">
                     <h2 class="section-title-sm">Built For</h2>
                     <ul class="exclusive-list">
-                        <li><strong>Startups</strong> — Ship faster without hiring a full dev ops team</li>
-                        <li><strong>Agencies</strong> — Maintain client repos without the overhead</li>
-                        <li><strong>Solo Founders</strong> — Your AI CTO that never takes PTO</li>
-                        <li><strong>SMB Engineering</strong> — Extend your team without extending headcount</li>
+                        <li><strong>Small Businesses</strong> — Get AI capabilities without the enterprise price tag</li>
+                        <li><strong>Agencies &amp; Consultants</strong> — Scale your operations with AI automation</li>
+                        <li><strong>Startups</strong> — Move fast with AI handling repetitive work</li>
+                        <li><strong>Anyone Drowning in Email</strong> — Try our free email agent right now</li>
                     </ul>
                 </div>
                 <div class="split-col">
-                    <h2 class="section-title-sm">What You Keep</h2>
+                    <h2 class="section-title-sm">What We Do</h2>
                     <div class="risk-tiers">
                         <div class="risk-item">
-                            <span class="risk-label">Full Control</span>
-                            <span class="risk-desc">Every change is a PR you review and approve</span>
+                            <span class="risk-label">Email AI</span>
+                            <span class="risk-desc">Triage, summarize, and draft replies — try it free</span>
                         </div>
                         <div class="risk-item">
-                            <span class="risk-label">Your Code, Your Repo</span>
-                            <span class="risk-desc">We never store your source code — everything runs in isolated containers</span>
+                            <span class="risk-label">Custom Agents</span>
+                            <span class="risk-desc">AI trained on your data, running your workflows 24/7</span>
                         </div>
                         <div class="risk-item">
-                            <span class="risk-label highlight">Cancel Anytime</span>
-                            <span class="risk-desc">No contracts, no lock-ins. Month-to-month.</span>
+                            <span class="risk-label highlight">Full AI Team</span>
+                            <span class="risk-desc">We become your AI department — strategy to deployment</span>
                         </div>
                     </div>
                 </div>
@@ -400,51 +367,49 @@
         <div class="container">
             <div class="section-header center-text">
                 <h2 class="section-title">How It Works</h2>
-                <p>From repo scan to auto-maintained codebase in three steps.</p>
+                <p>From free trial to custom AI solutions in three steps.</p>
             </div>
             <div class="protocol-steps">
                 <div class="step">
                     <span class="step-num">01</span>
-                    <h4>Talk to Us or Scan</h4>
-                    <p>Hit the mic button and tell us about your repo — or paste a URL for a free health scan. Our AI understands your stack instantly.</p>
+                    <h4>Try the Free Email Agent</h4>
+                    <p>Paste any email and watch our AI analyze, triage, and draft a reply in seconds. See what AI can do for you — zero commitment.</p>
                 </div>
                 <div class="step-connector"></div>
                 <div class="step">
                     <span class="step-num">02</span>
-                    <h4>AI Agents Go to Work</h4>
-                    <p>Our agents continuously scan, review PRs, fix issues, and build features — all in isolated containers. Zero access to your secrets.</p>
+                    <h4>Tell Us What You Need</h4>
+                    <p>Book a free consultation. We'll learn your workflows, identify where AI saves you the most time, and propose a custom solution.</p>
                 </div>
                 <div class="step-connector"></div>
                 <div class="step">
                     <span class="step-num">03</span>
-                    <h4>Review &amp; Merge PRs</h4>
-                    <p>Every fix comes as a clean PR with tests. You review, approve, and merge. Full control, zero effort.</p>
+                    <h4>We Build &amp; Deploy Your AI</h4>
+                    <p>Our team builds custom AI agents for your business, integrates with your tools, and keeps everything running 24/7.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Voice CTA Section -->
+    <!-- CTA Section -->
     <section class="voice-section">
         <div class="container" style="text-align: center;">
             <div class="voice-hero-card">
-                <h2 class="section-title" style="margin-bottom: 1rem;">Talk to AutoMinds AI</h2>
+                <h2 class="section-title" style="margin-bottom: 1rem;">Ready to See AI Work for You?</h2>
                 <p style="max-width: 500px; margin: 0 auto 2rem; color: var(--text-secondary);">
-                    Not sure which service fits? Have questions about how it works? Just ask. Our AI knows everything about your codebase health.
+                    Try our free email agent — no sign-up needed. Then let's talk about what custom AI can do for your business.
                 </p>
-                <button class="btn btn-voice-large" onclick="startVoice('general')">
-                    <div class="voice-pulse"></div>
-                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                        <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                        <line x1="12" y1="19" x2="12" y2="23"/>
-                        <line x1="8" y1="23" x2="16" y2="23"/>
-                    </svg>
-                    Start a Conversation
-                </button>
-                <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-muted);">
-                    Powered by ElevenLabs voice AI — natural conversation, not a chatbot
-                </p>
+                <div style="display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;">
+                    <a href="email.html" class="btn btn-primary" style="text-decoration:none; padding: 14px 28px; font-size: 1rem;">
+                        Try Free Email Agent →
+                    </a>
+                    <a href="https://calendly.com/admin-autominds/30min" target="_blank" class="btn btn-voice" style="text-decoration:none; padding: 14px 28px; font-size: 1rem;">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+                        </svg>
+                        Book Free Consultation
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -459,8 +424,8 @@
                 style="max-width: 800px; margin: 0 auto; background: linear-gradient(180deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0) 100%); border: 1px solid var(--border); padding: 3rem; border-radius: 2px;">
                 <blockquote
                     style="font-size: 1.25rem; font-weight: 400; line-height: 1.6; color: var(--text-primary); margin: 0; font-family: 'Inter', sans-serif;">
-                    "I told their AI to scan my repo, and 2 minutes later it found 3 critical CVEs I'd been sitting on for months.
-                    Then it fixed them. I just merged the PR."
+                    "I pasted an email into their free tool just to see what it could do. Five seconds later it had triaged, summarized, and drafted
+                    a better reply than I would have. Now they're building custom AI for our whole sales pipeline."
                 </blockquote>
                 <div style="margin-top: 2rem; display: flex; align-items: center; justify-content: center; gap: 1rem;">
                     <div style="color: var(--text-secondary); font-size: 0.9rem;">— What our first clients will say</div>
@@ -472,7 +437,7 @@
     <!-- Footer -->
     <footer id="contact">
         <div class="container">
-            <p><span class="status-pulse"></span> &copy; 2025 AutoMinds LLC. AI Dev Team for Modern Codebases.</p>
+            <p><span class="status-pulse"></span> &copy; 2025 AutoMinds LLC. Custom AI Solutions for Business.</p>
             <p style="margin-top: 0.5rem; font-size: 0.85rem; color: var(--text-muted);">
                 <a href="mailto:admin@autominds.org" style="color: var(--text-secondary);">admin@autominds.org</a>
             </p>
@@ -487,6 +452,23 @@
     <script src="js/payment.js"></script>
     <script src="js/scan.js"></script>
     <script src="js/voice.js"></script>
+
+    <!-- User nav display + sign out -->
+    <script>
+        (function() {
+            var raw = localStorage.getItem('autominds_user');
+            if (!raw) return;
+            var u = JSON.parse(raw);
+            var el = document.getElementById('nav-user');
+            if (!el) return;
+            var avatar = u.avatar ? '<img src="' + u.avatar + '" style="width:28px;height:28px;border-radius:50%;">' : '';
+            var name = u.name || u.login || u.email || '';
+            el.innerHTML = avatar +
+                '<span style="font-size:13px;color:rgba(255,255,255,.7)">' + name + '</span>' +
+                '<button onclick="localStorage.removeItem(\'autominds_user\');location.href=\'login.html\'" ' +
+                'style="background:none;border:1px solid rgba(255,255,255,.15);color:rgba(255,255,255,.5);padding:4px 10px;border-radius:6px;font-size:12px;cursor:pointer;margin-left:4px">Sign out</button>';
+        })();
+    </script>
 
     <!-- ElevenLabs Conversational AI (widget triggered by voice buttons) -->
     <elevenlabs-convai agent-id="agent_2001khceanyje7t93re8wsyf59m9"></elevenlabs-convai>

@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AutoMinds | AI Email Agent — Try Free</title>
+    <meta name="description" content="AI-powered email assistant that triages, summarizes, and drafts replies. Try it free — no sign-up required.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="logo_white.svg">
+    <style>
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --text-primary: #f5f5f5;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --text-muted: rgba(255, 255, 255, 0.35);
+            --accent: #3B82F6;
+            --accent-green: #22c55e;
+            --accent-purple: #A855F7;
+            --accent-red: #ef4444;
+            --accent-orange: #ff9900;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-strong: rgba(255, 255, 255, 0.15);
+            --font-body: 'Inter', -apple-system, sans-serif;
+            --font-heading: 'Space Grotesk', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --radius: 12px;
+            --radius-sm: 8px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        /* ─── Nav ─────────────────────────────────────────────────────── */
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 32px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(16px);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+
+        .topbar-left { display: flex; align-items: center; gap: 12px; }
+        .topbar-logo { width: 32px; height: 32px; }
+        .topbar-brand {
+            font-family: var(--font-heading);
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        .topbar-badge {
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent));
+            color: white;
+            font-weight: 600;
+        }
+        .topbar-right { display: flex; align-items: center; gap: 12px; }
+        .topbar-link {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-decoration: none;
+            padding: 6px 12px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            transition: all 0.2s;
+        }
+        .topbar-link:hover {
+            border-color: var(--border-strong);
+            color: var(--text-secondary);
+        }
+        .btn-upgrade {
+            font-size: 13px;
+            padding: 7px 16px;
+            border-radius: var(--radius-sm);
+            border: none;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent));
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .btn-upgrade:hover { opacity: 0.9; }
+
+        /* ─── Hero ────────────────────────────────────────────────────── */
+        .hero {
+            text-align: center;
+            padding: 60px 24px 40px;
+            max-width: 720px;
+            margin: 0 auto;
+        }
+        .hero-icon { font-size: 56px; margin-bottom: 20px; }
+        .hero h1 {
+            font-family: var(--font-heading);
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.15;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.6;
+            max-width: 520px;
+            margin: 0 auto 24px;
+        }
+        .free-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 14px;
+            border-radius: 20px;
+            background: rgba(34, 197, 94, 0.1);
+            border: 1px solid rgba(34, 197, 94, 0.25);
+            color: var(--accent-green);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* ─── Status indicator ────────────────────────────────────────── */
+        .status-bar {
+            max-width: 860px;
+            margin: 0 auto 20px;
+            padding: 0 24px;
+        }
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .status-pill.online {
+            background: rgba(34,197,94,0.1);
+            color: var(--accent-green);
+            border: 1px solid rgba(34,197,94,0.2);
+        }
+        .status-pill.offline {
+            background: rgba(239,68,68,0.1);
+            color: var(--accent-red);
+            border: 1px solid rgba(239,68,68,0.2);
+        }
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: currentColor;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* ─── Demo Section ────────────────────────────────────────────── */
+        .demo-section {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 24px 60px;
+        }
+
+        .demo-card {
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            background: var(--bg-secondary);
+            overflow: hidden;
+        }
+
+        .demo-tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border);
+        }
+        .demo-tab {
+            flex: 1;
+            padding: 14px 16px;
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-family: var(--font-body);
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+        .demo-tab:hover { color: var(--text-secondary); background: rgba(255,255,255,0.02); }
+        .demo-tab.active {
+            color: var(--accent-purple);
+            border-bottom-color: var(--accent-purple);
+            background: rgba(168, 85, 247, 0.05);
+        }
+
+        .demo-body { padding: 24px; }
+
+        .demo-input-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .demo-textarea {
+            width: 100%;
+            min-height: 140px;
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 14px;
+            line-height: 1.6;
+            resize: vertical;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .demo-textarea:focus { border-color: var(--accent-purple); }
+        .demo-textarea::placeholder { color: var(--text-muted); }
+
+        .demo-actions {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 16px;
+            gap: 12px;
+        }
+
+        .demo-run-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 24px;
+            border-radius: var(--radius-sm);
+            border: none;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent));
+            color: white;
+            font-family: var(--font-body);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .demo-run-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .demo-run-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+        .demo-example-btn {
+            font-size: 13px;
+            color: var(--text-muted);
+            background: none;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 8px 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .demo-example-btn:hover { border-color: var(--border-strong); color: var(--text-secondary); }
+
+        .demo-result {
+            margin-top: 24px;
+            border-top: 1px solid var(--border);
+            padding-top: 24px;
+            display: none;
+        }
+        .demo-result.visible { display: block; }
+
+        .demo-result-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 16px;
+        }
+        .demo-result-title {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-primary);
+        }
+        .demo-result-time {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+
+        .demo-result-body {
+            font-size: 14px;
+            line-height: 1.8;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 20px;
+        }
+
+        .demo-loading {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+        .demo-loading .spinner {
+            width: 28px;
+            height: 28px;
+            border: 3px solid var(--border);
+            border-top-color: var(--accent-purple);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 12px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Triage cards */
+        .triage-card {
+            padding: 14px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            margin-bottom: 10px;
+        }
+        .triage-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+        .triage-from { font-weight: 600; font-size: 14px; }
+        .triage-badge {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 10px;
+            border-radius: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .triage-badge.URGENT { background: rgba(239,68,68,0.15); color: var(--accent-red); }
+        .triage-badge.IMPORTANT { background: rgba(255,153,0,0.15); color: var(--accent-orange); }
+        .triage-badge.FYI { background: rgba(59,130,246,0.15); color: var(--accent); }
+        .triage-badge.SPAM { background: rgba(255,255,255,0.05); color: var(--text-muted); }
+        .triage-subject { font-size: 13px; margin-bottom: 4px; }
+        .triage-reason { font-size: 12px; color: var(--text-muted); font-style: italic; }
+
+        /* ─── CTA Section ─────────────────────────────────────────────── */
+        .cta-section {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+        .cta-card {
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 48px 32px;
+            text-align: center;
+            background: linear-gradient(180deg, rgba(168,85,247,0.05) 0%, rgba(59,130,246,0.03) 100%);
+        }
+        .cta-card h2 {
+            font-family: var(--font-heading);
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .cta-card p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            max-width: 480px;
+            margin: 0 auto 24px;
+            line-height: 1.6;
+        }
+        .cta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-top: 32px;
+            text-align: left;
+        }
+        .cta-feature {
+            padding: 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .cta-feature-icon { font-size: 24px; margin-bottom: 8px; }
+        .cta-feature-title { font-weight: 600; font-size: 14px; margin-bottom: 4px; }
+        .cta-feature-desc { font-size: 13px; color: var(--text-muted); }
+
+        .cta-buttons { display: flex; gap: 12px; justify-content: center; margin-top: 28px; flex-wrap: wrap; }
+        .cta-btn-primary {
+            padding: 12px 28px;
+            border-radius: var(--radius-sm);
+            border: none;
+            background: linear-gradient(135deg, var(--accent-purple), var(--accent));
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .cta-btn-primary:hover { opacity: 0.9; }
+        .cta-btn-secondary {
+            padding: 12px 28px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+            background: none;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .cta-btn-secondary:hover { border-color: var(--border-strong); color: var(--text-primary); }
+
+        /* ─── Footer ──────────────────────────────────────────────────── */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 24px 32px;
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .footer a { color: var(--text-secondary); text-decoration: none; }
+
+        @media (max-width: 600px) {
+            .topbar { padding: 12px 16px; }
+            .hero { padding: 40px 16px 24px; }
+            .hero h1 { font-size: 28px; }
+            .demo-section, .cta-section { padding-left: 16px; padding-right: 16px; }
+            .demo-tabs { flex-wrap: wrap; }
+            .demo-actions { flex-direction: column; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Nav -->
+    <div class="topbar">
+        <div class="topbar-left">
+            <img src="logo_white.svg" alt="AutoMinds" class="topbar-logo">
+            <a href="index.html" class="topbar-brand">AutoMinds</a>
+            <span class="topbar-badge">Email Agent</span>
+        </div>
+        <div class="topbar-right">
+            <a href="index.html" class="topbar-link">← Home</a>
+            <a href="https://calendly.com/admin-autominds/30min" class="btn-upgrade" target="_blank">Book a Demo</a>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-icon">📧</div>
+        <h1>Your AI <span>Email Assistant</span></h1>
+        <p>Paste any email below and watch our AI instantly triage, summarize, and draft a reply. No sign-up required.</p>
+        <div class="free-badge">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            Free to try — no account needed
+        </div>
+    </section>
+
+    <!-- Status bar -->
+    <div class="status-bar" id="statusBar">
+        <span class="status-pill" id="statusPill">
+            <span class="status-dot"></span>
+            <span id="statusText">Checking AI status...</span>
+        </span>
+    </div>
+
+    <!-- Demo Card -->
+    <section class="demo-section">
+        <div class="demo-card">
+            <div class="demo-tabs">
+                <button class="demo-tab active" onclick="switchTab('analyze')" id="tab-analyze">Full Analysis</button>
+                <button class="demo-tab" onclick="switchTab('triage')" id="tab-triage">Triage</button>
+                <button class="demo-tab" onclick="switchTab('summarize')" id="tab-summarize">Summarize</button>
+                <button class="demo-tab" onclick="switchTab('draft')" id="tab-draft">Draft Reply</button>
+            </div>
+
+            <div class="demo-body">
+                <label class="demo-input-label">Paste an email below</label>
+                <textarea class="demo-textarea" id="emailInput" placeholder="From: jane@example.com&#10;Subject: Q1 Budget Review Meeting&#10;&#10;Hi,&#10;&#10;Can we schedule a meeting this week to review the Q1 budget numbers? I noticed a few discrepancies in the marketing spend that we need to address before the board presentation on Friday.&#10;&#10;Let me know your availability.&#10;&#10;Best,&#10;Jane"></textarea>
+
+                <div class="demo-actions">
+                    <button class="demo-run-btn" onclick="runDemo()" id="runBtn">
+                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                        Analyze with AI
+                    </button>
+                    <button class="demo-example-btn" onclick="loadExample()">Load example email</button>
+                </div>
+
+                <div class="demo-result" id="demoResult">
+                    <div class="demo-result-header">
+                        <span class="demo-result-title" id="resultTitle">AI Analysis</span>
+                        <span class="demo-result-time" id="resultTime"></span>
+                    </div>
+                    <div class="demo-result-body" id="resultBody"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="cta-card">
+            <h2>Want this for your entire inbox?</h2>
+            <p>We build custom AI solutions for businesses. Email is just the beginning — we can automate any workflow your business needs.</p>
+
+            <div class="cta-grid">
+                <div class="cta-feature">
+                    <div class="cta-feature-icon">📬</div>
+                    <div class="cta-feature-title">Email Automation</div>
+                    <div class="cta-feature-desc">Auto-triage, daily briefings, and AI-drafted replies for your entire inbox</div>
+                </div>
+                <div class="cta-feature">
+                    <div class="cta-feature-icon">📊</div>
+                    <div class="cta-feature-title">Custom AI Agents</div>
+                    <div class="cta-feature-desc">We build AI solutions tailored to your specific business workflows</div>
+                </div>
+                <div class="cta-feature">
+                    <div class="cta-feature-icon">🔗</div>
+                    <div class="cta-feature-title">System Integration</div>
+                    <div class="cta-feature-desc">Connect your Google Drive, CRM, Slack, and more to AI</div>
+                </div>
+                <div class="cta-feature">
+                    <div class="cta-feature-icon">🤖</div>
+                    <div class="cta-feature-title">24/7 AI Team</div>
+                    <div class="cta-feature-desc">Your AI agents work around the clock — never call in sick</div>
+                </div>
+            </div>
+
+            <div class="cta-buttons">
+                <a href="https://calendly.com/admin-autominds/30min" class="cta-btn-primary" target="_blank">Book a Free Consultation →</a>
+                <a href="mailto:admin@autominds.org" class="cta-btn-secondary">admin@autominds.org</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <div class="footer">
+        &copy; 2025 AutoMinds LLC · <a href="mailto:admin@autominds.org">admin@autominds.org</a> · Custom AI Solutions for Business
+    </div>
+
+    <script>
+        // ─── Config ─────────────────────────────────────────────────────
+        const API_PROXY = '/api/email-proxy';
+        const HEALTH_URL = '/api/email-health';
+
+        // ─── State ──────────────────────────────────────────────────────
+        let currentTab = 'analyze';
+
+        // ─── Health Check ───────────────────────────────────────────────
+        async function checkHealth() {
+            const pill = document.getElementById('statusPill');
+            const text = document.getElementById('statusText');
+            try {
+                const resp = await fetch(HEALTH_URL);
+                const data = await resp.json();
+                if (data.status === 'ok') {
+                    pill.className = 'status-pill online';
+                    text.textContent = 'AI Online — ' + (data.model || 'ready');
+                } else {
+                    pill.className = 'status-pill offline';
+                    text.textContent = 'AI agent starting up...';
+                }
+            } catch {
+                pill.className = 'status-pill offline';
+                text.textContent = 'AI agent connecting...';
+            }
+        }
+        checkHealth();
+
+        // ─── Tabs ───────────────────────────────────────────────────────
+        function switchTab(tab) {
+            currentTab = tab;
+            document.querySelectorAll('.demo-tab').forEach(t => t.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+
+            const btnLabel = {
+                analyze: 'Analyze with AI',
+                triage: 'Triage Emails',
+                summarize: 'Summarize Email',
+                draft: 'Draft Reply',
+            };
+            document.getElementById('runBtn').innerHTML =
+                '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> ' +
+                btnLabel[tab];
+        }
+
+        // ─── Example Emails ─────────────────────────────────────────────
+        const EXAMPLES = [
+            "From: sarah@techcorp.com\nSubject: URGENT: Production server down\n\nHi,\n\nOur main production server went down at 3:47 AM and we're losing approximately $5,000/hour in revenue. The DevOps team has been paged but we need all hands on deck.\n\nThe error logs show a database connection pool exhaustion. Can you check the application layer and see if there's a connection leak?\n\nThis is our highest priority right now.\n\nSarah\nVP Engineering, TechCorp",
+            "From: newsletter@marketing-weekly.com\nSubject: 10 Marketing Trends for 2026\n\nHey there,\n\nHere are this week's top marketing insights:\n1. AI-powered personalization is up 340%\n2. Short-form video continues to dominate\n3. Email marketing ROI still leads at $42 per $1 spent\n\nClick here to read the full report.\n\nBest,\nMarketing Weekly Team",
+            "From: david.chen@bigclient.com\nSubject: Re: Proposal for Q2 Partnership\n\nHi,\n\nThanks for sending over the proposal. The team reviewed it and we're very interested. We'd like to move forward but have a few questions:\n\n1. Can you do a pilot program for 30 days before we commit to the annual contract?\n2. What's the SLA for response times?\n3. Do you offer custom integrations with Salesforce?\n\nIf you can address these by Thursday, we can get this on the agenda for our Friday executive meeting.\n\nBest regards,\nDavid Chen\nHead of Operations, BigClient Inc.",
+            "From: hr@company.com\nSubject: Updated PTO Policy - Please Acknowledge\n\nDear Team,\n\nPlease review the updated PTO policy attached. Key changes:\n- Unlimited PTO replaced with 25 days/year\n- Rollover limited to 5 days\n- Blackout dates during Q4 closing\n\nPlease acknowledge receipt by clicking the link below by end of week.\n\nThank you,\nHR Department",
+        ];
+
+        function loadExample() {
+            const idx = Math.floor(Math.random() * EXAMPLES.length);
+            document.getElementById('emailInput').value = EXAMPLES[idx];
+            document.getElementById('emailInput').focus();
+        }
+
+        // ─── Run Demo ───────────────────────────────────────────────────
+        async function runDemo() {
+            const emailText = document.getElementById('emailInput').value.trim();
+            if (!emailText) {
+                alert('Please paste an email to analyze.');
+                return;
+            }
+
+            const btn = document.getElementById('runBtn');
+            btn.disabled = true;
+
+            const resultDiv = document.getElementById('demoResult');
+            resultDiv.classList.add('visible');
+            document.getElementById('resultTitle').textContent = 'Processing...';
+            document.getElementById('resultTime').textContent = '';
+            document.getElementById('resultBody').innerHTML =
+                '<div class="demo-loading"><div class="spinner"></div>AI is analyzing your email...</div>';
+
+            const startTime = Date.now();
+
+            try {
+                let endpoint, body;
+
+                switch (currentTab) {
+                    case 'triage':
+                        endpoint = 'demo/triage';
+                        body = { emails: emailText };
+                        break;
+                    case 'summarize':
+                        endpoint = 'demo/summarize';
+                        body = { email: emailText };
+                        break;
+                    case 'draft':
+                        endpoint = 'demo/draft';
+                        body = { email: emailText, tone: 'professional' };
+                        break;
+                    default:
+                        endpoint = 'demo/analyze';
+                        body = { email: emailText };
+                }
+
+                const resp = await fetch(API_PROXY + '?action=' + endpoint, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(body),
+                });
+
+                const data = await resp.json();
+                const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
+
+                if (!data.success) {
+                    throw new Error(data.error || 'Analysis failed');
+                }
+
+                renderResult(currentTab, data.data, elapsed);
+
+            } catch (err) {
+                document.getElementById('resultTitle').textContent = 'Error';
+                document.getElementById('resultBody').innerHTML =
+                    '<span style="color:var(--accent-red)">' + escHtml(err.message) + '</span>' +
+                    '<br><br><span style="color:var(--text-muted);font-size:12px">If this persists, our AI server may be restarting. Try again in a moment.</span>';
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        function renderResult(tab, data, elapsed) {
+            const titles = {
+                analyze: 'AI Analysis',
+                triage: 'Email Triage',
+                summarize: 'Email Summary',
+                draft: 'Drafted Reply',
+            };
+            document.getElementById('resultTitle').textContent = titles[tab];
+            document.getElementById('resultTime').textContent = elapsed + 's';
+
+            const body = document.getElementById('resultBody');
+
+            if (tab === 'triage' && data.categories && data.categories.length > 0) {
+                body.innerHTML = data.categories.map(function(c) {
+                    return '<div class="triage-card">' +
+                        '<div class="triage-card-top">' +
+                            '<span class="triage-from">' + escHtml(c.from || 'Email ' + c.index) + '</span>' +
+                            '<span class="triage-badge ' + c.category + '">' + c.category + '</span>' +
+                        '</div>' +
+                        (c.subject ? '<div class="triage-subject">' + escHtml(c.subject) + '</div>' : '') +
+                        (c.reason ? '<div class="triage-reason">' + escHtml(c.reason) + '</div>' : '') +
+                    '</div>';
+                }).join('');
+            } else if (tab === 'summarize') {
+                body.textContent = data.summary || 'No summary available.';
+            } else if (tab === 'draft') {
+                body.textContent = data.draft || 'No draft generated.';
+            } else if (tab === 'analyze') {
+                body.textContent = data.analysis || 'No analysis available.';
+            } else if (data.raw) {
+                body.textContent = data.raw;
+            } else {
+                body.textContent = JSON.stringify(data, null, 2);
+            }
+        }
+
+        function escHtml(str) {
+            var d = document.createElement('div');
+            d.textContent = str;
+            return d.innerHTML;
+        }
+    </script>
+</body>
+
+</html>
