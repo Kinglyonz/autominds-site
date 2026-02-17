@@ -2,6 +2,10 @@
     "version": 2,
     "cleanUrls": true,
     "trailingSlash": false,
+    "functions": {
+        "api/email-proxy.js": { "maxDuration": 60 },
+        "api/gmail-callback.js": { "maxDuration": 30 }
+    },
     "headers": [
         {
             "source": "/(.*)",
