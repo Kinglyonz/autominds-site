@@ -1,618 +1,530 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AutoMinds | AI Email Agent</title>
-    <meta name="description" content="AI-powered email assistant that reads your real inbox, triages, summarizes, and drafts replies. Connect Gmail or try the demo free.">
+    <meta name="description" content="Talk to your AI email assistant. Connect Gmail and ask questions about your inbox, get summaries, draft replies, and more.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="icon" type="image/svg+xml" href="logo_white.svg">
     <style>
         :root {
-            --bg: #0a0a0a;
-            --bg2: #111111;
-            --bg3: rgba(255,255,255,0.03);
-            --text: #f5f5f5;
-            --text2: rgba(255,255,255,0.6);
-            --text3: rgba(255,255,255,0.35);
-            --accent: #3B82F6;
-            --green: #22c55e;
-            --purple: #A855F7;
-            --red: #ef4444;
-            --orange: #ff9900;
-            --border: rgba(255,255,255,0.08);
-            --border2: rgba(255,255,255,0.15);
-            --font: 'Inter', -apple-system, sans-serif;
-            --heading: 'Space Grotesk', sans-serif;
-            --mono: 'JetBrains Mono', monospace;
-            --r: 12px;
-            --rs: 8px;
+            --bg:#0a0a0a;--bg2:#111111;--bg3:#161616;--bg4:rgba(255,255,255,.03);
+            --text:#f5f5f5;--text2:rgba(255,255,255,.65);--text3:rgba(255,255,255,.35);
+            --accent:#3B82F6;--green:#22c55e;--purple:#A855F7;--red:#ef4444;--orange:#ff9900;
+            --border:rgba(255,255,255,.08);--border2:rgba(255,255,255,.15);
+            --font:'Inter',-apple-system,sans-serif;--heading:'Space Grotesk',sans-serif;--mono:'JetBrains Mono',monospace;
+            --r:12px;--rs:8px;
         }
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-        html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
-        body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh}
+        html{-webkit-font-smoothing:antialiased}
+        body{font-family:var(--font);background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden}
 
-        /* ─── Nav ─────────────────────────────────────────────── */
-        .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 32px;border-bottom:1px solid var(--border);background:rgba(10,10,10,.85);backdrop-filter:blur(16px);position:sticky;top:0;z-index:50}
-        .nav-left{display:flex;align-items:center;gap:12px}
-        .nav-logo{width:32px;height:32px}
-        .nav-brand{font-family:var(--heading);font-size:18px;font-weight:700;color:var(--text);text-decoration:none}
-        .nav-badge{font-size:11px;padding:3px 10px;border-radius:20px;background:linear-gradient(135deg,var(--purple),var(--accent));color:#fff;font-weight:600}
-        .nav-right{display:flex;align-items:center;gap:12px}
-        .nav-link{font-size:13px;color:var(--text3);text-decoration:none;padding:6px 12px;border:1px solid var(--border);border-radius:var(--rs);transition:all .2s}
+        /* ─── Nav ─────────────────────────────────────────── */
+        .nav{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--border);background:rgba(10,10,10,.9);backdrop-filter:blur(16px);flex-shrink:0;z-index:50}
+        .nav-left{display:flex;align-items:center;gap:10px}
+        .nav-logo{width:28px;height:28px}
+        .nav-brand{font-family:var(--heading);font-size:16px;font-weight:700;color:var(--text);text-decoration:none}
+        .nav-badge{font-size:10px;padding:2px 8px;border-radius:20px;background:linear-gradient(135deg,var(--purple),var(--accent));color:#fff;font-weight:600}
+        .nav-right{display:flex;align-items:center;gap:8px}
+        .nav-link{font-size:12px;color:var(--text3);text-decoration:none;padding:5px 10px;border:1px solid var(--border);border-radius:var(--rs);transition:all .2s}
         .nav-link:hover{border-color:var(--border2);color:var(--text2)}
-        .btn-book{font-size:13px;padding:7px 16px;border-radius:var(--rs);border:none;background:linear-gradient(135deg,var(--purple),var(--accent));color:#fff;font-weight:600;cursor:pointer;text-decoration:none;transition:opacity .2s}
-        .btn-book:hover{opacity:.9}
-
-        /* ─── Status ──────────────────────────────────────────── */
-        .status-bar{max-width:960px;margin:0 auto;padding:16px 24px 0}
-        .status-pill{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:500}
-        .status-pill.online{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2)}
-        .status-pill.offline{background:rgba(239,68,68,.1);color:var(--red);border:1px solid rgba(239,68,68,.2)}
-        .status-dot{width:6px;height:6px;border-radius:50%;background:currentColor;animation:pulse 2s ease-in-out infinite}
+        .nav-status{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);padding:4px 10px;border-radius:20px;border:1px solid var(--border)}
+        .nav-status .dot{width:6px;height:6px;border-radius:50%;animation:pulse 2s ease-in-out infinite}
+        .dot-on{background:var(--green)}
+        .dot-off{background:var(--red)}
         @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
-        /* ─── Mode Switcher ───────────────────────────────────── */
-        .container{max-width:960px;margin:0 auto;padding:0 24px}
-        .mode-hero{text-align:center;padding:48px 0 32px}
-        .mode-hero h1{font-family:var(--heading);font-size:32px;font-weight:700;margin-bottom:10px;line-height:1.15}
-        .mode-hero h1 span{background:linear-gradient(135deg,var(--purple),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .mode-hero p{color:var(--text2);font-size:15px;max-width:500px;margin:0 auto}
+        /* ─── Layout ──────────────────────────────────────── */
+        .app{display:flex;flex:1;overflow:hidden}
 
-        .mode-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:40px}
-        .mode-card{padding:28px 24px;border:2px solid var(--border);border-radius:var(--r);background:var(--bg2);cursor:pointer;transition:all .2s;text-align:center}
-        .mode-card:hover{border-color:var(--border2);background:rgba(255,255,255,.04)}
-        .mode-card.active{border-color:var(--purple);background:rgba(168,85,247,.06)}
-        .mode-icon{font-size:40px;margin-bottom:12px}
-        .mode-title{font-weight:700;font-size:16px;margin-bottom:4px}
-        .mode-desc{font-size:13px;color:var(--text3);line-height:1.5}
-        .mode-tag{display:inline-block;margin-top:10px;font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px}
-        .tag-free{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.25)}
-        .tag-full{background:rgba(168,85,247,.1);color:var(--purple);border:1px solid rgba(168,85,247,.25)}
+        /* ─── Sidebar ─────────────────────────────────────── */
+        .sidebar{width:260px;border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;background:var(--bg2)}
+        .sidebar-header{padding:16px;border-bottom:1px solid var(--border)}
+        .sidebar-title{font-family:var(--heading);font-size:14px;font-weight:700;margin-bottom:4px}
+        .sidebar-sub{font-size:11px;color:var(--text3)}
+        .gmail-section{padding:12px 16px;border-bottom:1px solid var(--border)}
+        .gmail-btn{display:flex;align-items:center;gap:8px;width:100%;padding:10px 14px;border-radius:var(--rs);border:none;font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none}
+        .gmail-connect-btn{background:linear-gradient(135deg,var(--purple),var(--accent));color:#fff}
+        .gmail-connect-btn:hover{opacity:.9}
+        .gmail-connected-btn{background:rgba(34,197,94,.1);color:var(--green);border:1px solid rgba(34,197,94,.2)}
+        .gmail-disconnect{font-size:11px;color:var(--text3);background:none;border:none;cursor:pointer;margin-top:6px;padding:2px 0;text-decoration:underline}
+        .gmail-disconnect:hover{color:var(--red)}
 
-        /* ─── Panel: shared card style ────────────────────────── */
-        .panel{border:1px solid var(--border);border-radius:16px;background:var(--bg2);overflow:hidden;margin-bottom:40px;display:none}
-        .panel.visible{display:block}
+        /* Quick Actions */
+        .quick-actions{padding:8px;flex:1;overflow-y:auto}
+        .qa-label{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:1px;padding:8px 10px 4px}
+        .qa-btn{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border:none;border-radius:var(--rs);background:transparent;color:var(--text2);font-family:var(--font);font-size:13px;cursor:pointer;transition:all .15s;text-align:left}
+        .qa-btn:hover{background:rgba(255,255,255,.05);color:var(--text)}
+        .qa-btn .icon{font-size:18px;width:24px;text-align:center;flex-shrink:0}
+        .qa-btn .label{flex:1}
+        .qa-divider{height:1px;background:var(--border);margin:6px 10px}
 
-        /* ─── Demo Panel ──────────────────────────────────────── */
-        .demo-tabs{display:flex;border-bottom:1px solid var(--border)}
-        .demo-tab{flex:1;padding:14px 16px;background:none;border:none;color:var(--text3);font-family:var(--font);font-size:13px;font-weight:600;cursor:pointer;transition:all .2s;border-bottom:2px solid transparent}
-        .demo-tab:hover{color:var(--text2);background:rgba(255,255,255,.02)}
-        .demo-tab.active{color:var(--purple);border-bottom-color:var(--purple);background:rgba(168,85,247,.05)}
-        .demo-body{padding:24px}
-        .demo-label{font-size:13px;font-weight:600;color:var(--text2);margin-bottom:8px;display:block}
-        .demo-textarea{width:100%;min-height:140px;padding:16px;border:1px solid var(--border);border-radius:var(--rs);background:rgba(255,255,255,.02);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.6;resize:vertical;outline:none;transition:border-color .2s}
-        .demo-textarea:focus{border-color:var(--purple)}
-        .demo-textarea::placeholder{color:var(--text3)}
-        .demo-actions{display:flex;align-items:center;justify-content:space-between;margin-top:16px;gap:12px}
+        /* ─── Chat Area ───────────────────────────────────── */
+        .chat{flex:1;display:flex;flex-direction:column;overflow:hidden}
 
-        /* ─── Gmail Panel ─────────────────────────────────────── */
-        .gmail-connect{text-align:center;padding:60px 24px}
-        .gmail-connect-icon{font-size:56px;margin-bottom:20px}
-        .gmail-connect h2{font-family:var(--heading);font-size:24px;font-weight:700;margin-bottom:8px}
-        .gmail-connect p{color:var(--text2);font-size:14px;max-width:400px;margin:0 auto 24px;line-height:1.6}
-        .gmail-perms{text-align:left;max-width:340px;margin:0 auto 24px;font-size:13px;color:var(--text3)}
-        .gmail-perms li{margin-bottom:6px;list-style:none;padding-left:20px;position:relative}
-        .gmail-perms li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:700}
+        /* Messages */
+        .messages{flex:1;overflow-y:auto;padding:24px;display:flex;flex-direction:column;gap:16px}
+        .messages::-webkit-scrollbar{width:5px}
+        .messages::-webkit-scrollbar-track{background:transparent}
+        .messages::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
 
-        .gmail-dashboard{display:none}
-        .gmail-dashboard.visible{display:block}
-        .gmail-header{padding:24px;border-bottom:1px solid var(--border)}
-        .gmail-greeting{font-family:var(--heading);font-size:22px;font-weight:700;margin-bottom:4px}
-        .gmail-status{font-size:13px;color:var(--text2)}
-        .gmail-status .dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);margin-right:6px}
-        .gmail-actions{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:20px 24px;border-bottom:1px solid var(--border)}
-        .gmail-action{padding:16px;border:1px solid var(--border);border-radius:var(--rs);background:var(--bg3);cursor:pointer;transition:all .2s;text-align:center}
-        .gmail-action:hover{border-color:var(--border2);background:rgba(255,255,255,.05);transform:translateY(-2px)}
-        .gmail-action.active{border-color:var(--purple);background:rgba(168,85,247,.08)}
-        .gmail-action-icon{font-size:24px;margin-bottom:8px}
-        .gmail-action-title{font-weight:600;font-size:13px;margin-bottom:2px}
-        .gmail-action-desc{font-size:11px;color:var(--text3)}
-        .gmail-results{padding:24px;min-height:200px}
-        .gmail-disconnect{position:absolute;right:24px;top:24px;font-size:12px;color:var(--text3);background:none;border:1px solid var(--border);border-radius:var(--rs);padding:5px 12px;cursor:pointer;transition:all .2s}
-        .gmail-disconnect:hover{color:var(--red);border-color:rgba(239,68,68,.3)}
+        /* Welcome Screen */
+        .welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;text-align:center}
+        .welcome-icon{font-size:56px;margin-bottom:20px}
+        .welcome h2{font-family:var(--heading);font-size:24px;font-weight:700;margin-bottom:8px}
+        .welcome p{color:var(--text2);font-size:14px;max-width:420px;line-height:1.6;margin-bottom:32px}
+        .welcome-suggestions{display:grid;grid-template-columns:1fr 1fr;gap:10px;max-width:480px;width:100%}
+        .suggestion{padding:14px 16px;border:1px solid var(--border);border-radius:var(--rs);background:var(--bg3);cursor:pointer;text-align:left;transition:all .15s;font-size:13px;color:var(--text2);line-height:1.4}
+        .suggestion:hover{border-color:var(--purple);background:rgba(168,85,247,.05);color:var(--text)}
+        .suggestion .s-icon{font-size:18px;margin-bottom:6px}
+        .suggestion .s-text{display:block}
 
-        /* ─── Shared result styles ────────────────────────────── */
-        .run-btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:var(--rs);border:none;background:linear-gradient(135deg,var(--purple),var(--accent));color:#fff;font-family:var(--font);font-size:14px;font-weight:600;cursor:pointer;transition:all .2s}
-        .run-btn:hover{opacity:.9;transform:translateY(-1px)}
-        .run-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-        .example-btn{font-size:13px;color:var(--text3);background:none;border:1px solid var(--border);border-radius:var(--rs);padding:8px 14px;cursor:pointer;transition:all .2s}
-        .example-btn:hover{border-color:var(--border2);color:var(--text2)}
+        /* Message Bubble */
+        .msg{display:flex;gap:12px;max-width:720px}
+        .msg.user{align-self:flex-end;flex-direction:row-reverse}
+        .msg-avatar{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0;margin-top:2px}
+        .msg.assistant .msg-avatar{background:linear-gradient(135deg,var(--purple),var(--accent))}
+        .msg.user .msg-avatar{background:rgba(255,255,255,.1)}
+        .msg-body{padding:14px 18px;border-radius:16px;font-size:14px;line-height:1.7;max-width:600px}
+        .msg.assistant .msg-body{background:var(--bg3);border:1px solid var(--border);border-top-left-radius:4px}
+        .msg.user .msg-body{background:rgba(168,85,247,.15);border:1px solid rgba(168,85,247,.2);border-top-right-radius:4px;color:var(--text)}
+        .msg-body p{margin-bottom:8px}
+        .msg-body p:last-child{margin-bottom:0}
+        .msg-body ul,.msg-body ol{margin:8px 0;padding-left:20px}
+        .msg-body li{margin-bottom:4px}
+        .msg-body strong{color:var(--text);font-weight:600}
+        .msg-body code{background:rgba(255,255,255,.08);padding:2px 6px;border-radius:4px;font-family:var(--mono);font-size:12px}
+        .msg-time{font-size:10px;color:var(--text3);margin-top:4px}
 
-        .result-area{margin-top:24px;border-top:1px solid var(--border);padding-top:24px;display:none}
-        .result-area.visible{display:block}
-        .result-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
-        .result-title{font-weight:600;font-size:15px}
-        .result-time{font-size:12px;color:var(--text3);font-family:var(--mono)}
-        .result-body{font-size:14px;line-height:1.8;color:var(--text2);white-space:pre-wrap;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:var(--rs);padding:20px}
-        .loading-box{text-align:center;padding:40px 20px;color:var(--text3)}
-        .spinner{width:28px;height:28px;border:3px solid var(--border);border-top-color:var(--purple);border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
-        @keyframes spin{to{transform:rotate(360deg)}}
+        /* Typing indicator */
+        .typing{display:flex;gap:4px;padding:12px 18px;align-items:center}
+        .typing-dot{width:6px;height:6px;border-radius:50%;background:var(--text3);animation:bounce .6s ease-in-out infinite}
+        .typing-dot:nth-child(2){animation-delay:.15s}
+        .typing-dot:nth-child(3){animation-delay:.3s}
+        @keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 
-        /* Email cards */
-        .email-card{padding:14px 16px;border:1px solid var(--border);border-radius:var(--rs);margin-bottom:10px;transition:border-color .2s}
-        .email-card:hover{border-color:var(--border2)}
-        .email-card-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-        .email-from{font-weight:600;font-size:14px}
-        .badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px}
-        .badge.URGENT{background:rgba(239,68,68,.15);color:var(--red)}
-        .badge.IMPORTANT{background:rgba(255,153,0,.15);color:var(--orange)}
-        .badge.FYI{background:rgba(59,130,246,.15);color:var(--accent)}
-        .badge.SPAM{background:rgba(255,255,255,.05);color:var(--text3)}
-        .email-subject{font-size:13px;margin-bottom:4px}
-        .email-snippet{font-size:13px;color:var(--text3);line-height:1.5}
-        .email-reason{font-size:12px;color:var(--text2);margin-top:6px;font-style:italic}
+        /* ─── Input Bar ───────────────────────────────────── */
+        .input-bar{padding:16px 24px;border-top:1px solid var(--border);background:var(--bg2);flex-shrink:0}
+        .input-row{display:flex;align-items:flex-end;gap:10px;max-width:720px;margin:0 auto}
+        .input-wrap{flex:1;position:relative}
+        .input-field{width:100%;padding:14px 18px;padding-right:44px;border:1px solid var(--border);border-radius:16px;background:var(--bg3);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.5;resize:none;outline:none;transition:border-color .2s;max-height:120px;overflow-y:auto}
+        .input-field:focus{border-color:var(--purple)}
+        .input-field::placeholder{color:var(--text3)}
+        .mic-btn{position:absolute;right:8px;bottom:8px;width:32px;height:32px;border-radius:50%;border:none;background:transparent;color:var(--text3);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s}
+        .mic-btn:hover{background:rgba(255,255,255,.05);color:var(--text2)}
+        .mic-btn.recording{background:rgba(239,68,68,.2);color:var(--red);animation:pulse 1s ease-in-out infinite}
+        .send-btn{width:44px;height:44px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--purple),var(--accent));color:#fff;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+        .send-btn:hover{opacity:.9;transform:scale(1.05)}
+        .send-btn:disabled{opacity:.4;cursor:not-allowed;transform:none}
+        .input-hint{text-align:center;font-size:11px;color:var(--text3);margin-top:8px}
 
-        /* ─── CTA ─────────────────────────────────────────────── */
-        .cta{max-width:960px;margin:0 auto;padding:0 24px 80px}
-        .cta-card{border:1px solid var(--border);border-radius:16px;padding:48px 32px;text-align:center;background:linear-gradient(180deg,rgba(168,85,247,.05),rgba(59,130,246,.03))}
-        .cta-card h2{font-family:var(--heading);font-size:22px;font-weight:700;margin-bottom:10px}
-        .cta-card p{color:var(--text2);font-size:14px;max-width:460px;margin:0 auto 24px;line-height:1.6}
-        .cta-btns{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-        .cta-primary{padding:12px 28px;border-radius:var(--rs);border:none;background:linear-gradient(135deg,var(--purple),var(--accent));color:#fff;font-weight:600;font-size:14px;cursor:pointer;text-decoration:none}
-        .cta-primary:hover{opacity:.9}
-        .cta-secondary{padding:12px 28px;border-radius:var(--rs);border:1px solid var(--border);background:none;color:var(--text2);font-weight:600;font-size:14px;text-decoration:none}
-        .cta-secondary:hover{border-color:var(--border2);color:var(--text)}
-
-        /* ─── Footer ──────────────────────────────────────────── */
-        .footer{border-top:1px solid var(--border);padding:24px 32px;text-align:center;font-size:13px;color:var(--text3)}
-        .footer a{color:var(--text2);text-decoration:none}
-
-        @media(max-width:640px){
-            .nav{padding:12px 16px}
-            .mode-cards{grid-template-columns:1fr}
-            .gmail-actions{grid-template-columns:1fr 1fr}
-            .demo-actions{flex-direction:column}
-            .cta-btns{flex-direction:column;align-items:center}
+        /* ─── Mobile ──────────────────────────────────────── */
+        .sidebar-toggle{display:none;width:36px;height:36px;border:1px solid var(--border);border-radius:var(--rs);background:none;color:var(--text2);cursor:pointer;font-size:18px;align-items:center;justify-content:center}
+        @media(max-width:768px){
+            .sidebar{position:fixed;left:-280px;top:0;bottom:0;z-index:100;transition:left .3s;box-shadow:4px 0 20px rgba(0,0,0,.5)}
+            .sidebar.open{left:0}
+            .sidebar-toggle{display:flex}
+            .sidebar-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99}
+            .sidebar-overlay.open{display:block}
+            .welcome-suggestions{grid-template-columns:1fr}
         }
     </style>
 </head>
-
 <body>
     <!-- Nav -->
     <div class="nav">
         <div class="nav-left">
+            <button class="sidebar-toggle" onclick="toggleSidebar()">☰</button>
             <img src="logo_white.svg" alt="AutoMinds" class="nav-logo">
             <a href="index.html" class="nav-brand">AutoMinds</a>
             <span class="nav-badge">Email Agent</span>
         </div>
         <div class="nav-right">
+            <span class="nav-status" id="statusPill">
+                <span class="dot dot-off" id="statusDot"></span>
+                <span id="statusText">Connecting...</span>
+            </span>
             <a href="index.html" class="nav-link">&larr; Home</a>
-            <a href="https://calendly.com/admin-autominds/30min" class="btn-book" target="_blank">Book a Demo</a>
         </div>
     </div>
 
-    <!-- Status -->
-    <div class="status-bar" id="statusBar">
-        <span class="status-pill" id="statusPill">
-            <span class="status-dot"></span>
-            <span id="statusText">Checking AI status...</span>
-        </span>
-    </div>
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
 
-    <div class="container">
-        <!-- Hero -->
-        <div class="mode-hero">
-            <h1>AI <span>Email Agent</span></h1>
-            <p>Connect your Gmail and let AI handle your inbox &mdash; or paste an email to try it instantly.</p>
-        </div>
-
-        <!-- Mode Selection -->
-        <div class="mode-cards">
-            <div class="mode-card active" id="modeGmail" onclick="setMode('gmail')">
-                <div class="mode-icon">📬</div>
-                <div class="mode-title">Connect Gmail</div>
-                <div class="mode-desc">Sign in with your real email. AI reads, triages, and drafts replies from your actual inbox.</div>
-                <span class="mode-tag tag-full">FULL AGENT</span>
+    <div class="app">
+        <!-- Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-title">Email Agent</div>
+                <div class="sidebar-sub" id="sidebarSub">AI-powered inbox assistant</div>
             </div>
-            <div class="mode-card" id="modeDemo" onclick="setMode('demo')">
-                <div class="mode-icon">⚡</div>
-                <div class="mode-title">Quick Demo</div>
-                <div class="mode-desc">Paste any email text and see the AI analyze it instantly. No sign-up needed.</div>
-                <span class="mode-tag tag-free">FREE DEMO</span>
-            </div>
-        </div>
 
-        <!-- ══════════════════════════════════════════════════════
-             GMAIL PANEL
-             ══════════════════════════════════════════════════════ -->
-        <div class="panel visible" id="panelGmail">
-            <!-- Connect state -->
-            <div class="gmail-connect" id="gmailConnect">
-                <div class="gmail-connect-icon">📧</div>
-                <h2>Connect Your Gmail</h2>
-                <p>Sign in with Google to let the AI agent work with your real inbox. We only read emails &mdash; we never store them.</p>
-                <ul class="gmail-perms">
-                    <li>Read your inbox to triage &amp; summarize</li>
-                    <li>Draft replies (you always review first)</li>
-                    <li>Surface urgent items automatically</li>
-                    <li>Your data is never stored or shared</li>
-                </ul>
-                <a class="run-btn" id="gmailConnectBtn" href="/api/email-proxy?action=gmail-auth">
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
-                        <polyline points="22,6 12,13 2,6"/>
-                    </svg>
-                    Connect Gmail Account
+            <!-- Gmail Connection -->
+            <div class="gmail-section" id="gmailSection">
+                <a class="gmail-btn gmail-connect-btn" id="gmailConnectBtn" href="/api/email-proxy?action=gmail-auth">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+                    Connect Gmail
                 </a>
+                <div id="gmailConnectedState" style="display:none">
+                    <div class="gmail-btn gmail-connected-btn">
+                        <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+                        Gmail Connected
+                    </div>
+                    <button class="gmail-disconnect" onclick="disconnectGmail()">Disconnect account</button>
+                </div>
             </div>
 
-            <!-- Dashboard state (after connected) -->
-            <div class="gmail-dashboard" id="gmailDashboard" style="position:relative">
-                <button class="gmail-disconnect" onclick="disconnectGmail()">Disconnect Gmail</button>
-                <div class="gmail-header">
-                    <div class="gmail-greeting" id="gmailGreeting">Your Inbox</div>
-                    <div class="gmail-status"><span class="dot"></span>Gmail connected &middot; AI ready</div>
-                </div>
-
-                <div class="gmail-actions">
-                    <div class="gmail-action" onclick="runGmailAction('triage')" id="ga-triage">
-                        <div class="gmail-action-icon">🏷️</div>
-                        <div class="gmail-action-title">Triage</div>
-                        <div class="gmail-action-desc">Categorize by priority</div>
-                    </div>
-                    <div class="gmail-action" onclick="runGmailAction('summarize')" id="ga-summarize">
-                        <div class="gmail-action-icon">📝</div>
-                        <div class="gmail-action-title">Summarize</div>
-                        <div class="gmail-action-desc">Quick inbox overview</div>
-                    </div>
-                    <div class="gmail-action" onclick="runGmailAction('priorities')" id="ga-priorities">
-                        <div class="gmail-action-icon">🔥</div>
-                        <div class="gmail-action-title">Priorities</div>
-                        <div class="gmail-action-desc">Urgent items only</div>
-                    </div>
-                    <div class="gmail-action" onclick="runGmailAction('draft')" id="ga-draft">
-                        <div class="gmail-action-icon">✍️</div>
-                        <div class="gmail-action-title">Draft Reply</div>
-                        <div class="gmail-action-desc">AI-written response</div>
-                    </div>
-                </div>
-
-                <div class="gmail-results" id="gmailResults">
-                    <div style="text-align:center;padding:40px;color:var(--text3)">
-                        Select an action above to analyze your inbox with AI.
-                    </div>
-                </div>
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <div class="qa-label">Quick Actions</div>
+                <button class="qa-btn" onclick="quickAction('What\'s urgent in my inbox right now?')">
+                    <span class="icon">🔥</span><span class="label">Urgent emails</span>
+                </button>
+                <button class="qa-btn" onclick="quickAction('Give me a summary of my inbox')">
+                    <span class="icon">📝</span><span class="label">Inbox summary</span>
+                </button>
+                <button class="qa-btn" onclick="quickAction('Triage my unread emails by priority')">
+                    <span class="icon">🏷️</span><span class="label">Triage inbox</span>
+                </button>
+                <button class="qa-btn" onclick="quickAction('Give me a weekend summary of important emails I may have missed')">
+                    <span class="icon">☀️</span><span class="label">Weekend summary</span>
+                </button>
+                <button class="qa-btn" onclick="quickAction('Draft a reply to the most recent email')">
+                    <span class="icon">✍️</span><span class="label">Draft a reply</span>
+                </button>
+                <button class="qa-btn" onclick="quickAction('What emails need a response today?')">
+                    <span class="icon">⏰</span><span class="label">Needs response</span>
+                </button>
+                <div class="qa-divider"></div>
+                <div class="qa-label">More</div>
+                <button class="qa-btn" onclick="quickAction('How many unread emails do I have and who are they from?')">
+                    <span class="icon">📬</span><span class="label">Unread count</span>
+                </button>
+                <button class="qa-btn" onclick="quickAction('Are there any emails about meetings or scheduling?')">
+                    <span class="icon">📅</span><span class="label">Meeting emails</span>
+                </button>
+                <button class="qa-btn" onclick="quickAction('Which emails can I probably ignore or archive?')">
+                    <span class="icon">🗑️</span><span class="label">Safe to ignore</span>
+                </button>
             </div>
         </div>
 
-        <!-- ══════════════════════════════════════════════════════
-             DEMO PANEL
-             ══════════════════════════════════════════════════════ -->
-        <div class="panel" id="panelDemo">
-            <div class="demo-tabs">
-                <button class="demo-tab active" onclick="switchTab('analyze')" id="tab-analyze">Full Analysis</button>
-                <button class="demo-tab" onclick="switchTab('triage')" id="tab-triage">Triage</button>
-                <button class="demo-tab" onclick="switchTab('summarize')" id="tab-summarize">Summarize</button>
-                <button class="demo-tab" onclick="switchTab('draft')" id="tab-draft">Draft Reply</button>
+        <!-- Chat Area -->
+        <div class="chat">
+            <!-- Welcome / Messages -->
+            <div class="messages" id="messagesArea">
+                <div class="welcome" id="welcomeScreen">
+                    <div class="welcome-icon">🤖</div>
+                    <h2>Hey, I'm your email agent</h2>
+                    <p>Ask me anything about your inbox. I can triage, summarize, draft replies, and more. Connect Gmail for the full experience, or just chat.</p>
+                    <div class="welcome-suggestions">
+                        <div class="suggestion" onclick="quickAction('What\'s urgent in my inbox?')">
+                            <div class="s-icon">🔥</div>
+                            <span class="s-text">What's urgent in my inbox?</span>
+                        </div>
+                        <div class="suggestion" onclick="quickAction('Summarize my unread emails')">
+                            <div class="s-icon">📝</div>
+                            <span class="s-text">Summarize my unread emails</span>
+                        </div>
+                        <div class="suggestion" onclick="quickAction('Give me a weekend summary')">
+                            <div class="s-icon">☀️</div>
+                            <span class="s-text">Give me a weekend summary</span>
+                        </div>
+                        <div class="suggestion" onclick="quickAction('Draft a reply to my latest email')">
+                            <div class="s-icon">✍️</div>
+                            <span class="s-text">Draft a reply to my latest email</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="demo-body">
-                <label class="demo-label">Paste an email below</label>
-                <textarea class="demo-textarea" id="emailInput" placeholder="From: jane@example.com&#10;Subject: Q1 Budget Review Meeting&#10;&#10;Hi,&#10;&#10;Can we schedule a meeting this week to review the Q1 budget numbers?&#10;&#10;Best,&#10;Jane"></textarea>
-                <div class="demo-actions">
-                    <button class="run-btn" onclick="runDemo()" id="demoRunBtn">
-                        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-                        Analyze with AI
+
+            <!-- Input -->
+            <div class="input-bar">
+                <div class="input-row">
+                    <div class="input-wrap">
+                        <textarea class="input-field" id="chatInput" placeholder="Ask about your inbox..." rows="1" onkeydown="handleKey(event)" oninput="autoGrow(this)"></textarea>
+                        <button class="mic-btn" id="micBtn" onclick="toggleVoice()" title="Voice input">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                        </button>
+                    </div>
+                    <button class="send-btn" id="sendBtn" onclick="sendMessage()" title="Send message">
+                        <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
                     </button>
-                    <button class="example-btn" onclick="loadExample()">Load example email</button>
                 </div>
-                <div class="result-area" id="demoResult">
-                    <div class="result-header">
-                        <span class="result-title" id="demoResultTitle">AI Analysis</span>
-                        <span class="result-time" id="demoResultTime"></span>
-                    </div>
-                    <div class="result-body" id="demoResultBody"></div>
-                </div>
+                <div class="input-hint">Press Enter to send · Shift+Enter for new line · Click 🎤 to talk</div>
             </div>
         </div>
     </div>
 
-    <!-- CTA -->
-    <div class="cta">
-        <div class="cta-card">
-            <h2>Need more than email?</h2>
-            <p>We build custom AI agents for any business workflow &mdash; sales, operations, customer service, data analysis. Email is just the beginning.</p>
-            <div class="cta-btns">
-                <a href="https://calendly.com/admin-autominds/30min" target="_blank" class="cta-primary">Book a Free Consultation &rarr;</a>
-                <a href="mailto:admin@autominds.org" class="cta-secondary">admin@autominds.org</a>
-            </div>
-        </div>
-    </div>
+<script>
+// ═══════════════════════════════════════════════════════════════════════════
+// Config
+// ═══════════════════════════════════════════════════════════════════════════
+var API = '/api/email-proxy';
+var chatHistory = [];
+var isProcessing = false;
 
-    <!-- Footer -->
-    <div class="footer">&copy; 2025 AutoMinds LLC &middot; <a href="mailto:admin@autominds.org">admin@autominds.org</a> &middot; Custom AI Solutions for Business</div>
-
-    <script>
-    // ═══════════════════════════════════════════════════════════
-    // Config
-    // ═══════════════════════════════════════════════════════════
-    var API = '/api/email-proxy';
-
-    // ═══════════════════════════════════════════════════════════
-    // Health check
-    // ═══════════════════════════════════════════════════════════
-    (function checkHealth() {
-        fetch(API + '?action=health').then(function(r){return r.json()}).then(function(d){
-            var pill = document.getElementById('statusPill');
-            var txt = document.getElementById('statusText');
-            if (d.status === 'ok') {
-                pill.className = 'status-pill online';
-                txt.textContent = 'AI Online — ' + (d.model || 'ready');
-            } else {
-                pill.className = 'status-pill offline';
-                txt.textContent = 'AI starting up...';
-            }
-        }).catch(function(){
-            document.getElementById('statusPill').className = 'status-pill offline';
-            document.getElementById('statusText').textContent = 'Connecting...';
-        });
-    })();
-
-    // ═══════════════════════════════════════════════════════════
-    // Mode switcher
-    // ═══════════════════════════════════════════════════════════
-    var currentMode = 'gmail';
-
-    function setMode(mode) {
-        currentMode = mode;
-        document.getElementById('modeGmail').className = 'mode-card' + (mode === 'gmail' ? ' active' : '');
-        document.getElementById('modeDemo').className = 'mode-card' + (mode === 'demo' ? ' active' : '');
-        document.getElementById('panelGmail').className = 'panel' + (mode === 'gmail' ? ' visible' : '');
-        document.getElementById('panelDemo').className = 'panel' + (mode === 'demo' ? ' visible' : '');
-    }
-
-    // ═══════════════════════════════════════════════════════════
-    // Gmail OAuth flow
-    // ═══════════════════════════════════════════════════════════
-    function initGmail() {
-        // Check for OAuth callback tokens in URL hash
-        if (window.location.hash.indexOf('gmail_tokens=') !== -1) {
-            try {
-                var match = window.location.hash.match(/gmail_tokens=([^&]+)/);
-                if (match) {
-                    var tokens = JSON.parse(decodeURIComponent(match[1]));
-                    localStorage.setItem('autominds_gmail', JSON.stringify(tokens));
-                    // Clean the URL
-                    history.replaceState(null, '', window.location.pathname);
-                }
-            } catch (e) {
-                console.error('Gmail token parse error:', e);
-            }
-        }
-
-        // If tokens exist, show dashboard
-        var stored = localStorage.getItem('autominds_gmail');
-        if (stored) {
-            showGmailDashboard();
-        }
-    }
-
-    function showGmailDashboard() {
-        document.getElementById('gmailConnect').style.display = 'none';
-        document.getElementById('gmailDashboard').style.display = 'block';
-        document.getElementById('gmailDashboard').className = 'gmail-dashboard visible';
-
-        // Set greeting
-        var hour = new Date().getHours();
-        var greeting = hour < 12 ? 'Good morning' : hour < 17 ? 'Good afternoon' : 'Good evening';
-        document.getElementById('gmailGreeting').textContent = greeting;
-
-        // Auto-switch to Gmail mode
-        setMode('gmail');
-    }
-
-    function disconnectGmail() {
-        localStorage.removeItem('autominds_gmail');
-        document.getElementById('gmailConnect').style.display = '';
-        document.getElementById('gmailDashboard').style.display = 'none';
-        document.getElementById('gmailDashboard').className = 'gmail-dashboard';
-        document.getElementById('gmailResults').innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3)">Select an action above to analyze your inbox with AI.</div>';
-    }
-
-    // ═══════════════════════════════════════════════════════════
-    // Gmail real-inbox actions
-    // ═══════════════════════════════════════════════════════════
-    var currentGmailAction = null;
-
-    function runGmailAction(action) {
-        var tokensRaw = localStorage.getItem('autominds_gmail');
-        if (!tokensRaw) { alert('Please connect Gmail first.'); return; }
-        var tokens = JSON.parse(tokensRaw);
-
-        // Highlight active
-        document.querySelectorAll('.gmail-action').forEach(function(el){ el.classList.remove('active'); });
-        document.getElementById('ga-' + action).classList.add('active');
-        currentGmailAction = action;
-
-        var out = document.getElementById('gmailResults');
-        out.innerHTML = '<div class="loading-box"><div class="spinner"></div>Reading your inbox and analyzing with AI...</div>';
-
-        var endpoint, body;
-        if (action === 'draft') {
-            // First triage to find an email, then draft reply to the first one
-            fetch(API + '?action=email/triage', {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({ tokens: tokens }),
-            }).then(function(r){return r.json()}).then(function(d) {
-                if (d.success && d.data.emails && d.data.emails.length > 0) {
-                    return fetch(API + '?action=email/draft', {
-                        method: 'POST',
-                        headers: {'Content-Type': 'application/json'},
-                        body: JSON.stringify({ tokens: tokens, threadId: d.data.emails[0].threadId, tone: 'professional' }),
-                    });
-                } else {
-                    throw new Error('No emails found to draft a reply for.');
-                }
-            }).then(function(r){return r.json()}).then(function(d) {
-                if (!d.success) throw new Error(d.error || 'Draft failed');
-                renderGmailResult('draft', d.data);
-            }).catch(function(e) {
-                out.innerHTML = '<div style="text-align:center;padding:40px;color:var(--red)">' + esc(e.message) + '</div>';
-            });
-            return;
-        }
-
-        endpoint = 'email/' + action;
-        body = { tokens: tokens };
-
-        fetch(API + '?action=' + endpoint, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(body),
-        }).then(function(r){return r.json()}).then(function(d) {
-            if (!d.success) throw new Error(d.error || 'Request failed');
-            renderGmailResult(action, d.data);
-        }).catch(function(e) {
-            out.innerHTML = '<div style="text-align:center;padding:40px;color:var(--red)">' + esc(e.message) + '<br><br><span style="color:var(--text3);font-size:12px">Your Gmail token may have expired. Try disconnecting and reconnecting.</span></div>';
-        });
-    }
-
-    function renderGmailResult(action, data) {
-        var out = document.getElementById('gmailResults');
-
-        if (action === 'triage') {
-            if (!data.categories || data.categories.length === 0) {
-                out.innerHTML = '<div style="text-align:center;padding:40px;color:var(--text3)">No unread emails to triage. Inbox zero! 🎉</div>';
-                return;
-            }
-            out.innerHTML = '<div style="padding:0 4px">' + data.categories.map(function(c) {
-                var e = c.email || {};
-                return '<div class="email-card">' +
-                    '<div class="email-card-top"><span class="email-from">' + esc(e.from || 'Unknown') + '</span><span class="badge ' + c.category + '">' + c.category + '</span></div>' +
-                    '<div class="email-subject">' + esc(e.subject || '') + '</div>' +
-                    '<div class="email-snippet">' + esc(e.snippet || '') + '</div>' +
-                    (c.reason ? '<div class="email-reason">' + esc(c.reason) + '</div>' : '') +
-                '</div>';
-            }).join('') + '</div>';
-        }
-        else if (action === 'summarize') {
-            out.innerHTML = '<div class="result-body" style="margin:0">' + esc(data.summary || 'No summary available.') +
-                '</div><p style="padding:16px 0 0;font-size:12px;color:var(--text3)">' + (data.emailCount || 0) + ' emails analyzed</p>';
-        }
-        else if (action === 'priorities') {
-            out.innerHTML = '<p style="padding:0 4px 16px;font-size:14px;color:var(--text2)">' + esc(data.message || '') + '</p>';
-            if (data.items && data.items.length > 0) {
-                out.innerHTML += '<div style="padding:0 4px">' + data.items.map(function(c) {
-                    var e = c.email || {};
-                    return '<div class="email-card">' +
-                        '<div class="email-card-top"><span class="email-from">' + esc(e.from || 'Unknown') + '</span><span class="badge ' + c.category + '">' + c.category + '</span></div>' +
-                        '<div class="email-subject">' + esc(e.subject || '') + '</div>' +
-                        '<div class="email-snippet">' + esc(e.snippet || '') + '</div>' +
-                    '</div>';
-                }).join('') + '</div>';
-            }
-        }
-        else if (action === 'draft') {
-            out.innerHTML = '<div class="result-body" style="margin:0">' + esc(data.draft || 'No draft generated.') +
-                '</div><p style="padding:12px 0 0;font-size:12px;color:var(--text3)">Tone: ' + (data.tone || 'professional') + '</p>';
-        }
-    }
-
-    // ═══════════════════════════════════════════════════════════
-    // Demo mode (paste email)
-    // ═══════════════════════════════════════════════════════════
-    var currentTab = 'analyze';
-
-    function switchTab(tab) {
-        currentTab = tab;
-        document.querySelectorAll('.demo-tab').forEach(function(t){t.classList.remove('active')});
-        document.getElementById('tab-' + tab).classList.add('active');
-        var labels = { analyze:'Analyze with AI', triage:'Triage Emails', summarize:'Summarize Email', draft:'Draft Reply' };
-        document.getElementById('demoRunBtn').innerHTML = '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg> ' + labels[tab];
-    }
-
-    var EXAMPLES = [
-        "From: sarah@techcorp.com\nSubject: URGENT: Production server down\n\nHi,\n\nOur main production server went down at 3:47 AM and we're losing approximately $5,000/hour in revenue. The DevOps team has been paged but we need all hands on deck.\n\nThe error logs show a database connection pool exhaustion. Can you check the application layer and see if there's a connection leak?\n\nThis is our highest priority right now.\n\nSarah\nVP Engineering, TechCorp",
-        "From: david.chen@bigclient.com\nSubject: Re: Proposal for Q2 Partnership\n\nHi,\n\nThanks for sending over the proposal. The team reviewed it and we're very interested. We'd like to move forward but have a few questions:\n\n1. Can you do a pilot program for 30 days before we commit?\n2. What's the SLA for response times?\n3. Do you offer custom integrations with Salesforce?\n\nIf you can address these by Thursday, we can get this on the agenda for our Friday executive meeting.\n\nBest regards,\nDavid Chen\nHead of Operations, BigClient Inc.",
-        "From: newsletter@marketing-weekly.com\nSubject: 10 Marketing Trends for 2026\n\nHey there,\n\nHere are this week's top marketing insights:\n1. AI-powered personalization is up 340%\n2. Short-form video continues to dominate\n3. Email marketing ROI still leads at $42 per $1 spent\n\nClick here to read the full report.\n\nBest,\nMarketing Weekly Team",
-        "From: hr@company.com\nSubject: Updated PTO Policy - Please Acknowledge\n\nDear Team,\n\nPlease review the updated PTO policy. Key changes:\n- Unlimited PTO replaced with 25 days/year\n- Rollover limited to 5 days\n- Blackout dates during Q4 closing\n\nPlease acknowledge receipt by end of week.\n\nThank you,\nHR Department",
-    ];
-
-    function loadExample() {
-        var idx = Math.floor(Math.random() * EXAMPLES.length);
-        document.getElementById('emailInput').value = EXAMPLES[idx];
-        document.getElementById('emailInput').focus();
-    }
-
-    function runDemo() {
-        var text = document.getElementById('emailInput').value.trim();
-        if (!text) { alert('Please paste an email to analyze.'); return; }
-
-        var btn = document.getElementById('demoRunBtn');
-        btn.disabled = true;
-
-        var rd = document.getElementById('demoResult');
-        rd.classList.add('visible');
-        document.getElementById('demoResultTitle').textContent = 'Processing...';
-        document.getElementById('demoResultTime').textContent = '';
-        document.getElementById('demoResultBody').innerHTML = '<div class="loading-box"><div class="spinner"></div>AI is analyzing your email...</div>';
-
-        var t0 = Date.now();
-        var endpoint, body;
-        switch (currentTab) {
-            case 'triage': endpoint='demo/triage'; body={emails:text}; break;
-            case 'summarize': endpoint='demo/summarize'; body={email:text}; break;
-            case 'draft': endpoint='demo/draft'; body={email:text,tone:'professional'}; break;
-            default: endpoint='demo/analyze'; body={email:text};
-        }
-
-        fetch(API + '?action=' + endpoint, {
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify(body),
-        }).then(function(r){return r.json()}).then(function(d) {
-            var elapsed = ((Date.now()-t0)/1000).toFixed(1);
-            if (!d.success) throw new Error(d.error || 'Analysis failed');
-            renderDemoResult(currentTab, d.data, elapsed);
-        }).catch(function(e) {
-            document.getElementById('demoResultTitle').textContent = 'Error';
-            document.getElementById('demoResultBody').innerHTML = '<span style="color:var(--red)">' + esc(e.message) + '</span><br><br><span style="color:var(--text3);font-size:12px">If this persists, the AI server may be restarting. Try again in a moment.</span>';
-        }).finally(function() {
-            btn.disabled = false;
-        });
-    }
-
-    function renderDemoResult(tab, data, elapsed) {
-        var titles = { analyze:'AI Analysis', triage:'Email Triage', summarize:'Email Summary', draft:'Drafted Reply' };
-        document.getElementById('demoResultTitle').textContent = titles[tab];
-        document.getElementById('demoResultTime').textContent = elapsed + 's';
-        var body = document.getElementById('demoResultBody');
-
-        if (tab === 'triage' && data.categories && data.categories.length > 0) {
-            body.innerHTML = data.categories.map(function(c){
-                return '<div class="email-card">' +
-                    '<div class="email-card-top"><span class="email-from">' + esc(c.from || 'Email ' + c.index) + '</span><span class="badge ' + c.category + '">' + c.category + '</span></div>' +
-                    (c.subject ? '<div class="email-subject">' + esc(c.subject) + '</div>' : '') +
-                    (c.reason ? '<div class="email-reason">' + esc(c.reason) + '</div>' : '') +
-                '</div>';
-            }).join('');
-        } else if (tab === 'summarize') {
-            body.textContent = data.summary || 'No summary.';
-        } else if (tab === 'draft') {
-            body.textContent = data.draft || 'No draft.';
-        } else if (tab === 'analyze') {
-            body.textContent = data.analysis || 'No analysis.';
-        } else if (data.raw) {
-            body.textContent = data.raw;
+// ═══════════════════════════════════════════════════════════════════════════
+// Health Check
+// ═══════════════════════════════════════════════════════════════════════════
+(function checkHealth() {
+    fetch(API + '?action=health').then(function(r){return r.json()}).then(function(d){
+        var dot = document.getElementById('statusDot');
+        var txt = document.getElementById('statusText');
+        if (d.status === 'ok') {
+            dot.className = 'dot dot-on';
+            txt.textContent = 'AI Online';
         } else {
-            body.textContent = JSON.stringify(data, null, 2);
+            dot.className = 'dot dot-off';
+            txt.textContent = 'Starting...';
         }
+    }).catch(function(){
+        document.getElementById('statusDot').className = 'dot dot-off';
+        document.getElementById('statusText').textContent = 'Offline';
+    });
+})();
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Gmail OAuth
+// ═══════════════════════════════════════════════════════════════════════════
+function initGmail() {
+    // Check for callback tokens in URL hash
+    if (window.location.hash.indexOf('gmail_tokens=') !== -1) {
+        try {
+            var match = window.location.hash.match(/gmail_tokens=([^&]+)/);
+            if (match) {
+                var tokens = JSON.parse(decodeURIComponent(match[1]));
+                localStorage.setItem('autominds_gmail', JSON.stringify(tokens));
+                history.replaceState(null, '', window.location.pathname);
+                // Show welcome message from agent
+                addMessage('assistant', "Gmail connected! 🎉 I can now see your inbox. Ask me anything — try \"What's urgent?\" or \"Summarize my emails\".");
+            }
+        } catch (e) { console.error('Token parse error:', e); }
     }
 
-    // ═══════════════════════════════════════════════════════════
-    // Utility
-    // ═══════════════════════════════════════════════════════════
-    function esc(s) { var d=document.createElement('div'); d.textContent=s; return d.innerHTML; }
+    // Check URL error param
+    var urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('error')) {
+        addMessage('assistant', "Sorry, I couldn't connect to Gmail. Please try again. (Error: " + urlParams.get('error') + ")");
+        history.replaceState(null, '', window.location.pathname);
+    }
 
-    // ═══════════════════════════════════════════════════════════
-    // Init
-    // ═══════════════════════════════════════════════════════════
-    initGmail();
-    </script>
+    updateGmailUI();
+}
+
+function updateGmailUI() {
+    var connected = !!localStorage.getItem('autominds_gmail');
+    document.getElementById('gmailConnectBtn').style.display = connected ? 'none' : 'flex';
+    document.getElementById('gmailConnectedState').style.display = connected ? 'block' : 'none';
+    document.getElementById('sidebarSub').textContent = connected ? 'Gmail connected · AI ready' : 'Connect Gmail for full access';
+}
+
+function disconnectGmail() {
+    localStorage.removeItem('autominds_gmail');
+    updateGmailUI();
+    addMessage('assistant', "Gmail disconnected. You can still chat with me — connect again anytime for full inbox access.");
+}
+
+function getTokens() {
+    var raw = localStorage.getItem('autominds_gmail');
+    return raw ? JSON.parse(raw) : null;
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Chat
+// ═══════════════════════════════════════════════════════════════════════════
+function sendMessage(text) {
+    var input = document.getElementById('chatInput');
+    var msg = text || input.value.trim();
+    if (!msg || isProcessing) return;
+
+    // Hide welcome screen
+    var welcome = document.getElementById('welcomeScreen');
+    if (welcome) welcome.remove();
+
+    // Show user message
+    addMessage('user', msg);
+    input.value = '';
+    input.style.height = 'auto';
+
+    // Add to history
+    chatHistory.push({ role: 'user', content: msg });
+
+    // Show typing
+    var typingId = showTyping();
+    isProcessing = true;
+    document.getElementById('sendBtn').disabled = true;
+
+    // Determine endpoint
+    var tokens = getTokens();
+    var endpoint = tokens ? 'email/chat' : 'demo/chat';
+    var body = { message: msg, history: chatHistory.slice(-10) };
+    if (tokens) body.tokens = tokens;
+
+    fetch(API + '?action=' + endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+    }).then(function(r) { return r.json(); }).then(function(d) {
+        removeTyping(typingId);
+        if (d.success && d.data && d.data.reply) {
+            addMessage('assistant', d.data.reply);
+            chatHistory.push({ role: 'assistant', content: d.data.reply });
+        } else {
+            addMessage('assistant', 'Sorry, something went wrong. ' + (d.error || 'Please try again.'));
+        }
+    }).catch(function(e) {
+        removeTyping(typingId);
+        addMessage('assistant', "I'm having trouble connecting. The AI server may be restarting — try again in a moment.");
+    }).finally(function() {
+        isProcessing = false;
+        document.getElementById('sendBtn').disabled = false;
+        input.focus();
+    });
+}
+
+function quickAction(text) {
+    document.getElementById('chatInput').value = text;
+    sendMessage(text);
+    // Close sidebar on mobile
+    document.getElementById('sidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('open');
+}
+
+function addMessage(role, content) {
+    var area = document.getElementById('messagesArea');
+    var div = document.createElement('div');
+    div.className = 'msg ' + role;
+
+    var avatar = role === 'assistant' ? '🤖' : '👤';
+    var formatted = formatMessage(content);
+
+    div.innerHTML =
+        '<div class="msg-avatar">' + avatar + '</div>' +
+        '<div><div class="msg-body">' + formatted + '</div>' +
+        '<div class="msg-time">' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) + '</div></div>';
+
+    area.appendChild(div);
+    area.scrollTop = area.scrollHeight;
+}
+
+function formatMessage(text) {
+    // Escape HTML first
+    var d = document.createElement('div');
+    d.textContent = text;
+    var escaped = d.innerHTML;
+    // Convert markdown-like formatting to HTML
+    return escaped
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/^[\s]*[-•]\s+(.+)/gm, '<li>$1</li>')
+        .replace(/^[\s]*(\d+)\.\s+(.+)/gm, '<li>$2</li>')
+        .replace(/((?:<li>.*?<\/li>\s*)+)/g, '<ul>$1</ul>')
+        .replace(/\n/g, '<br>')
+        .replace(/`(.*?)`/g, '<code>$1</code>');
+}
+
+var typingCounter = 0;
+function showTyping() {
+    var id = 'typing-' + (++typingCounter);
+    var area = document.getElementById('messagesArea');
+    var div = document.createElement('div');
+    div.className = 'msg assistant';
+    div.id = id;
+    div.innerHTML =
+        '<div class="msg-avatar">🤖</div>' +
+        '<div class="typing"><span class="typing-dot"></span><span class="typing-dot"></span><span class="typing-dot"></span></div>';
+    area.appendChild(div);
+    area.scrollTop = area.scrollHeight;
+    return id;
+}
+
+function removeTyping(id) {
+    var el = document.getElementById(id);
+    if (el) el.remove();
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Voice Input (Web Speech API)
+// ═══════════════════════════════════════════════════════════════════════════
+var recognition = null;
+var isRecording = false;
+
+function initVoice() {
+    var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+    if (!SR) {
+        document.getElementById('micBtn').style.display = 'none';
+        return;
+    }
+    recognition = new SR();
+    recognition.continuous = false;
+    recognition.interimResults = true;
+    recognition.lang = 'en-US';
+
+    recognition.onresult = function(event) {
+        var transcript = '';
+        for (var i = event.resultIndex; i < event.results.length; i++) {
+            transcript += event.results[i][0].transcript;
+        }
+        document.getElementById('chatInput').value = transcript;
+        if (event.results[event.results.length - 1].isFinal) {
+            stopVoice();
+            if (transcript.trim()) {
+                setTimeout(function() { sendMessage(); }, 300);
+            }
+        }
+    };
+
+    recognition.onerror = function() { stopVoice(); };
+    recognition.onend = function() { stopVoice(); };
+}
+
+function toggleVoice() {
+    if (isRecording) { stopVoice(); } else { startVoice(); }
+}
+
+function startVoice() {
+    if (!recognition) return;
+    isRecording = true;
+    document.getElementById('micBtn').classList.add('recording');
+    document.getElementById('chatInput').placeholder = 'Listening...';
+    recognition.start();
+}
+
+function stopVoice() {
+    isRecording = false;
+    document.getElementById('micBtn').classList.remove('recording');
+    document.getElementById('chatInput').placeholder = 'Ask about your inbox...';
+    if (recognition) try { recognition.stop(); } catch(e) {}
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Input Handling
+// ═══════════════════════════════════════════════════════════════════════════
+function handleKey(e) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+    }
+}
+
+function autoGrow(el) {
+    el.style.height = 'auto';
+    el.style.height = Math.min(el.scrollHeight, 120) + 'px';
+}
+
+function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+    document.getElementById('sidebarOverlay').classList.toggle('open');
+}
+
+// ═══════════════════════════════════════════════════════════════════════════
+// Init
+// ═══════════════════════════════════════════════════════════════════════════
+initGmail();
+initVoice();
+document.getElementById('chatInput').focus();
+</script>
 </body>
-
 </html>
