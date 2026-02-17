@@ -10,10 +10,21 @@ module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
   if (req.method === 'OPTIONS') return res.status(204).end();
 
-  // Route: /api/email-proxy?action=demo/triage
+  // Route: /api/email-proxy?action=demo/triage  OR  ?action=health
   const action = req.query.action;
   if (!action) {
     return res.status(400).json({ error: 'Missing ?action= parameter' });
+  }
+
+  // Health check shortcut
+  if (action === 'health') {
+    try {
+      const upstream = await fetch(`${VPS_URL}/health`);
+      const data = await upstream.json();
+      return res.status(200).json(data);
+    } catch (err) {
+      return res.status(502).json({ status: 'offline', error: err.message });
+    }
   }
 
   const targetUrl = `${VPS_URL}/api/${action}`;
