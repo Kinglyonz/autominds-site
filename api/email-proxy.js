@@ -19,9 +19,15 @@ module.exports = async function handler(req, res) {
   // Health check shortcut
   if (action === 'health') {
     try {
-      const upstream = await fetch(`${VPS_URL}/health`);
-      const data = await upstream.json();
-      return res.status(200).json(data);
+      const controller = new AbortController();
+      const timeout = setTimeout(() => controller.abort(), 8000);
+      try {
+        const upstream = await fetch(`${VPS_URL}/health`, { signal: controller.signal });
+        const data = await upstream.json();
+        return res.status(200).json(data);
+      } finally {
+        clearTimeout(timeout);
+      }
     } catch (err) {
       return res.status(502).json({ status: 'offline', error: err.message });
     }
@@ -44,11 +50,26 @@ module.exports = async function handler(req, res) {
       fetchOpts.body = JSON.stringify(req.body);
     }
 
-    const upstream = await fetch(targetUrl, fetchOpts);
-    const data = await upstream.json();
-    return res.status(upstream.status).json(data);
+    // 55s timeout — under Vercel's 60s maxDuration
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 55000);
+    fetchOpts.signal = controller.signal;
+
+    try {
+      const upstream = await fetch(targetUrl, fetchOpts);
+      const data = await upstream.json();
+      return res.status(upstream.status).json(data);
+    } finally {
+      clearTimeout(timeout);
+    }
   } catch (err) {
-    console.error('Proxy error:', err.message);
-    return res.status(502).json({ error: 'Email agent unavailable', detail: err.message });
+    const isTimeout = err.name === 'AbortError';
+    console.error('Proxy error:', isTimeout ? 'Request timed out (55s)' : err.message);
+    return res.status(502).json({
+      error: isTimeout
+        ? 'Request took too long — please try again. The AI agent is processing your request.'
+        : 'Email agent unavailable',
+      detail: err.message,
+    });
   }
 }
