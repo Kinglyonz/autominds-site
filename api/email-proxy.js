@@ -6,8 +6,8 @@ const VPS_URL = 'http://178.156.253.35';
 module.exports = async function handler(req, res) {
   // CORS
   res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   if (req.method === 'OPTIONS') return res.status(204).end();
 
   // Route: /api/email-proxy?action=demo/triage  OR  ?action=health
@@ -38,15 +38,25 @@ module.exports = async function handler(req, res) {
     return res.redirect(302, `${VPS_URL}/auth/gmail`);
   }
 
-  const targetUrl = `${VPS_URL}/api/${action}`;
+  // User endpoints (GET/POST/DELETE) — /api/email-proxy?action=user/me etc.
+  const targetUrl = action.startsWith('user/') 
+    ? `${VPS_URL}/api/${action}`
+    : `${VPS_URL}/api/${action}`;
 
   try {
+    const headers = { 'Content-Type': 'application/json' };
+    
+    // Forward Authorization header for session-based auth
+    if (req.headers.authorization) {
+      headers['Authorization'] = req.headers.authorization;
+    }
+
     const fetchOpts = {
       method: req.method,
-      headers: { 'Content-Type': 'application/json' },
+      headers,
     };
 
-    if (req.method === 'POST' && req.body) {
+    if ((req.method === 'POST' || req.method === 'DELETE') && req.body) {
       fetchOpts.body = JSON.stringify(req.body);
     }
 
