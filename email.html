@@ -127,10 +127,11 @@
                 </a>
                 <button class="gmail-pill connected" id="gmailConnectedBtn" style="display:none" onclick="toggleDisconnect()">
                     <span class="pill-dot"></span>
-                    Gmail Connected
+                    <span id="userLabel">Gmail Connected</span>
                 </button>
                 <div class="disconnect-dropdown" id="disconnectDropdown">
-                    <button class="disconnect-option" onclick="disconnectGmail()">Disconnect Gmail</button>
+                    <div id="userInfo" style="padding:8px 12px;font-size:11px;color:var(--text3);border-bottom:1px solid var(--border)"></div>
+                    <button class="disconnect-option" onclick="disconnectGmail()">Disconnect & Logout</button>
                 </div>
             </div>
             <a href="index.html" class="nav-link">&larr; Home</a>
@@ -147,7 +148,10 @@
                 <div class="suggestions">
                     <button class="suggestion" onclick="quickAction('What\'s important today?')">What's important today?</button>
                     <button class="suggestion" onclick="quickAction('Summarize my week')">Summarize my week</button>
-                    <button class="suggestion" onclick="quickAction('Anything I need to reply to?')">Anything I need to reply to?</button>
+                    <button class="suggestion" onclick="quickAction('Anything I need to reply to?')">Need to reply?</button>
+                    <button class="suggestion" onclick="quickAction('Find emails from my boss')">Search emails</button>
+                    <button class="suggestion" onclick="quickAction('Show my reminders')">My reminders</button>
+                    <button class="suggestion" onclick="quickAction('Remind me to check invoices tomorrow')">Set a reminder</button>
                 </div>
             </div>
         </div>
@@ -172,43 +176,117 @@
 var API = '/api/email-proxy';
 var chatHistory = [];
 var isProcessing = false;
+var sessionToken = null;
+var userEmail = null;
+var userName = null;
 
+// ─── Health Check ────────────────────────────────────────────────────────
 (function checkHealth() {
     fetch(API + '?action=health').then(function(r){return r.json()}).then(function(d){
         var dot = document.getElementById('statusDot');
         var txt = document.getElementById('statusText');
-        if (d.status === 'ok') { dot.className = 'dot dot-on'; txt.textContent = 'AI Online'; }
-        else { dot.className = 'dot dot-off'; txt.textContent = 'Starting...'; }
+        if (d.status === 'ok') {
+            dot.className = 'dot dot-on';
+            txt.textContent = d.model ? d.model + ' Online' : 'AI Online';
+        } else {
+            dot.className = 'dot dot-off'; txt.textContent = 'Starting...';
+        }
     }).catch(function(){
         document.getElementById('statusDot').className = 'dot dot-off';
         document.getElementById('statusText').textContent = 'Offline';
     });
 })();
 
+// ─── Auth / Session ────────────────────────────────────────────────────────
 function initGmail() {
+    // Check URL hash for OAuth callback (session token + user info)
     if (window.location.hash.indexOf('gmail_tokens=') !== -1) {
         try {
             var match = window.location.hash.match(/gmail_tokens=([^&]+)/);
             if (match) {
-                var tokens = JSON.parse(decodeURIComponent(match[1]));
-                localStorage.setItem('autominds_gmail', JSON.stringify(tokens));
+                var data = JSON.parse(decodeURIComponent(match[1]));
+                // Store session token (new system)
+                if (data.session_token) {
+                    localStorage.setItem('autominds_session', data.session_token);
+                    localStorage.setItem('autominds_email', data.email || '');
+                    localStorage.setItem('autominds_name', data.name || '');
+                }
+                // Also store raw tokens for backward compatibility
+                if (data.access_token) {
+                    localStorage.setItem('autominds_gmail', JSON.stringify({
+                        access_token: data.access_token,
+                        refresh_token: data.refresh_token,
+                        expiry_date: data.expiry_date,
+                    }));
+                }
                 history.replaceState(null, '', window.location.pathname);
-                addMessage('assistant', "Gmail connected! Try asking \"What's important today?\" or \"Summarize my week.\"");
+                addMessage('assistant', "Welcome" + (data.name ? ", " + data.name : "") + "! Gmail connected. Try asking \"What's important today?\" or \"Summarize my week.\"");
             }
         } catch (e) { console.error('Token parse error:', e); }
     }
+
     var urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('error')) {
         addMessage('assistant', "Couldn't connect Gmail. Please try again. (" + urlParams.get('error') + ")");
         history.replaceState(null, '', window.location.pathname);
     }
+
+    // Restore session
+    sessionToken = localStorage.getItem('autominds_session');
+    userEmail = localStorage.getItem('autominds_email');
+    userName = localStorage.getItem('autominds_name');
+
+    // Validate session if we have one
+    if (sessionToken) {
+        fetchWithAuth(API + '?action=user/me').then(function(r){return r.json()}).then(function(d){
+            if (d.success && d.data) {
+                userEmail = d.data.email;
+                userName = d.data.name;
+                localStorage.setItem('autominds_email', userEmail || '');
+                localStorage.setItem('autominds_name', userName || '');
+            } else {
+                // Session expired — clear
+                clearSession();
+            }
+            updateGmailUI();
+        }).catch(function(){ updateGmailUI(); });
+    }
+
     updateGmailUI();
 }
 
+function getAuthHeaders() {
+    var headers = { 'Content-Type': 'application/json' };
+    if (sessionToken) {
+        headers['Authorization'] = 'Bearer ' + sessionToken;
+    }
+    return headers;
+}
+
+function fetchWithAuth(url, opts) {
+    opts = opts || {};
+    opts.headers = Object.assign(getAuthHeaders(), opts.headers || {});
+    return fetch(url, opts);
+}
+
 function updateGmailUI() {
-    var connected = !!localStorage.getItem('autominds_gmail');
+    var hasSession = !!sessionToken;
+    var hasTokens = !!localStorage.getItem('autominds_gmail');
+    var connected = hasSession || hasTokens;
+
     document.getElementById('gmailConnectBtn').style.display = connected ? 'none' : 'flex';
     document.getElementById('gmailConnectedBtn').style.display = connected ? 'flex' : 'none';
+
+    var label = document.getElementById('userLabel');
+    var info = document.getElementById('userInfo');
+    if (connected && userEmail) {
+        label.textContent = userName || userEmail.split('@')[0];
+        info.textContent = userEmail;
+        info.style.display = 'block';
+    } else if (connected) {
+        label.textContent = 'Gmail Connected';
+        info.style.display = 'none';
+    }
 }
 
 function toggleDisconnect() {
@@ -219,10 +297,22 @@ function toggleDisconnect() {
     }
 }
 
-function disconnectGmail() {
+function clearSession() {
+    sessionToken = null; userEmail = null; userName = null;
+    localStorage.removeItem('autominds_session');
+    localStorage.removeItem('autominds_email');
+    localStorage.removeItem('autominds_name');
     localStorage.removeItem('autominds_gmail');
+}
+
+function disconnectGmail() {
+    // Tell server to destroy session
+    if (sessionToken) {
+        fetchWithAuth(API + '?action=user/logout', { method: 'POST' }).catch(function(){});
+    }
+    clearSession();
     updateGmailUI();
-    addMessage('assistant', "Gmail disconnected. Connect again anytime.");
+    addMessage('assistant', "Logged out. Connect Gmail again anytime.");
 }
 
 function getTokens() {
@@ -230,6 +320,7 @@ function getTokens() {
     return raw ? JSON.parse(raw) : null;
 }
 
+// ─── Chat ────────────────────────────────────────────────────────────────
 function sendMessage(text) {
     var input = document.getElementById('chatInput');
     var msg = text || input.value.trim();
@@ -243,17 +334,23 @@ function sendMessage(text) {
     var typingId = showTyping();
     isProcessing = true;
     document.getElementById('sendBtn').disabled = true;
+
     var tokens = getTokens();
-    var endpoint = tokens ? 'email/chat' : 'demo/chat';
+    var hasAuth = sessionToken || tokens;
+    var endpoint = hasAuth ? 'email/chat' : 'demo/chat';
     var body = { message: msg, history: chatHistory.slice(-10) };
-    if (tokens) body.tokens = tokens;
-    fetch(API + '?action=' + endpoint, {
+
+    // Prefer session auth, fall back to raw tokens
+    if (!sessionToken && tokens) body.tokens = tokens;
+
+    fetchWithAuth(API + '?action=' + endpoint, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
     }).then(function(r) { return r.json(); }).then(function(d) {
         removeTyping(typingId);
-        if (d.success && d.data && d.data.reply) {
+        if (d.error && d.error.indexOf('Rate limit') !== -1) {
+            addMessage('assistant', "⚠️ " + d.error + " You've been making a lot of requests. Take a short break and try again.");
+        } else if (d.success && d.data && d.data.reply) {
             addMessage('assistant', d.data.reply);
             chatHistory.push({ role: 'assistant', content: d.data.reply });
         } else {
@@ -307,6 +404,7 @@ function showTyping() {
 }
 function removeTyping(id) { var el = document.getElementById(id); if (el) el.remove(); }
 
+// ─── Voice ────────────────────────────────────────────────────────────────
 var recognition = null, isRecording = false;
 function initVoice() {
     var SR = window.SpeechRecognition || window.webkitSpeechRecognition;
