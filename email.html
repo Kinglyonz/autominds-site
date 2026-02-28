@@ -44,10 +44,12 @@
         .gmail-pill.connected{background:rgba(34,197,94,.08);color:var(--green);border:1px solid rgba(34,197,94,.15)}
         .gmail-pill .pill-dot{width:6px;height:6px;border-radius:50%;background:currentColor}
         .gmail-wrap{position:relative}
-        .disconnect-dropdown{display:none;position:absolute;top:100%;right:0;margin-top:4px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rs);padding:4px;z-index:100;min-width:140px}
+        .disconnect-dropdown{display:none;position:absolute;top:100%;right:0;margin-top:4px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rs);padding:4px;z-index:100;min-width:160px}
         .disconnect-dropdown.show{display:block}
-        .disconnect-option{display:block;width:100%;padding:8px 12px;border:none;background:none;color:var(--red);font-family:var(--font);font-size:12px;cursor:pointer;text-align:left;border-radius:4px}
-        .disconnect-option:hover{background:rgba(239,68,68,.1)}
+        .disconnect-option{display:block;width:100%;padding:8px 12px;border:none;background:none;color:var(--text2);font-family:var(--font);font-size:12px;cursor:pointer;text-align:left;border-radius:4px}
+        .disconnect-option:hover{background:rgba(255,255,255,.05)}
+        .disconnect-option.danger{color:var(--red)}
+        .disconnect-option.danger:hover{background:rgba(239,68,68,.1)}
 
         /* ─── Chat ────────────────────────────────────────── */
         .chat{flex:1;display:flex;flex-direction:column;overflow:hidden;max-width:800px;margin:0 auto;width:100%}
@@ -131,7 +133,8 @@
                 </button>
                 <div class="disconnect-dropdown" id="disconnectDropdown">
                     <div id="userInfo" style="padding:8px 12px;font-size:11px;color:var(--text3);border-bottom:1px solid var(--border)"></div>
-                    <button class="disconnect-option" onclick="disconnectGmail()">Disconnect & Logout</button>
+                    <button class="disconnect-option" onclick="clearChat()">🗑️ Clear Chat History</button>
+                    <button class="disconnect-option danger" onclick="disconnectGmail()">Disconnect & Logout</button>
                 </div>
             </div>
             <a href="index.html" class="nav-link">&larr; Home</a>
@@ -244,6 +247,8 @@ function initGmail() {
                 userName = d.data.name;
                 localStorage.setItem('autominds_email', userEmail || '');
                 localStorage.setItem('autominds_name', userName || '');
+                // Load chat history from DB
+                loadChatHistory();
             } else {
                 // Session expired — clear
                 clearSession();
@@ -315,6 +320,50 @@ function disconnectGmail() {
     addMessage('assistant', "Logged out. Connect Gmail again anytime.");
 }
 
+function clearChat() {
+    // Close dropdown
+    document.getElementById('disconnectDropdown').classList.remove('show');
+    // Clear on server if logged in
+    if (sessionToken) {
+        fetchWithAuth(API + '?action=user/history', { method: 'DELETE' }).catch(function(){});
+    }
+    // Clear local state
+    chatHistory = [];
+    var area = document.getElementById('messagesArea');
+    area.innerHTML = '';
+    // Re-show welcome screen
+    var welcome = document.createElement('div');
+    welcome.className = 'welcome';
+    welcome.id = 'welcomeScreen';
+    welcome.innerHTML = '<div class="welcome-icon">📬</div><h2>Your AI email assistant</h2>' +
+        '<p>Connect your Gmail and ask me anything. I\'ll read your actual emails and give you a real answer.</p>' +
+        '<div class="scope-note">By default I look at the last 3 days. Say "today" or "this week" for different ranges.</div>' +
+        '<div class="suggestions">' +
+        '<button class="suggestion" onclick="quickAction(\'What\\\'s important today?\')">What\'s important today?</button>' +
+        '<button class="suggestion" onclick="quickAction(\'Summarize my week\')">Summarize my week</button>' +
+        '<button class="suggestion" onclick="quickAction(\'Anything I need to reply to?\')">Need to reply?</button>' +
+        '<button class="suggestion" onclick="quickAction(\'Find emails from my boss\')">Search emails</button>' +
+        '<button class="suggestion" onclick="quickAction(\'Show my reminders\')">My reminders</button>' +
+        '<button class="suggestion" onclick="quickAction(\'Remind me to check invoices tomorrow\')">Set a reminder</button>' +
+        '</div>';
+    area.appendChild(welcome);
+}
+
+function loadChatHistory() {
+    if (!sessionToken) return;
+    fetchWithAuth(API + '?action=user/history').then(function(r) { return r.json(); }).then(function(d) {
+        if (d.success && d.data && d.data.history && d.data.history.length > 0) {
+            // Remove welcome screen and render history
+            var welcome = document.getElementById('welcomeScreen');
+            if (welcome) welcome.remove();
+            d.data.history.forEach(function(msg) {
+                addMessage(msg.role, msg.content, msg.created_at);
+                chatHistory.push({ role: msg.role, content: msg.content });
+            });
+        }
+    }).catch(function(e) { console.warn('Could not load chat history:', e); });
+}
+
 function getTokens() {
     var raw = localStorage.getItem('autominds_gmail');
     return raw ? JSON.parse(raw) : null;
@@ -325,6 +374,7 @@ function sendMessage(text) {
     var input = document.getElementById('chatInput');
     var msg = text || input.value.trim();
     if (!msg || isProcessing) return;
+    if (msg.length > 2000) { addMessage('assistant', '⚠️ Message too long. Please keep it under 2000 characters.'); return; }
     var welcome = document.getElementById('welcomeScreen');
     if (welcome) welcome.remove();
     addMessage('user', msg);
@@ -368,15 +418,18 @@ function sendMessage(text) {
 
 function quickAction(text) { document.getElementById('chatInput').value = text; sendMessage(text); }
 
-function addMessage(role, content) {
+function addMessage(role, content, timestamp) {
     var area = document.getElementById('messagesArea');
     var div = document.createElement('div');
     div.className = 'msg ' + role;
     var avatar = role === 'assistant' ? '🤖' : '👤';
+    var timeStr = timestamp
+        ? new Date(timestamp + 'Z').toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})
+        : new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
     div.innerHTML =
         '<div class="msg-avatar">' + avatar + '</div>' +
         '<div><div class="msg-body">' + formatMessage(content) + '</div>' +
-        '<div class="msg-time">' + new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'}) + '</div></div>';
+        '<div class="msg-time">' + timeStr + '</div></div>';
     area.appendChild(div);
     area.scrollTop = area.scrollHeight;
 }
