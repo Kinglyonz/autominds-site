@@ -190,7 +190,7 @@ var userName = null;
         var txt = document.getElementById('statusText');
         if (d.status === 'ok') {
             dot.className = 'dot dot-on';
-            txt.textContent = d.model ? d.model + ' Online' : 'AI Online';
+            txt.textContent = 'AI Online';
         } else {
             dot.className = 'dot dot-off'; txt.textContent = 'Starting...';
         }
