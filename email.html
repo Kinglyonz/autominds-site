@@ -65,19 +65,18 @@
         .welcome p{color:var(--text2);font-size:14px;max-width:400px;line-height:1.6;margin-bottom:8px}
         .welcome .scope-note{color:var(--text3);font-size:12px;margin-bottom:28px}
 
-        /* Magic link email input */
-        .magic-link-form{display:flex;gap:8px;max-width:400px;width:100%;margin-bottom:24px}
-        .magic-link-form input{flex:1;padding:12px 16px;border:1px solid var(--border);border-radius:10px;background:var(--bg2);color:var(--text);font-size:14px;font-family:var(--font);outline:none;transition:border-color .2s}
-        .magic-link-form input:focus{border-color:var(--purple)}
-        .magic-link-form input::placeholder{color:var(--text3)}
-        .magic-link-btn{padding:12px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--accent));color:#fff;font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;white-space:nowrap;transition:opacity .2s}
-        .magic-link-btn:hover{opacity:.9}
-        .magic-link-btn:disabled{opacity:.5;cursor:not-allowed}
-        .magic-link-msg{font-size:13px;margin-top:8px;min-height:20px}
-        .magic-link-msg.success{color:#22c55e}
-        .magic-link-msg.error{color:#ef4444}
-        .magic-link-divider{color:var(--text3);font-size:12px;margin:8px 0 20px;display:flex;align-items:center;gap:12px;max-width:400px;width:100%}
-        .magic-link-divider::before,.magic-link-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+        /* Signup form */
+        .signup-form{display:flex;flex-direction:column;gap:10px;max-width:360px;width:100%;margin-bottom:24px}
+        .signup-row{display:flex;gap:8px}
+        .signup-form input{flex:1;padding:12px 16px;border:1px solid var(--border);border-radius:10px;background:var(--bg2);color:var(--text);font-size:14px;font-family:var(--font);outline:none;transition:border-color .2s}
+        .signup-form input:focus{border-color:var(--purple)}
+        .signup-form input::placeholder{color:var(--text3)}
+        .signup-btn{padding:12px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--accent));color:#fff;font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;white-space:nowrap;transition:opacity .2s}
+        .signup-btn:hover{opacity:.9}
+        .signup-btn:disabled{opacity:.5;cursor:not-allowed}
+        .signup-msg{font-size:13px;margin-top:4px;min-height:20px;text-align:center}
+        .signup-msg.success{color:#22c55e}
+        .signup-msg.error{color:#ef4444}
 
         .suggestions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:520px}
         .suggestion{padding:10px 16px;border:1px solid var(--border);border-radius:20px;background:transparent;cursor:pointer;font-size:13px;color:var(--text2);font-family:var(--font);transition:all .2s;white-space:nowrap}
@@ -163,6 +162,18 @@
                 <h2>Your AI email assistant</h2>
                 <p>Connect your Gmail and ask me anything. I'll read your actual emails and give you a real answer.</p>
                 <div class="scope-note">By default I look at the last 3 days. Say "today" or "this week" for different ranges.</div>
+
+                <div id="signupSection">
+                    <div class="signup-form" id="signupForm">
+                        <div class="signup-row">
+                            <input type="text" id="signupFirstName" placeholder="First name" autocomplete="given-name">
+                            <input type="text" id="signupLastName" placeholder="Last name" autocomplete="family-name">
+                        </div>
+                        <input type="email" id="signupEmail" placeholder="Email address" autocomplete="email" onkeydown="if(event.key==='Enter'){event.preventDefault();submitSignup()}">
+                        <button class="signup-btn" id="signupBtn" onclick="submitSignup()">Get Started Free</button>
+                    </div>
+                    <div class="signup-msg" id="signupMsg"></div>
+                </div>
 
                 <div class="suggestions">
                     <button class="suggestion" onclick="quickAction('What\'s important today?')">What's important today?</button>
@@ -299,9 +310,9 @@ function updateGmailUI() {
     document.getElementById('gmailConnectBtn').style.display = connected ? 'none' : 'flex';
     document.getElementById('gmailConnectedBtn').style.display = connected ? 'flex' : 'none';
 
-    // Hide magic link form if connected
-    var mlSection = document.getElementById('magicLinkSection');
-    if (mlSection) mlSection.style.display = connected ? 'none' : 'block';
+    // Hide signup form if connected
+    var signupSection = document.getElementById('signupSection');
+    if (signupSection) signupSection.style.display = connected ? 'none' : 'block';
 
     var label = document.getElementById('userLabel');
     var info = document.getElementById('userInfo');
@@ -499,56 +510,67 @@ function stopVoice() { isRecording = false; document.getElementById('micBtn').cl
 function handleKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
 function autoGrow(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 120) + 'px'; }
 
-// ─── Magic Link ───────────────────────────────────────────────────────────
-async function sendMagicLink() {
-    var emailInput = document.getElementById('magicEmailInput');
-    var btn = document.getElementById('magicLinkBtn');
-    var msg = document.getElementById('magicLinkMsg');
-    var email = emailInput.value.trim();
+// ─── Signup Form ───────────────────────────────────────────────────────────
+async function submitSignup() {
+    var firstName = document.getElementById('signupFirstName').value.trim();
+    var lastName = document.getElementById('signupLastName').value.trim();
+    var email = document.getElementById('signupEmail').value.trim();
+    var btn = document.getElementById('signupBtn');
+    var msg = document.getElementById('signupMsg');
 
+    if (!firstName || !lastName) {
+        msg.className = 'signup-msg error';
+        msg.textContent = 'Please enter your first and last name';
+        return;
+    }
     if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-        msg.className = 'magic-link-msg error';
+        msg.className = 'signup-msg error';
         msg.textContent = 'Please enter a valid email address';
         return;
     }
 
     btn.disabled = true;
-    btn.textContent = 'Sending...';
-    msg.className = 'magic-link-msg';
+    btn.textContent = 'Signing up...';
+    msg.className = 'signup-msg';
     msg.textContent = '';
 
     try {
-        var res = await fetch(API_BASE + '?action=magic-link', {
+        var res = await fetch(API_BASE + '?action=signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email: email })
+            body: JSON.stringify({ firstName: firstName, lastName: lastName, email: email })
         });
         var data = await res.json();
 
         if (data.success) {
-            msg.className = 'magic-link-msg success';
-            msg.textContent = '✓ ' + data.message;
-            emailInput.value = '';
+            // Save to localStorage so we remember them
+            localStorage.setItem('autominds_signup', JSON.stringify({ firstName: firstName, lastName: lastName, email: email }));
+            msg.className = 'signup-msg success';
+            msg.textContent = '✓ Welcome, ' + firstName + '! You can now use the email agent.';
+            // Hide the form after success
+            document.getElementById('signupSection').style.display = 'none';
         } else {
-            msg.className = 'magic-link-msg error';
+            msg.className = 'signup-msg error';
             msg.textContent = data.error || 'Something went wrong';
         }
     } catch (err) {
-        msg.className = 'magic-link-msg error';
-        msg.textContent = 'Failed to send — please try again';
+        msg.className = 'signup-msg error';
+        msg.textContent = 'Failed — please try again';
     }
 
     btn.disabled = false;
-    btn.textContent = 'Get Started';
+    btn.textContent = 'Get Started Free';
 }
 
-// Hide magic link section if already connected
-function updateMagicLinkVisibility() {
-    var section = document.getElementById('magicLinkSection');
-    if (section) section.style.display = sessionToken ? 'none' : 'block';
+// Hide signup if already signed up
+function updateSignupVisibility() {
+    var section = document.getElementById('signupSection');
+    var hasSignup = !!localStorage.getItem('autominds_signup');
+    var connected = !!sessionToken || !!localStorage.getItem('autominds_gmail');
+    if (section) section.style.display = (hasSignup || connected) ? 'none' : 'block';
 }
 
-initGmail(); initVoice(); updateMagicLinkVisibility(); document.getElementById('chatInput').focus();
+initGmail(); initVoice(); updateSignupVisibility(); document.getElementById('chatInput').focus();
 </script>
 </body>
 </html>
