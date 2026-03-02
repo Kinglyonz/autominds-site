@@ -64,6 +64,21 @@
         .welcome h2{font-family:var(--heading);font-size:22px;font-weight:700;margin-bottom:6px}
         .welcome p{color:var(--text2);font-size:14px;max-width:400px;line-height:1.6;margin-bottom:8px}
         .welcome .scope-note{color:var(--text3);font-size:12px;margin-bottom:28px}
+
+        /* Magic link email input */
+        .magic-link-form{display:flex;gap:8px;max-width:400px;width:100%;margin-bottom:24px}
+        .magic-link-form input{flex:1;padding:12px 16px;border:1px solid var(--border);border-radius:10px;background:var(--bg2);color:var(--text);font-size:14px;font-family:var(--font);outline:none;transition:border-color .2s}
+        .magic-link-form input:focus{border-color:var(--purple)}
+        .magic-link-form input::placeholder{color:var(--text3)}
+        .magic-link-btn{padding:12px 20px;border:none;border-radius:10px;background:linear-gradient(135deg,var(--purple),var(--accent));color:#fff;font-size:14px;font-weight:600;font-family:var(--font);cursor:pointer;white-space:nowrap;transition:opacity .2s}
+        .magic-link-btn:hover{opacity:.9}
+        .magic-link-btn:disabled{opacity:.5;cursor:not-allowed}
+        .magic-link-msg{font-size:13px;margin-top:8px;min-height:20px}
+        .magic-link-msg.success{color:#22c55e}
+        .magic-link-msg.error{color:#ef4444}
+        .magic-link-divider{color:var(--text3);font-size:12px;margin:8px 0 20px;display:flex;align-items:center;gap:12px;max-width:400px;width:100%}
+        .magic-link-divider::before,.magic-link-divider::after{content:'';flex:1;height:1px;background:var(--border)}
+
         .suggestions{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;max-width:520px}
         .suggestion{padding:10px 16px;border:1px solid var(--border);border-radius:20px;background:transparent;cursor:pointer;font-size:13px;color:var(--text2);font-family:var(--font);transition:all .2s;white-space:nowrap}
         .suggestion:hover{border-color:var(--purple);color:var(--text);background:rgba(168,85,247,.06)}
@@ -148,6 +163,16 @@
                 <h2>Your AI email assistant</h2>
                 <p>Connect your Gmail and ask me anything. I'll read your actual emails and give you a real answer.</p>
                 <div class="scope-note">By default I look at the last 3 days. Say "today" or "this week" for different ranges.</div>
+
+                <div id="magicLinkSection">
+                    <div class="magic-link-form" id="magicLinkForm">
+                        <input type="email" id="magicEmailInput" placeholder="Enter your email to get started" autocomplete="email" onkeydown="if(event.key==='Enter'){event.preventDefault();sendMagicLink()}">
+                        <button class="magic-link-btn" id="magicLinkBtn" onclick="sendMagicLink()">Get Started</button>
+                    </div>
+                    <div class="magic-link-msg" id="magicLinkMsg"></div>
+                    <div class="magic-link-divider">or try it without signing up</div>
+                </div>
+
                 <div class="suggestions">
                     <button class="suggestion" onclick="quickAction('What\'s important today?')">What's important today?</button>
                     <button class="suggestion" onclick="quickAction('Summarize my week')">Summarize my week</button>
@@ -282,6 +307,10 @@ function updateGmailUI() {
 
     document.getElementById('gmailConnectBtn').style.display = connected ? 'none' : 'flex';
     document.getElementById('gmailConnectedBtn').style.display = connected ? 'flex' : 'none';
+
+    // Hide magic link form if connected
+    var mlSection = document.getElementById('magicLinkSection');
+    if (mlSection) mlSection.style.display = connected ? 'none' : 'block';
 
     var label = document.getElementById('userLabel');
     var info = document.getElementById('userInfo');
@@ -479,7 +508,56 @@ function stopVoice() { isRecording = false; document.getElementById('micBtn').cl
 function handleKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
 function autoGrow(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 120) + 'px'; }
 
-initGmail(); initVoice(); document.getElementById('chatInput').focus();
+// ─── Magic Link ───────────────────────────────────────────────────────────
+async function sendMagicLink() {
+    var emailInput = document.getElementById('magicEmailInput');
+    var btn = document.getElementById('magicLinkBtn');
+    var msg = document.getElementById('magicLinkMsg');
+    var email = emailInput.value.trim();
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        msg.className = 'magic-link-msg error';
+        msg.textContent = 'Please enter a valid email address';
+        return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    msg.className = 'magic-link-msg';
+    msg.textContent = '';
+
+    try {
+        var res = await fetch(API_BASE + '?action=magic-link', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email })
+        });
+        var data = await res.json();
+
+        if (data.success) {
+            msg.className = 'magic-link-msg success';
+            msg.textContent = '✓ ' + data.message;
+            emailInput.value = '';
+        } else {
+            msg.className = 'magic-link-msg error';
+            msg.textContent = data.error || 'Something went wrong';
+        }
+    } catch (err) {
+        msg.className = 'magic-link-msg error';
+        msg.textContent = 'Failed to send — please try again';
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Get Started';
+}
+
+// Hide magic link section if already connected
+function updateMagicLinkVisibility() {
+    var section = document.getElementById('magicLinkSection');
+    if (section) section.style.display = sessionToken ? 'none' : 'block';
+}
+
+initGmail(); initVoice(); updateMagicLinkVisibility(); document.getElementById('chatInput').focus();
 </script>
 </body>
 </html>

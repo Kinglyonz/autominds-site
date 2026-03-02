@@ -38,6 +38,13 @@ module.exports = async function handler(req, res) {
     return res.redirect(302, `${VPS_URL}/auth/gmail`);
   }
 
+  // Magic link connect — redirect to VPS which handles verification + OAuth redirect
+  if (action.startsWith('magic-connect')) {
+    const token = req.query.token;
+    if (!token) return res.status(400).json({ error: 'Missing token' });
+    return res.redirect(302, `${VPS_URL}/api/magic-connect?token=${token}`);
+  }
+
   // User endpoints (GET/POST/DELETE) — /api/email-proxy?action=user/me etc.
   const targetUrl = action.startsWith('user/') 
     ? `${VPS_URL}/api/${action}`
