@@ -419,7 +419,8 @@ function sendMessage(text) {
     var tokens = getTokens();
     var hasAuth = sessionToken || tokens;
     var endpoint = hasAuth ? 'email/chat' : 'demo/chat';
-    var body = { message: msg, history: chatHistory.slice(-10) };
+    var tz = Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/New_York';
+    var body = { message: msg, history: chatHistory.slice(-10), timezone: tz };
 
     // Prefer session auth, fall back to raw tokens
     if (!sessionToken && tokens) body.tokens = tokens;
