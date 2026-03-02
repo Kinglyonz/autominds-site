@@ -164,15 +164,6 @@
                 <p>Connect your Gmail and ask me anything. I'll read your actual emails and give you a real answer.</p>
                 <div class="scope-note">By default I look at the last 3 days. Say "today" or "this week" for different ranges.</div>
 
-                <div id="magicLinkSection">
-                    <div class="magic-link-form" id="magicLinkForm">
-                        <input type="email" id="magicEmailInput" placeholder="Enter your email to get started" autocomplete="email" onkeydown="if(event.key==='Enter'){event.preventDefault();sendMagicLink()}">
-                        <button class="magic-link-btn" id="magicLinkBtn" onclick="sendMagicLink()">Get Started</button>
-                    </div>
-                    <div class="magic-link-msg" id="magicLinkMsg"></div>
-                    <div class="magic-link-divider">or try it without signing up</div>
-                </div>
-
                 <div class="suggestions">
                     <button class="suggestion" onclick="quickAction('What\'s important today?')">What's important today?</button>
                     <button class="suggestion" onclick="quickAction('Summarize my week')">Summarize my week</button>
