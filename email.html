@@ -498,7 +498,7 @@ function initVoice() {
     recognition.onresult = function(ev) {
         var t = ''; for (var i = ev.resultIndex; i < ev.results.length; i++) t += ev.results[i][0].transcript;
         document.getElementById('chatInput').value = t;
-        if (ev.results[ev.results.length - 1].isFinal) { stopVoice(); if (t.trim()) setTimeout(function() { sendMessage(); }, 300); }
+        if (ev.results[ev.results.length - 1].isFinal) { stopVoice(); }
     };
     recognition.onerror = function() { stopVoice(); };
     recognition.onend = function() { stopVoice(); };
