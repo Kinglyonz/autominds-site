@@ -310,9 +310,8 @@ function updateGmailUI() {
     document.getElementById('gmailConnectBtn').style.display = connected ? 'none' : 'flex';
     document.getElementById('gmailConnectedBtn').style.display = connected ? 'flex' : 'none';
 
-    // Hide signup form if connected
-    var signupSection = document.getElementById('signupSection');
-    if (signupSection) signupSection.style.display = connected ? 'none' : 'block';
+    // Re-enforce the gate whenever Gmail state changes
+    enforceGate();
 
     var label = document.getElementById('userLabel');
     var info = document.getElementById('userInfo');
@@ -535,7 +534,7 @@ async function submitSignup() {
     msg.textContent = '';
 
     try {
-        var res = await fetch(API_BASE + '?action=signup', {
+        var res = await fetch(API + '?action=signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ firstName: firstName, lastName: lastName, email: email })
@@ -546,31 +545,58 @@ async function submitSignup() {
             // Save to localStorage so we remember them
             localStorage.setItem('autominds_signup', JSON.stringify({ firstName: firstName, lastName: lastName, email: email }));
             msg.className = 'signup-msg success';
-            msg.textContent = '✓ Welcome, ' + firstName + '! You can now use the email agent.';
-            // Hide the form after success
-            document.getElementById('signupSection').style.display = 'none';
+            msg.textContent = '✓ Welcome, ' + firstName + '! You can now connect your Gmail.';
+            // Unlock the page
+            setTimeout(function() { enforceGate(); }, 800);
         } else {
             msg.className = 'signup-msg error';
             msg.textContent = data.error || 'Something went wrong';
+            btn.disabled = false;
+            btn.textContent = 'Get Started Free';
         }
     } catch (err) {
         msg.className = 'signup-msg error';
         msg.textContent = 'Failed — please try again';
+        btn.disabled = false;
+        btn.textContent = 'Get Started Free';
     }
-
-    btn.disabled = false;
-    btn.textContent = 'Get Started Free';
 }
 
-// Hide signup if already signed up
-function updateSignupVisibility() {
-    var section = document.getElementById('signupSection');
+// ─── Gate: signup wall ─────────────────────────────────────────────────────
+function enforceGate() {
     var hasSignup = !!localStorage.getItem('autominds_signup');
-    var connected = !!sessionToken || !!localStorage.getItem('autominds_gmail');
-    if (section) section.style.display = (hasSignup || connected) ? 'none' : 'block';
+    var isConnected = !!sessionToken || !!localStorage.getItem('autominds_gmail');
+
+    var signupSection = document.getElementById('signupSection');
+    var gmailConnectBtn = document.getElementById('gmailConnectBtn');
+    var suggestions = document.querySelector('.suggestions');
+    var inputBar = document.querySelector('.input-bar');
+    var chatInput = document.getElementById('chatInput');
+    var sendBtn = document.getElementById('sendBtn');
+    var micBtn = document.getElementById('micBtn');
+
+    if (!hasSignup && !isConnected) {
+        // ── LOCKED: show only signup form ──
+        if (signupSection) signupSection.style.display = 'block';
+        if (gmailConnectBtn) gmailConnectBtn.style.display = 'none';
+        if (suggestions) suggestions.style.display = 'none';
+        if (inputBar) { inputBar.style.opacity = '0.3'; inputBar.style.pointerEvents = 'none'; }
+        if (chatInput) chatInput.placeholder = 'Sign up above to get started...';
+        if (sendBtn) sendBtn.disabled = true;
+        if (micBtn) micBtn.disabled = true;
+    } else {
+        // ── UNLOCKED: signed up (or connected) ──
+        if (signupSection) signupSection.style.display = 'none';
+        if (gmailConnectBtn) gmailConnectBtn.style.display = isConnected ? 'none' : 'flex';
+        if (suggestions) suggestions.style.display = 'flex';
+        if (inputBar) { inputBar.style.opacity = '1'; inputBar.style.pointerEvents = 'auto'; }
+        if (chatInput) chatInput.placeholder = 'Ask about your inbox...';
+        if (sendBtn) sendBtn.disabled = false;
+        if (micBtn) micBtn.disabled = false;
+    }
 }
 
-initGmail(); initVoice(); updateSignupVisibility(); document.getElementById('chatInput').focus();
+initGmail(); initVoice(); enforceGate(); document.getElementById('chatInput').focus();
 </script>
 </body>
 </html>
