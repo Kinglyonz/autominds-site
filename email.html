@@ -52,7 +52,7 @@
         .disconnect-option.danger:hover{background:rgba(239,68,68,.1)}
 
         /* ─── Chat ────────────────────────────────────────── */
-        .chat{flex:1;display:flex;flex-direction:column;overflow:hidden;max-width:800px;margin:0 auto;width:100%}
+        .chat{flex:1;display:flex;flex-direction:column;overflow:hidden;max-width:800px;margin:0 auto;width:100%;padding-top:0}
         .messages{flex:1;overflow-y:auto;padding:24px 20px;display:flex;flex-direction:column;gap:16px}
         .messages::-webkit-scrollbar{width:5px}
         .messages::-webkit-scrollbar-track{background:transparent}
@@ -121,7 +121,32 @@
         @media(max-width:640px){
             .suggestions{flex-direction:column;align-items:center}
             .nav-link{display:none}
+            .tips-sidebar{display:none}
+            .tips-toggle{display:none}
+            .chat-layout{padding-left:0}
         }
+
+        /* ─── Tips Sidebar ────────────────────────────────── */
+        .chat-layout{display:flex;flex:1;overflow:hidden}
+        .tips-sidebar{width:260px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--border);overflow-y:auto;padding:20px 16px;display:flex;flex-direction:column;gap:12px;transition:transform .3s ease}
+        .tips-sidebar::-webkit-scrollbar{width:4px}
+        .tips-sidebar::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+        .tips-header{font-family:var(--heading);font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px;margin-bottom:4px}
+        .tips-header svg{color:var(--purple)}
+        .tips-subtitle{font-size:11px;color:var(--text3);margin-bottom:8px;line-height:1.4}
+        .tip-card{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:12px 14px;cursor:pointer;transition:all .2s}
+        .tip-card:hover{border-color:rgba(168,85,247,.3);background:rgba(168,85,247,.04)}
+        .tip-card-label{font-size:12px;font-weight:600;color:var(--text);margin-bottom:4px;display:flex;align-items:center;gap:6px}
+        .tip-card-desc{font-size:11px;color:var(--text2);line-height:1.5}
+        .tip-card-example{font-size:11px;color:var(--purple);margin-top:6px;font-style:italic;opacity:.8}
+        .tips-toggle{display:none;position:fixed;left:12px;bottom:72px;width:36px;height:36px;border-radius:50%;border:1px solid var(--border);background:var(--bg2);color:var(--text2);cursor:pointer;z-index:60;align-items:center;justify-content:center;font-size:16px}
+        @media(max-width:900px){
+            .tips-sidebar{position:fixed;left:0;top:0;bottom:0;z-index:100;transform:translateX(-100%);box-shadow:4px 0 20px rgba(0,0,0,.5)}
+            .tips-sidebar.open{transform:translateX(0)}
+            .tips-toggle{display:flex}
+            .chat-layout{padding-left:0}
+        }
+        .chat-main{flex:1;display:flex;flex-direction:column;overflow:hidden}
     </style>
 </head>
 <body>
@@ -155,6 +180,66 @@
         </div>
     </div>
 
+    <div class="chat-layout">
+        <aside class="tips-sidebar" id="tipsSidebar">
+            <div class="tips-header">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9.663 17h4.674M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/></svg>
+                Tips &amp; Tricks
+            </div>
+            <div class="tips-subtitle">Here's what your AI email assistant can do — try clicking any tip to send it!</div>
+
+            <div class="tip-card" onclick="quickAction('What\'s important in my inbox today?')">
+                <div class="tip-card-label">📬 Inbox Summary</div>
+                <div class="tip-card-desc">Get a quick overview of your most important emails from any time range.</div>
+                <div class="tip-card-example">"Summarize my inbox this week"</div>
+            </div>
+
+            <div class="tip-card" onclick="quickAction('Find emails from my boss')">
+                <div class="tip-card-label">🔍 Smart Search</div>
+                <div class="tip-card-desc">Search by sender, subject, date, or keywords across your inbox.</div>
+                <div class="tip-card-example">"Find invoices from last month"</div>
+            </div>
+
+            <div class="tip-card" onclick="quickAction('Draft a reply to the latest email from John')">
+                <div class="tip-card-label">✍️ Draft Replies</div>
+                <div class="tip-card-desc">Get AI-written reply drafts you can review and send directly.</div>
+                <div class="tip-card-example">"Reply to Sarah's email about the meeting"</div>
+            </div>
+
+            <div class="tip-card" onclick="quickAction('Send an email to john@example.com about the project update')">
+                <div class="tip-card-label">📤 Send Emails</div>
+                <div class="tip-card-desc">Compose and send new emails — just tell me who, what, and I'll handle the rest.</div>
+                <div class="tip-card-example">"Email team@company.com about Friday's meeting"</div>
+            </div>
+
+            <div class="tip-card" onclick="quickAction('Remind me to follow up on the proposal tomorrow at 9am')">
+                <div class="tip-card-label">⏰ Set Reminders</div>
+                <div class="tip-card-desc">Never forget a follow-up. Set reminders and get notified via SMS.</div>
+                <div class="tip-card-example">"Remind me to check invoices on Friday"</div>
+            </div>
+
+            <div class="tip-card" onclick="quickAction('Show my upcoming reminders')">
+                <div class="tip-card-label">📋 Manage Reminders</div>
+                <div class="tip-card-desc">View, check, or delete your upcoming reminders anytime.</div>
+                <div class="tip-card-example">"Show my reminders"</div>
+            </div>
+
+            <div class="tip-card" onclick="quickAction('Anything I need to reply to urgently?')">
+                <div class="tip-card-label">🚨 Priority Triage</div>
+                <div class="tip-card-desc">Find urgent emails that need your attention right now.</div>
+                <div class="tip-card-example">"What needs my attention?"</div>
+            </div>
+
+            <div class="tip-card" onclick="quickAction('Archive all newsletters from this week')">
+                <div class="tip-card-label">🏷️ Organize</div>
+                <div class="tip-card-desc">Archive, label, star or trash emails in bulk with simple commands.</div>
+                <div class="tip-card-example">"Star all emails from my manager"</div>
+            </div>
+        </aside>
+
+        <button class="tips-toggle" id="tipsToggle" onclick="toggleTipsSidebar()" title="Tips & Tricks">💡</button>
+
+        <div class="chat-main">
     <div class="chat">
         <div class="messages" id="messagesArea">
             <div class="welcome" id="welcomeScreen">
@@ -169,7 +254,8 @@
                             <input type="text" id="signupFirstName" placeholder="First name" autocomplete="given-name">
                             <input type="text" id="signupLastName" placeholder="Last name" autocomplete="family-name">
                         </div>
-                        <input type="email" id="signupEmail" placeholder="Email address" autocomplete="email" onkeydown="if(event.key==='Enter'){event.preventDefault();submitSignup()}">
+                        <input type="email" id="signupEmail" placeholder="Email address" autocomplete="email">
+                        <input type="tel" id="signupPhone" placeholder="Phone number (for reminders via SMS)" autocomplete="tel">
                         <button class="signup-btn" id="signupBtn" onclick="submitSignup()">Get Started Free</button>
                     </div>
                     <div class="signup-msg" id="signupMsg"></div>
@@ -202,6 +288,8 @@
             <div class="input-hint">Press Enter to send · Shift+Enter for new line · Click 🎤 to talk</div>
         </div>
     </div>
+        </div><!-- /.chat-main -->
+    </div><!-- /.chat-layout -->
 
 <script>
 var API = '/api/email-proxy';
@@ -515,6 +603,7 @@ async function submitSignup() {
     var firstName = document.getElementById('signupFirstName').value.trim();
     var lastName = document.getElementById('signupLastName').value.trim();
     var email = document.getElementById('signupEmail').value.trim();
+    var phone = document.getElementById('signupPhone').value.trim();
     var btn = document.getElementById('signupBtn');
     var msg = document.getElementById('signupMsg');
 
@@ -538,13 +627,13 @@ async function submitSignup() {
         var res = await fetch(API + '?action=signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ firstName: firstName, lastName: lastName, email: email })
+            body: JSON.stringify({ firstName: firstName, lastName: lastName, email: email, phone: phone })
         });
         var data = await res.json();
 
         if (data.success) {
             // Save to localStorage so we remember them
-            localStorage.setItem('autominds_signup', JSON.stringify({ firstName: firstName, lastName: lastName, email: email }));
+            localStorage.setItem('autominds_signup', JSON.stringify({ firstName: firstName, lastName: lastName, email: email, phone: phone }));
             msg.className = 'signup-msg success';
             msg.textContent = '✓ Welcome, ' + firstName + '! You can now connect your Gmail.';
             // Unlock the page
@@ -596,6 +685,20 @@ function enforceGate() {
         if (micBtn) micBtn.disabled = false;
     }
 }
+
+// ─── Tips Sidebar Toggle ───────────────────────────────────────────────────
+function toggleTipsSidebar() {
+    var sidebar = document.getElementById('tipsSidebar');
+    sidebar.classList.toggle('open');
+}
+// Close sidebar when clicking outside on mobile
+document.addEventListener('click', function(e) {
+    var sidebar = document.getElementById('tipsSidebar');
+    var toggle = document.getElementById('tipsToggle');
+    if (sidebar.classList.contains('open') && !sidebar.contains(e.target) && e.target !== toggle) {
+        sidebar.classList.remove('open');
+    }
+});
 
 initGmail(); initVoice(); enforceGate(); document.getElementById('chatInput').focus();
 </script>
