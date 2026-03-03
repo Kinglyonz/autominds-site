@@ -51,6 +51,27 @@
         .disconnect-option.danger{color:var(--red)}
         .disconnect-option.danger:hover{background:rgba(239,68,68,.1)}
 
+        /* Phone modal */
+        .phone-btn{display:none;align-items:center;gap:5px;font-size:12px;padding:5px 12px;border-radius:20px;border:1px solid var(--border);background:transparent;color:var(--text2);cursor:pointer;font-family:var(--font);font-weight:500;transition:all .2s}
+        .phone-btn:hover{border-color:var(--purple);color:var(--text)}
+        .phone-btn.has-phone{border-color:rgba(34,197,94,.25);color:var(--green)}
+        .phone-modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.6);z-index:200;align-items:center;justify-content:center}
+        .phone-modal-overlay.show{display:flex}
+        .phone-modal{background:var(--bg2);border:1px solid var(--border2);border-radius:16px;padding:28px 24px;width:90%;max-width:380px;text-align:center}
+        .phone-modal h3{font-family:var(--heading);font-size:18px;font-weight:700;margin-bottom:4px}
+        .phone-modal .modal-desc{color:var(--text2);font-size:13px;line-height:1.5;margin-bottom:18px}
+        .phone-modal input{width:100%;padding:12px 16px;border:1px solid var(--border);border-radius:10px;background:var(--bg3);color:var(--text);font-size:14px;font-family:var(--font);outline:none;margin-bottom:10px;transition:border-color .2s}
+        .phone-modal input:focus{border-color:var(--purple)}
+        .phone-modal input::placeholder{color:var(--text3)}
+        .phone-modal-btns{display:flex;gap:8px}
+        .phone-modal-btns button{flex:1;padding:10px;border-radius:10px;font-size:13px;font-weight:600;font-family:var(--font);cursor:pointer;transition:opacity .2s;border:none}
+        .phone-save-btn{background:linear-gradient(135deg,var(--purple),var(--accent));color:#fff}
+        .phone-save-btn:hover{opacity:.9}
+        .phone-save-btn:disabled{opacity:.5;cursor:not-allowed}
+        .phone-cancel-btn{background:var(--bg3);color:var(--text2);border:1px solid var(--border)!important}
+        .phone-cancel-btn:hover{background:rgba(255,255,255,.05)}
+        .phone-msg{font-size:12px;margin-top:8px;min-height:18px}
+
         /* ─── Chat ────────────────────────────────────────── */
         .chat{flex:1;display:flex;flex-direction:column;overflow:hidden;max-width:800px;margin:0 auto;width:100%;padding-top:0}
         .messages{flex:1;overflow-y:auto;padding:24px 20px;display:flex;flex-direction:column;gap:16px}
@@ -176,7 +197,24 @@
                     <button class="disconnect-option danger" onclick="disconnectGmail()">Disconnect & Logout</button>
                 </div>
             </div>
+            <button class="phone-btn" id="phoneBtn" onclick="openPhoneModal()" title="Add phone for SMS reminders">
+                📱 <span id="phoneBtnLabel">Add Phone</span>
+            </button>
             <a href="index.html" class="nav-link">&larr; Home</a>
+        </div>
+    </div>
+
+    <!-- Phone number modal -->
+    <div class="phone-modal-overlay" id="phoneModalOverlay" onclick="if(event.target===this)closePhoneModal()">
+        <div class="phone-modal">
+            <h3>📱 SMS Reminders</h3>
+            <div class="modal-desc">Add your phone number to receive text message alerts when your reminders fire.</div>
+            <input type="tel" id="phoneModalInput" placeholder="(555) 123-4567" autocomplete="tel" onkeydown="if(event.key==='Enter'){event.preventDefault();savePhoneNumber()}">
+            <div class="phone-modal-btns">
+                <button class="phone-cancel-btn" onclick="closePhoneModal()">Cancel</button>
+                <button class="phone-save-btn" id="phoneSaveBtn" onclick="savePhoneNumber()">Save Number</button>
+            </div>
+            <div class="phone-msg" id="phoneMsg"></div>
         </div>
     </div>
 
@@ -664,6 +702,7 @@ function enforceGate() {
     var chatInput = document.getElementById('chatInput');
     var sendBtn = document.getElementById('sendBtn');
     var micBtn = document.getElementById('micBtn');
+    var phoneBtn = document.getElementById('phoneBtn');
 
     if (!hasSignup && !isConnected) {
         // ── LOCKED: show only signup form ──
@@ -674,6 +713,7 @@ function enforceGate() {
         if (chatInput) chatInput.placeholder = 'Sign up above to get started...';
         if (sendBtn) sendBtn.disabled = true;
         if (micBtn) micBtn.disabled = true;
+        if (phoneBtn) phoneBtn.style.display = 'none';
     } else {
         // ── UNLOCKED: signed up (or connected) ──
         if (signupSection) signupSection.style.display = 'none';
@@ -683,6 +723,15 @@ function enforceGate() {
         if (chatInput) chatInput.placeholder = 'Ask about your inbox...';
         if (sendBtn) sendBtn.disabled = false;
         if (micBtn) micBtn.disabled = false;
+        // Show phone button, check if they already have a number
+        if (phoneBtn) {
+            phoneBtn.style.display = 'flex';
+            var signupData = JSON.parse(localStorage.getItem('autominds_signup') || '{}');
+            if (signupData.phone) {
+                phoneBtn.classList.add('has-phone');
+                document.getElementById('phoneBtnLabel').textContent = 'SMS On';
+            }
+        }
     }
 }
 
@@ -699,7 +748,61 @@ document.addEventListener('click', function(e) {
         sidebar.classList.remove('open');
     }
 });
+// ─── Phone Number Modal ────────────────────────────────────────────────────────────────────
+function openPhoneModal() {
+    var overlay = document.getElementById('phoneModalOverlay');
+    var input = document.getElementById('phoneModalInput');
+    var msg = document.getElementById('phoneMsg');
+    var signupData = JSON.parse(localStorage.getItem('autominds_signup') || '{}');
+    overlay.classList.add('show');
+    msg.textContent = '';
+    msg.className = 'phone-msg';
+    if (signupData.phone) input.value = signupData.phone;
+    else input.value = '';
+    input.focus();
+}
+function closePhoneModal() {
+    document.getElementById('phoneModalOverlay').classList.remove('show');
+}
+async function savePhoneNumber() {
+    var input = document.getElementById('phoneModalInput');
+    var btn = document.getElementById('phoneSaveBtn');
+    var msg = document.getElementById('phoneMsg');
+    var phone = input.value.trim();
+    var signupData = JSON.parse(localStorage.getItem('autominds_signup') || '{}');
 
+    if (!phone) { msg.className = 'phone-msg error'; msg.textContent = 'Please enter a phone number'; return; }
+    var digits = phone.replace(/[^\d]/g, '');
+    if (digits.length < 10) { msg.className = 'phone-msg error'; msg.textContent = 'Enter a valid 10-digit phone number'; return; }
+
+    var email = signupData.email;
+    if (!email) { msg.className = 'phone-msg error'; msg.textContent = 'No account found — please sign up first'; return; }
+
+    btn.disabled = true; btn.textContent = 'Saving...';
+    msg.className = 'phone-msg'; msg.textContent = '';
+
+    try {
+        var res = await fetch(API + '?action=update-phone', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, phone: phone })
+        });
+        var data = await res.json();
+        if (data.success) {
+            signupData.phone = phone;
+            localStorage.setItem('autominds_signup', JSON.stringify(signupData));
+            msg.className = 'phone-msg success'; msg.textContent = '✓ Phone saved! You\'ll get SMS reminders.';
+            document.getElementById('phoneBtn').classList.add('has-phone');
+            document.getElementById('phoneBtnLabel').textContent = 'SMS On';
+            setTimeout(closePhoneModal, 1500);
+        } else {
+            msg.className = 'phone-msg error'; msg.textContent = data.error || 'Something went wrong';
+        }
+    } catch (err) {
+        msg.className = 'phone-msg error'; msg.textContent = 'Failed — please try again';
+    }
+    btn.disabled = false; btn.textContent = 'Save Number';
+}
 initGmail(); initVoice(); enforceGate(); document.getElementById('chatInput').focus();
 </script>
 </body>
