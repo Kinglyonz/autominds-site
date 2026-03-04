@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AutoMinds | AI Email Agent</title>
     <meta name="description" content="Talk to your AI email assistant. Connect Gmail and get instant inbox insights.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -48,7 +48,7 @@
         }
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
         html{-webkit-font-smoothing:antialiased}
-        body{font-family:var(--font);background:var(--bg);color:var(--text);height:100vh;display:flex;flex-direction:column;overflow:hidden;transition:background .3s ease,color .3s ease}
+        body{font-family:var(--font);background:var(--bg);color:var(--text);height:100vh;height:100dvh;display:flex;flex-direction:column;overflow:hidden;transition:background .3s ease,color .3s ease;position:fixed;width:100%;top:0;left:0}
         .nav,.tips-sidebar,.input-bar,.msg-body,.tip-card,.phone-modal,.disconnect-dropdown,.signup-form input,.input-field{transition:background .3s ease,border-color .3s ease,color .3s ease}
 
         /* ─── Nav ─────────────────────────────────────────── */
@@ -177,6 +177,23 @@
             .tips-sidebar{display:none}
             .tips-toggle{display:none}
             .chat-layout{padding-left:0}
+            .input-field{font-size:16px!important}
+            .signup-form input{font-size:16px!important}
+            .phone-modal input{font-size:16px!important}
+            .nav{padding:8px 12px}
+            .nav-badge{display:none}
+            .nav-brand{font-size:14px}
+            .messages{padding:16px 12px;gap:12px}
+            .msg-body{padding:10px 14px;font-size:13px;max-width:calc(100vw - 80px)}
+            .input-bar{padding:10px 12px}
+            .input-field{padding:12px 14px;padding-right:40px}
+            .input-hint{display:none}
+            .send-btn{width:40px;height:40px}
+            .welcome{padding:20px 16px}
+            .welcome h2{font-size:18px}
+            .welcome p{font-size:13px}
+            .welcome-icon{font-size:36px;margin-bottom:10px}
+            .phone-btn{font-size:11px;padding:4px 8px}
         }
 
         /* ─── Tips Sidebar ────────────────────────────────── */
@@ -200,6 +217,11 @@
             .chat-layout{padding-left:0}
         }
         .chat-main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+
+        /* Mobile keyboard-aware layout */
+        @supports(height:100dvh){
+            body{height:100dvh}
+        }
     </style>
 </head>
 <body>
@@ -668,6 +690,40 @@ function stopVoice() { isRecording = false; document.getElementById('micBtn').cl
 
 function handleKey(e) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }
 function autoGrow(el) { el.style.height = 'auto'; el.style.height = Math.min(el.scrollHeight, 120) + 'px'; }
+
+// ─── Mobile Keyboard Handling (visualViewport) ─────────────────────────────
+(function() {
+    if (!window.visualViewport) return;
+    var inputBar = document.querySelector('.input-bar');
+    var messagesArea = document.getElementById('messagesArea');
+    function onViewportResize() {
+        var vv = window.visualViewport;
+        // Calculate how much the keyboard is eating from the bottom
+        var keyboardHeight = window.innerHeight - vv.height - vv.offsetTop;
+        if (keyboardHeight > 50) {
+            // Keyboard is open
+            document.body.style.height = vv.height + 'px';
+            // Scroll messages to bottom
+            setTimeout(function() {
+                messagesArea.scrollTop = messagesArea.scrollHeight;
+            }, 100);
+        } else {
+            // Keyboard is closed
+            document.body.style.height = '';
+        }
+    }
+    window.visualViewport.addEventListener('resize', onViewportResize);
+    window.visualViewport.addEventListener('scroll', onViewportResize);
+    // Also handle focus on the input field
+    var chatInput = document.getElementById('chatInput');
+    if (chatInput) {
+        chatInput.addEventListener('focus', function() {
+            setTimeout(function() {
+                messagesArea.scrollTop = messagesArea.scrollHeight;
+            }, 300);
+        });
+    }
+})();
 
 // ─── Signup Form ───────────────────────────────────────────────────────────
 async function submitSignup() {
