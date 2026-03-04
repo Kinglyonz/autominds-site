@@ -194,6 +194,14 @@
             .welcome p{font-size:13px}
             .welcome-icon{font-size:36px;margin-bottom:10px}
             .phone-btn{font-size:11px;padding:4px 8px}
+            .signup-form{max-width:100%;padding:0 4px}
+            .signup-row{flex-direction:column;gap:8px}
+            .signup-form input{padding:14px 16px;font-size:16px!important;border-radius:12px}
+            .signup-btn{padding:14px 20px;font-size:15px;border-radius:12px}
+            .signup-msg{font-size:12px}
+            .scope-note{font-size:11px;margin-bottom:16px}
+            .suggestions{gap:6px;max-width:100%;padding:0 4px}
+            .suggestion{padding:8px 14px;font-size:12px;white-space:normal;text-align:center}
         }
 
         /* ─── Tips Sidebar ────────────────────────────────── */
@@ -328,6 +336,48 @@
                 <div class="tip-card-desc">Archive, label, star or trash emails in bulk with simple commands.</div>
                 <div class="tip-card-example">"Star all emails from my manager"</div>
             </div>
+
+            <div class="tip-card" onclick="quickAction('Show my inbox analytics this week')">
+                <div class="tip-card-label">📊 Inbox Analytics</div>
+                <div class="tip-card-desc">See email volume, top senders, and daily breakdowns.</div>
+                <div class="tip-card-example">"Who emails me the most?"</div>
+            </div>
+
+            <div class="tip-card" onclick="quickAction('What sent emails am I waiting on a reply to?')">
+                <div class="tip-card-label">📨 Follow-up Tracker</div>
+                <div class="tip-card-desc">Find sent emails that haven't gotten a response yet.</div>
+                <div class="tip-card-example">"What am I waiting on?"</div>
+            </div>
+
+            <div class="tip-card" onclick="quickAction('Find emails with attachments')">
+                <div class="tip-card-label">📎 Attachment Finder</div>
+                <div class="tip-card-desc">Search for emails with PDFs, invoices, contracts, and files.</div>
+                <div class="tip-card-example">"Show me emails with PDFs"</div>
+            </div>
+
+            <div class="tip-card" onclick="quickAction('Do I have any meeting invites?')">
+                <div class="tip-card-label">📅 Meeting Detector</div>
+                <div class="tip-card-desc">Find calendar invites, Zoom links, and meeting requests.</div>
+                <div class="tip-card-example">"Any upcoming meetings?"</div>
+            </div>
+
+            <div class="tip-card" onclick="quickAction('Start daily briefing')">
+                <div class="tip-card-label">🌅 Daily Briefing</div>
+                <div class="tip-card-desc">Get a morning SMS summary of your inbox every day at 8 AM.</div>
+                <div class="tip-card-example">"Enable morning summary"</div>
+            </div>
+
+            <div class="tip-card" onclick="quickAction('Clean up my inbox')">
+                <div class="tip-card-label">🧹 Inbox Cleanup</div>
+                <div class="tip-card-desc">Bulk mark as read, archive, or trash newsletters and promotions.</div>
+                <div class="tip-card-example">"Mark all newsletters as read"</div>
+            </div>
+
+            <div class="tip-card" onclick="quickAction('Show my subscriptions')">
+                <div class="tip-card-label">🔕 Unsubscribe</div>
+                <div class="tip-card-desc">Find mailing lists and unsubscribe from them automatically.</div>
+                <div class="tip-card-example">"Unsubscribe from Netflix, Hulu"</div>
+            </div>
         </aside>
 
         <button class="tips-toggle" id="tipsToggle" onclick="toggleTipsSidebar()" title="Tips & Tricks">💡</button>
@@ -358,10 +408,12 @@
                     <button class="suggestion" onclick="quickAction('What\'s important today?')">What's important today?</button>
                     <button class="suggestion" onclick="quickAction('Summarize my week')">Summarize my week</button>
                     <button class="suggestion" onclick="quickAction('Anything I need to reply to?')">Need to reply?</button>
-                    <button class="suggestion" onclick="quickAction('Find emails from my boss')">Search emails</button>
-                    <button class="suggestion" onclick="quickAction('Show my reminders')">My reminders</button>
-                    <button class="suggestion" onclick="quickAction('Remind me to check invoices tomorrow')">Set a reminder</button>
-                    <button class="suggestion" onclick="quickAction('Send an email to john@example.com about the project update')">Send an email</button>
+                    <button class="suggestion" onclick="quickAction('Who emails me the most?')">Top senders</button>
+                    <button class="suggestion" onclick="quickAction('Find emails with attachments')">📎 Attachments</button>
+                    <button class="suggestion" onclick="quickAction('Do I have any meeting invites?')">📅 Meetings</button>
+                    <button class="suggestion" onclick="quickAction('What am I waiting on a reply to?')">📨 Follow-ups</button>
+                    <button class="suggestion" onclick="quickAction('Show my subscriptions')">🔕 Unsubscribe</button>
+                    <button class="suggestion" onclick="quickAction('Clean up my inbox')">🧹 Cleanup</button>
                 </div>
             </div>
         </div>
