@@ -3,6 +3,7 @@
     "cleanUrls": true,
     "trailingSlash": false,
     "functions": {
+        "api/contact.js": { "maxDuration": 30 },
         "api/email-proxy.js": { "maxDuration": 60 },
         "api/gmail-callback.js": { "maxDuration": 30 }
     },
