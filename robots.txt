@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /login
+Disallow: /success
+
+Sitemap: https://autominds.org/sitemap.xml
