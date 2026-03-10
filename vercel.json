@@ -7,6 +7,12 @@
         "api/email-proxy.js": { "maxDuration": 60 },
         "api/gmail-callback.js": { "maxDuration": 30 }
     },
+    "rewrites": [
+        {
+            "source": "/api/contact",
+            "destination": "http://178.156.253.35:3100/api/contact"
+        }
+    ],
     "headers": [
         {
             "source": "/(.*)",
