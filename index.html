@@ -162,6 +162,29 @@ ul { list-style: none; }
 .vision h2 span { color: var(--text-dim); }
 .vision h2 em { font-style: normal; color: var(--accent); }
 
+/* ─── Never Section ─── */
+.never {
+    min-height: 70vh; display: flex; align-items: center; justify-content: center;
+    text-align: center; padding: clamp(60px, 10vw, 120px) clamp(1.5rem, 4vw, 3rem);
+    flex-direction: column; gap: 0;
+}
+.never-lines {
+    display: flex; flex-direction: column; gap: 0.4em;
+}
+.never-line {
+    font-family: var(--display); font-size: clamp(2rem, 5vw, 4.5rem);
+    font-weight: 700; line-height: 1.2; letter-spacing: -0.04em;
+    color: var(--text-dim); opacity: 0; transform: translateY(20px);
+}
+.never-line em {
+    font-style: normal; color: var(--text);
+}
+.never-sub {
+    margin-top: 2rem; font-size: clamp(0.95rem, 1.2vw, 1.15rem);
+    color: var(--text-muted); max-width: 500px; line-height: 1.6;
+    opacity: 0; transform: translateY(15px);
+}
+
 /* ─── AMI Showcase ─── */
 .ami {
     min-height: 90vh; display: flex; align-items: center;
@@ -464,6 +487,16 @@ footer {
     </div>
 </section>
 
+<!-- ═══ Never Late. Never Quits. ═══ -->
+<section class="never">
+    <div class="never-lines">
+        <div class="never-line">Never <em>shows up late.</em></div>
+        <div class="never-line">Never <em>calls out sick.</em></div>
+        <div class="never-line">Never <em>asks for a raise.</em></div>
+    </div>
+    <p class="never-sub">Your AI workforce runs 24/7/365 — no HR, no overhead, no excuses. Just results.</p>
+</section>
+
 <!-- ═══ Services ═══ -->
 <section id="services" class="section">
     <div class="section-inner">
@@ -621,6 +654,18 @@ ScrollTrigger.create({
     start: 60,
     onEnter: () => document.querySelector('.nav').style.background = 'rgba(5,5,5,0.85)',
     onLeaveBack: () => document.querySelector('.nav').style.background = 'rgba(5,5,5,0.6)',
+});
+
+// Never section staggered reveal
+document.querySelectorAll('.never-line').forEach((el, i) => {
+    gsap.to(el, {
+        scrollTrigger: { trigger: '.never', start: 'top 75%', toggleActions: 'play none none none' },
+        opacity: 1, y: 0, duration: 0.8, delay: i * 0.2, ease: 'power3.out',
+    });
+});
+gsap.to('.never-sub', {
+    scrollTrigger: { trigger: '.never', start: 'top 75%', toggleActions: 'play none none none' },
+    opacity: 1, y: 0, duration: 0.8, delay: 0.7, ease: 'power3.out',
 });
 
 // AMI sphere subtle scale on scroll
