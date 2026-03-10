@@ -10,6 +10,10 @@
         {
             "source": "/api/contact",
             "destination": "http://178.156.253.35/api/contact"
+        },
+        {
+            "source": "/api/webhooks/resend",
+            "destination": "http://178.156.253.35/api/webhooks/resend"
         }
     ],
     "headers": [
