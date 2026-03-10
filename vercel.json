@@ -3,14 +3,13 @@
     "cleanUrls": true,
     "trailingSlash": false,
     "functions": {
-        "api/contact.js": { "maxDuration": 30 },
         "api/email-proxy.js": { "maxDuration": 60 },
         "api/gmail-callback.js": { "maxDuration": 30 }
     },
     "rewrites": [
         {
             "source": "/api/contact",
-            "destination": "http://178.156.253.35:3100/api/contact"
+            "destination": "http://178.156.253.35/api/contact"
         }
     ],
     "headers": [
