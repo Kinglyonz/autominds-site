@@ -12,7 +12,7 @@
     <style>
 /* ═══════════════════════════════════════════════
    AutoMinds — 2059 Design System
-   Monochrome + Purple · Scroll-Driven · Premium
+   Monochrome + Neon Blue · Scroll-Driven · Premium
    ═══════════════════════════════════════════════ */
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -27,10 +27,10 @@
     --text: #ffffff;
     --text-dim: rgba(255,255,255,0.50);
     --text-muted: rgba(255,255,255,0.22);
-    --accent: #A855F7;
-    --accent-soft: rgba(168,85,247,0.12);
-    --accent-border: rgba(168,85,247,0.25);
-    --accent-glow: rgba(168,85,247,0.06);
+    --accent: #38BDF8;
+    --accent-soft: rgba(56,189,248,0.12);
+    --accent-border: rgba(56,189,248,0.25);
+    --accent-glow: rgba(56,189,248,0.06);
     --font: 'Inter', -apple-system, system-ui, sans-serif;
     --display: 'Space Grotesk', sans-serif;
     --ease: cubic-bezier(0.16, 1, 0.3, 1);
@@ -43,7 +43,7 @@ a { text-decoration: none; color: inherit; }
 ul { list-style: none; }
 
 /* ─── Selection ─── */
-::selection { background: rgba(168,85,247,0.3); color: #fff; }
+::selection { background: rgba(56,189,248,0.3); color: #fff; }
 
 /* ─── Nav ─── */
 .nav {
@@ -58,7 +58,7 @@ ul { list-style: none; }
 }
 .nav-inner { max-width: 1400px; width: 100%; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; }
 .nav-brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 700; font-size: 1.15rem; letter-spacing: -0.02em; }
-.nav-brand img { width: 30px; height: 30px; filter: drop-shadow(0 0 12px rgba(168,85,247,0.5)); }
+.nav-brand img { width: 30px; height: 30px; filter: drop-shadow(0 0 12px rgba(56,189,248,0.5)); }
 .nav-links { display: flex; align-items: center; gap: 2rem; }
 .nav-links a { font-size: 0.85rem; font-weight: 500; color: var(--text-dim); transition: color 0.25s; }
 .nav-links a:hover { color: var(--text); }
@@ -79,7 +79,7 @@ ul { list-style: none; }
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -55%);
     width: min(700px, 90vw); height: min(700px, 90vw);
     border-radius: 50%;
-    background: radial-gradient(circle at 40% 40%, rgba(168,85,247,0.18) 0%, rgba(168,85,247,0.04) 40%, transparent 70%);
+    background: radial-gradient(circle at 40% 40%, rgba(56,189,248,0.18) 0%, rgba(56,189,248,0.04) 40%, transparent 70%);
     filter: blur(80px); pointer-events: none;
     animation: orbFloat 10s ease-in-out infinite;
 }
@@ -87,7 +87,7 @@ ul { list-style: none; }
     position: absolute; top: 45%; left: 55%; transform: translate(-50%, -50%);
     width: min(500px, 70vw); height: min(500px, 70vw);
     border-radius: 50%;
-    background: radial-gradient(circle, rgba(99,102,241,0.1) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(56,189,248,0.08) 0%, transparent 60%);
     filter: blur(60px); pointer-events: none;
     animation: orbFloat 14s ease-in-out infinite reverse;
 }
@@ -125,9 +125,9 @@ ul { list-style: none; }
     padding: 14px 32px; border-radius: 100px; font-size: 0.92rem; font-weight: 600;
     color: #fff; background: var(--accent); border: none; cursor: pointer;
     transition: all 0.3s var(--ease);
-    box-shadow: 0 0 0 0 rgba(168,85,247,0);
+    box-shadow: 0 0 0 0 rgba(56,189,248,0);
 }
-.btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(168,85,247,0.35); }
+.btn-main:hover { transform: translateY(-2px); box-shadow: 0 8px 40px rgba(56,189,248,0.35); }
 .btn-ghost {
     display: inline-flex; align-items: center; gap: 8px;
     padding: 14px 28px; border-radius: 100px; font-size: 0.92rem; font-weight: 500;
@@ -144,20 +144,6 @@ ul { list-style: none; }
 .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--text-muted), transparent); animation: scrollDown 2s ease-in-out infinite; }
 @keyframes scrollDown { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
 
-/* ─── Marquee ─── */
-.marquee {
-    padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.04); border-bottom: 1px solid rgba(255,255,255,0.04);
-    overflow: hidden; white-space: nowrap; background: var(--bg2);
-}
-.marquee-track {
-    display: inline-flex; animation: marqueeScroll 30s linear infinite;
-}
-.marquee-track span {
-    font-size: 0.8rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase;
-    color: var(--text-muted); padding: 0 2rem;
-}
-.marquee-track .sep { color: var(--accent); opacity: 0.5; }
-@keyframes marqueeScroll { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
 /* ─── Section Shared ─── */
 .section { padding: clamp(80px, 12vw, 160px) clamp(1.5rem, 4vw, 3rem); position: relative; }
@@ -205,29 +191,29 @@ ul { list-style: none; }
 }
 .ami-sphere {
     width: 75%; aspect-ratio: 1; border-radius: 50%; position: relative;
-    background: radial-gradient(circle at 35% 35%, rgba(168,85,247,0.2), rgba(168,85,247,0.02) 60%, transparent 80%);
-    border: 1px solid rgba(168,85,247,0.15);
-    box-shadow: 0 0 120px rgba(168,85,247,0.1), inset 0 0 80px rgba(168,85,247,0.05);
+    background: radial-gradient(circle at 35% 35%, rgba(56,189,248,0.2), rgba(56,189,248,0.02) 60%, transparent 80%);
+    border: 1px solid rgba(56,189,248,0.15);
+    box-shadow: 0 0 120px rgba(56,189,248,0.1), inset 0 0 80px rgba(56,189,248,0.05);
     animation: spherePulse 6s ease-in-out infinite;
 }
 .ami-sphere::before {
     content: ''; position: absolute; inset: 15%; border-radius: 50%;
-    border: 1px solid rgba(168,85,247,0.1);
+    border: 1px solid rgba(56,189,248,0.1);
     animation: sphereRotate 20s linear infinite;
 }
 .ami-sphere::after {
     content: 'AMI'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
     font-family: var(--display); font-size: 1.8rem; font-weight: 700; letter-spacing: 0.15em;
-    color: rgba(168,85,247,0.6);
+    color: rgba(56,189,248,0.6);
 }
 @keyframes spherePulse {
-    0%, 100% { box-shadow: 0 0 120px rgba(168,85,247,0.1), inset 0 0 80px rgba(168,85,247,0.05); }
-    50% { box-shadow: 0 0 180px rgba(168,85,247,0.18), inset 0 0 100px rgba(168,85,247,0.08); }
+    0%, 100% { box-shadow: 0 0 120px rgba(56,189,248,0.1), inset 0 0 80px rgba(56,189,248,0.05); }
+    50% { box-shadow: 0 0 180px rgba(56,189,248,0.18), inset 0 0 100px rgba(56,189,248,0.08); }
 }
 @keyframes sphereRotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .ami-ring {
     position: absolute; inset: 5%; border-radius: 50%;
-    border: 1px dashed rgba(168,85,247,0.08);
+    border: 1px dashed rgba(56,189,248,0.08);
     animation: sphereRotate 40s linear infinite reverse;
 }
 
@@ -298,7 +284,7 @@ ul { list-style: none; }
 .final-cta-glow {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
     width: 800px; height: 800px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(168,85,247,0.12) 0%, transparent 60%);
+    background: radial-gradient(circle, rgba(56,189,248,0.12) 0%, transparent 60%);
     filter: blur(80px); pointer-events: none;
 }
 .final-cta h2 {
@@ -396,28 +382,6 @@ footer {
         Scroll
     </div>
 </section>
-
-<!-- ═══ Marquee ═══ -->
-<div class="marquee">
-    <div class="marquee-track">
-        <span>Email Agents</span><span class="sep">·</span>
-        <span>Lead Nurturing</span><span class="sep">·</span>
-        <span>Workflow Automation</span><span class="sep">·</span>
-        <span>AI Marketing</span><span class="sep">·</span>
-        <span>Website Building</span><span class="sep">·</span>
-        <span>CRM Integration</span><span class="sep">·</span>
-        <span>24/7 Support</span><span class="sep">·</span>
-        <span>Custom AI Solutions</span><span class="sep">·</span>
-        <span>Email Agents</span><span class="sep">·</span>
-        <span>Lead Nurturing</span><span class="sep">·</span>
-        <span>Workflow Automation</span><span class="sep">·</span>
-        <span>AI Marketing</span><span class="sep">·</span>
-        <span>Website Building</span><span class="sep">·</span>
-        <span>CRM Integration</span><span class="sep">·</span>
-        <span>24/7 Support</span><span class="sep">·</span>
-        <span>Custom AI Solutions</span><span class="sep">·</span>
-    </div>
-</div>
 
 <!-- ═══ Vision Statement ═══ -->
 <section class="vision">
