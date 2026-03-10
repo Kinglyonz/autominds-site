@@ -195,27 +195,72 @@ ul { list-style: none; }
     border: 1px solid rgba(56,189,248,0.15);
     box-shadow: 0 0 120px rgba(56,189,248,0.1), inset 0 0 80px rgba(56,189,248,0.05);
     animation: spherePulse 6s ease-in-out infinite;
+    transition: background 0.6s, border-color 0.6s, box-shadow 0.6s;
 }
 .ami-sphere::before {
     content: ''; position: absolute; inset: 15%; border-radius: 50%;
     border: 1px solid rgba(56,189,248,0.1);
     animation: sphereRotate 20s linear infinite;
+    transition: border-color 0.6s;
 }
 .ami-sphere::after {
     content: 'AMI'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
     font-family: var(--display); font-size: 1.8rem; font-weight: 700; letter-spacing: 0.15em;
     color: rgba(56,189,248,0.6);
+    transition: color 0.6s;
 }
 @keyframes spherePulse {
     0%, 100% { box-shadow: 0 0 120px rgba(56,189,248,0.1), inset 0 0 80px rgba(56,189,248,0.05); }
     50% { box-shadow: 0 0 180px rgba(56,189,248,0.18), inset 0 0 100px rgba(56,189,248,0.08); }
+}
+@keyframes spherePulseSilo {
+    0%, 100% { box-shadow: 0 0 120px rgba(168,85,247,0.1), inset 0 0 80px rgba(168,85,247,0.05); }
+    50% { box-shadow: 0 0 180px rgba(168,85,247,0.18), inset 0 0 100px rgba(168,85,247,0.08); }
 }
 @keyframes sphereRotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 .ami-ring {
     position: absolute; inset: 5%; border-radius: 50%;
     border: 1px dashed rgba(56,189,248,0.08);
     animation: sphereRotate 40s linear infinite reverse;
+    transition: border-color 0.6s;
 }
+
+/* SILO mode overrides */
+.ami.silo-mode .ami-sphere {
+    background: radial-gradient(circle at 35% 35%, rgba(168,85,247,0.2), rgba(168,85,247,0.02) 60%, transparent 80%);
+    border-color: rgba(168,85,247,0.15);
+    box-shadow: 0 0 120px rgba(168,85,247,0.1), inset 0 0 80px rgba(168,85,247,0.05);
+    animation-name: spherePulseSilo;
+}
+.ami.silo-mode .ami-sphere::before { border-color: rgba(168,85,247,0.1); }
+.ami.silo-mode .ami-sphere::after { content: 'SILO'; color: rgba(168,85,247,0.6); }
+.ami.silo-mode .ami-ring { border-color: rgba(168,85,247,0.08); }
+.ami.silo-mode .ami-feat .icon { background: rgba(168,85,247,0.12); border-color: rgba(168,85,247,0.25); }
+.ami.silo-mode .ami-feat .icon::after { color: #A855F7; }
+.ami.silo-mode .ami-label { color: #A855F7; }
+.ami.silo-mode .ami-label .line { background: #A855F7; }
+.ami.silo-mode .btn-main { background: #A855F7; }
+.ami.silo-mode .btn-main:hover { box-shadow: 0 8px 40px rgba(168,85,247,0.35); }
+
+/* Agent Tabs */
+.agent-tabs {
+    display: inline-flex; border-radius: 100px; overflow: hidden;
+    border: 1px solid var(--glass-border); background: var(--glass);
+    margin-bottom: 2rem;
+}
+.agent-tab {
+    padding: 10px 28px; font-family: var(--display); font-size: 0.85rem; font-weight: 600;
+    letter-spacing: 0.02em; cursor: pointer; transition: all 0.3s var(--ease);
+    color: var(--text-muted); background: transparent; border: none; position: relative;
+}
+.agent-tab.active { color: var(--text); background: rgba(255,255,255,0.06); }
+.agent-tab[data-agent="ami"].active { color: #38BDF8; }
+.agent-tab[data-agent="silo"].active { color: #A855F7; background: rgba(168,85,247,0.1); }
+.agent-tab:hover:not(.active) { color: var(--text-dim); }
+
+/* Agent content fade */
+.agent-content { transition: opacity 0.3s ease; }
+.agent-content.fading { opacity: 0; }
 
 /* ─── Services Grid ─── */
 .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 3.5rem; }
@@ -391,20 +436,26 @@ footer {
     </h2>
 </section>
 
-<!-- ═══ AMI Showcase ═══ -->
-<section class="ami">
+<!-- ═══ AMI / SILO Showcase ═══ -->
+<section class="ami" id="ami-section">
     <div class="ami-inner">
         <div class="ami-text reveal">
-            <div class="ami-label"><span class="line"></span> Flagship</div>
-            <h2 class="ami-title">Meet AMI.</h2>
-            <p class="ami-desc">AutoMinds Intelligence — AI agents that work like full-time hires. Trained on your data, integrated into your tools, running every second of every day. Powered locally by SILO (Secure Isolated Local Operations) for maximum privacy.</p>
-            <div class="ami-features">
-                <div class="ami-feat"><span class="icon"></span> Trained on your company knowledge</div>
-                <div class="ami-feat"><span class="icon"></span> CRM, Slack, email &amp; tool integrations</div>
-                <div class="ami-feat"><span class="icon"></span> Works 24/7 — no PTO, no turnover</div>
-                <div class="ami-feat"><span class="icon"></span> Fraction of the cost of a hire</div>
+            <div class="agent-tabs">
+                <button class="agent-tab active" data-agent="ami">AMI</button>
+                <button class="agent-tab" data-agent="silo">SILO</button>
             </div>
-            <a href="assessment.html" class="btn-main">Deploy Your First AMI →</a>
+            <div class="agent-content" id="agent-content">
+                <div class="ami-label"><span class="line"></span> <span id="agent-tag">Flagship</span></div>
+                <h2 class="ami-title" id="agent-title">Meet AMI.</h2>
+                <p class="ami-desc" id="agent-desc">AutoMinds Intelligence — AI agents that work like full-time hires. Trained on your data, integrated into your tools, running every second of every day.</p>
+                <div class="ami-features" id="agent-features">
+                    <div class="ami-feat"><span class="icon"></span> Trained on your company knowledge</div>
+                    <div class="ami-feat"><span class="icon"></span> CRM, Slack, email &amp; tool integrations</div>
+                    <div class="ami-feat"><span class="icon"></span> Works 24/7 — no PTO, no turnover</div>
+                    <div class="ami-feat"><span class="icon"></span> Fraction of the cost of a hire</div>
+                </div>
+                <a href="assessment.html" class="btn-main" id="agent-cta">Deploy Your First AMI →</a>
+            </div>
         </div>
         <div class="ami-visual reveal">
             <div class="ami-ring"></div>
@@ -576,6 +627,66 @@ ScrollTrigger.create({
 gsap.to('.ami-sphere', {
     scrollTrigger: { trigger: '.ami', start: 'top bottom', end: 'bottom top', scrub: 1 },
     rotation: 15, scale: 1.05,
+});
+
+// ═══ Agent Tabs (AMI / SILO) ═══
+const agentData = {
+    ami: {
+        tag: 'Flagship',
+        title: 'Meet AMI.',
+        desc: 'AutoMinds Intelligence — AI agents that work like full-time hires. Trained on your data, integrated into your tools, running every second of every day.',
+        features: [
+            'Trained on your company knowledge',
+            'CRM, Slack, email &amp; tool integrations',
+            'Works 24/7 — no PTO, no turnover',
+            'Fraction of the cost of a hire',
+        ],
+        cta: 'Deploy Your First AMI →',
+    },
+    silo: {
+        tag: 'On-Premise',
+        title: 'Meet SILO.',
+        desc: 'Secure Isolated Local Operations — runs entirely on your hardware, never touches the network. Maximum data privacy for sensitive operations, with zero external dependencies.',
+        features: [
+            '100% air-gapped — never phones home',
+            'Runs on your own hardware or private cloud',
+            'Full compliance for regulated industries',
+            'Same intelligence, total data sovereignty',
+        ],
+        cta: 'Deploy SILO →',
+    },
+};
+
+document.querySelectorAll('.agent-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        const agent = tab.dataset.agent;
+        if (tab.classList.contains('active')) return;
+
+        document.querySelectorAll('.agent-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const section = document.getElementById('ami-section');
+        const content = document.getElementById('agent-content');
+
+        // Toggle silo-mode class for color switch
+        if (agent === 'silo') { section.classList.add('silo-mode'); }
+        else { section.classList.remove('silo-mode'); }
+
+        // Fade out, swap content, fade in
+        content.classList.add('fading');
+        setTimeout(() => {
+            const d = agentData[agent];
+            document.getElementById('agent-tag').textContent = d.tag;
+            document.getElementById('agent-title').textContent = d.title;
+            document.getElementById('agent-desc').textContent = d.desc;
+            const featuresEl = document.getElementById('agent-features');
+            featuresEl.innerHTML = d.features.map(f =>
+                '<div class="ami-feat"><span class="icon"></span> ' + f + '</div>'
+            ).join('');
+            document.getElementById('agent-cta').textContent = d.cta;
+            content.classList.remove('fading');
+        }, 300);
+    });
 });
 </script>
 </body>
