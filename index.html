@@ -738,7 +738,7 @@ document.getElementById('contact-form').addEventListener('submit', async (e) => 
     btn.textContent = 'Sending...';
     btn.disabled = true;
     try {
-        const r = await fetch('https://autominds.org/api/contact', {
+        const r = await fetch('/api/contact', {
             method: 'POST', headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
         });
