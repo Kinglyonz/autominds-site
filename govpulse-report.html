@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GovPulse SLED Infrastructure — AutoMinds Delivery Report</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg: #ffffff;
+            --bg2: #f8f9fb;
+            --glass: rgba(0,0,0,0.02);
+            --glass-hover: rgba(0,0,0,0.04);
+            --glass-border: rgba(0,0,0,0.08);
+            --text: #1a1a2e;
+            --text-dim: #4a5568;
+            --text-muted: #a0aec0;
+            --accent: #2563eb;
+            --accent-soft: rgba(37,99,235,0.08);
+            --accent-border: rgba(37,99,235,0.2);
+            --accent-glow: rgba(37,99,235,0.04);
+            --green: #16a34a;
+            --green-soft: rgba(22,163,74,0.08);
+            --green-border: rgba(22,163,74,0.2);
+            --purple: #7c3aed;
+            --purple-soft: rgba(124,58,237,0.08);
+            --red: #dc2626;
+            --red-soft: rgba(220,38,38,0.08);
+            --amber: #d97706;
+            --amber-soft: rgba(217,119,6,0.08);
+            --cyan: #0891b2;
+            --cyan-soft: rgba(8,145,178,0.08);
+            --indigo: #4f46e5;
+            --indigo-soft: rgba(79,70,229,0.08);
+            --teal: #0d9488;
+            --teal-soft: rgba(13,148,136,0.08);
+            --font: 'Inter', -apple-system, system-ui, sans-serif;
+            --display: 'Space Grotesk', sans-serif;
+            --mono: 'JetBrains Mono', monospace;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+        }
+
+        html { -webkit-font-smoothing: antialiased; scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font);
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            min-height: 100vh;
+        }
+
+        /* === HEADER BAR === */
+        .report-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-sm);
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .logo-mark {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--accent), #6366f1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--display);
+            font-weight: 700;
+            font-size: 16px;
+            color: #fff;
+        }
+        .logo-text {
+            font-family: var(--display);
+            font-size: 1.1rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+        .logo-text span { color: var(--accent); }
+        .header-meta {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+        }
+        .header-badge {
+            background: var(--accent-soft);
+            border: 1px solid var(--accent-border);
+            color: var(--accent);
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        /* === HERO === */
+        .hero {
+            padding: 5rem 2rem 3rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 0.5rem 1.25rem;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .hero-label .dot {
+            width: 8px;
+            height: 8px;
+            background: var(--green);
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+        .hero h1 {
+            font-family: var(--display);
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            line-height: 1.15;
+            margin-bottom: 1rem;
+        }
+        .hero h1 .accent { color: var(--accent); }
+        .hero .subtitle {
+            font-size: 1.1rem;
+            color: var(--text-dim);
+            max-width: 640px;
+            margin: 0 auto 2.5rem;
+        }
+
+        /* === CONTAINER === */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* === SECTION === */
+        .section {
+            margin-bottom: 4rem;
+        }
+        .section-label {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 1rem;
+            padding: 0.35rem 0.85rem;
+            background: var(--accent-soft);
+            border: 1px solid var(--accent-border);
+            border-radius: 6px;
+        }
+        .section h2 {
+            font-family: var(--display);
+            font-size: 1.65rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 1.5rem;
+        }
+
+        /* === BEFORE STATE (baseline) === */
+        .before-card {
+            background: var(--bg2);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .before-card ul {
+            list-style: none;
+        }
+        .before-card li {
+            padding: 0.65rem 0;
+            border-bottom: 1px solid var(--glass-border);
+            color: var(--text-dim);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            font-size: 0.95rem;
+        }
+        .before-card li:last-child { border-bottom: none; }
+        .before-card li::before {
+            content: '✕';
+            color: var(--red);
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        /* === BUILD CARDS === */
+        .build-card {
+            background: var(--bg2);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+        .build-card:hover {
+            border-color: rgba(0,0,0,0.15);
+            box-shadow: var(--shadow-md);
+        }
+        .build-card .card-number {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--accent);
+            background: var(--accent-soft);
+            border: 1px solid var(--accent-border);
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 0.75rem;
+        }
+        .build-card h3 {
+            font-family: var(--display);
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            letter-spacing: -0.01em;
+        }
+        .build-card p, .build-card li {
+            font-size: 0.92rem;
+            color: var(--text-dim);
+            line-height: 1.75;
+        }
+        .build-card ul {
+            list-style: none;
+            margin-top: 0.5rem;
+        }
+        .build-card ul li {
+            padding: 0.4rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        .build-card ul li::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* === DATA TABLE === */
+        .data-table-wrap {
+            overflow-x: auto;
+            margin: 1.25rem 0;
+            border-radius: 12px;
+            border: 1px solid var(--glass-border);
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.88rem;
+        }
+        .data-table thead {
+            background: rgba(37,99,235,0.04);
+        }
+        .data-table th {
+            font-family: var(--mono);
+            font-size: 0.7rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: var(--accent);
+            padding: 0.85rem 1.25rem;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+            white-space: nowrap;
+        }
+        .data-table td {
+            padding: 0.75rem 1.25rem;
+            color: var(--text-dim);
+            border-bottom: 1px solid var(--glass-border);
+        }
+        .data-table tr:last-child td { border-bottom: none; }
+        .data-table tr:hover td { 
+            background: var(--glass-hover); 
+            color: var(--text);
+        }
+        .data-table tr:nth-child(even) td {
+            background: var(--glass);
+        }
+
+        /* === SOURCE BADGES (inline) === */
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .badge-red { background: var(--red-soft); color: var(--red); border: 1px solid rgba(220,38,38,0.2); }
+        .badge-green { background: var(--green-soft); color: var(--green); border: 1px solid var(--green-border); }
+        .badge-purple { background: var(--purple-soft); color: var(--purple); border: 1px solid rgba(124,58,237,0.2); }
+        .badge-amber { background: var(--amber-soft); color: var(--amber); border: 1px solid rgba(217,119,6,0.2); }
+        .badge-cyan { background: var(--cyan-soft); color: var(--cyan); border: 1px solid rgba(8,145,178,0.2); }
+        .badge-indigo { background: var(--indigo-soft); color: var(--indigo); border: 1px solid rgba(79,70,229,0.2); }
+        .badge-teal { background: var(--teal-soft); color: var(--teal); border: 1px solid rgba(13,148,136,0.2); }
+
+        /* === STATS ROW === */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin: 2.5rem 0;
+        }
+        .stat-card {
+            background: var(--bg2);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+        }
+        .stat-card .stat-value {
+            font-family: var(--display);
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: var(--accent);
+            line-height: 1;
+            margin-bottom: 0.35rem;
+        }
+        .stat-card .stat-label {
+            font-size: 0.8rem;
+            color: var(--text-dim);
+            letter-spacing: 0.02em;
+        }
+
+        /* === IMPACT SECTION === */
+        .impact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        .impact-item {
+            background: var(--bg2);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+        }
+        .impact-item .impact-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+        }
+        .impact-item h4 {
+            font-family: var(--display);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .impact-item p {
+            font-size: 0.88rem;
+            color: var(--text-dim);
+            line-height: 1.65;
+        }
+
+        /* === TECH STACK PILLS === */
+        .tech-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+        .tech-pill {
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            padding: 0.4rem 0.85rem;
+            border-radius: 8px;
+            font-family: var(--mono);
+            font-size: 0.75rem;
+            color: var(--text-dim);
+        }
+
+        /* === FOOTER === */
+        .report-footer {
+            border-top: 1px solid var(--glass-border);
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+        }
+        .footer-logo {
+            font-family: var(--display);
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .footer-logo span { color: var(--accent); }
+        .footer-tagline {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            font-size: 0.8rem;
+        }
+        .footer-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .footer-links a:hover { color: var(--accent); }
+        .footer-legal {
+            margin-top: 2rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* === DIVIDER === */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--glass-border), var(--accent-border), var(--glass-border), transparent);
+            margin: 3rem 0;
+        }
+        .data-table-wrap {
+            box-shadow: var(--shadow-sm);
+        }
+
+        /* === CODE/MONO INLINE === */
+        code {
+            font-family: var(--mono);
+            font-size: 0.85em;
+            background: #f1f5f9;
+            border: 1px solid #e2e8f0;
+            padding: 0.15rem 0.45rem;
+            border-radius: 5px;
+            color: var(--accent);
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .report-header { padding: 0.75rem 1rem; }
+            .header-meta .header-date { display: none; }
+            .hero { padding: 3rem 1.5rem 2rem; }
+            .container { padding: 0 1.25rem; }
+            .impact-grid { grid-template-columns: 1fr; }
+            .stats-row { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 480px) {
+            .stats-row { grid-template-columns: 1fr; }
+        }
+
+        /* === PRINT === */
+        @media print {
+            .report-header { position: static; }
+            .build-card, .before-card, .stat-card, .impact-item { 
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #ddd;
+            }
+            .hero::before { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══ HEADER ═══ -->
+<header class="report-header">
+    <div class="logo-group">
+        <div class="logo-mark">A</div>
+        <div class="logo-text">Auto<span>Minds</span></div>
+    </div>
+    <div class="header-meta">
+        <span class="header-date">March 14, 2026</span>
+        <span class="header-badge">Delivery Report</span>
+    </div>
+</header>
+
+<!-- ═══ HERO ═══ -->
+<section class="hero">
+    <div class="hero-label">
+        <span class="dot"></span>
+        Project Complete
+    </div>
+    <h1>GovPulse <span class="accent">SLED Infrastructure</span><br>Full Build-Out</h1>
+    <p class="subtitle">Dedicated State &amp; Local procurement data pipeline — from zero to 530+ live opportunities across DC, Maryland, and Virginia.</p>
+</section>
+
+<div class="container">
+
+    <!-- ═══ KEY METRICS ═══ -->
+    <div class="stats-row">
+        <div class="stat-card">
+            <div class="stat-value">530+</div>
+            <div class="stat-label">Live Opportunities</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">7</div>
+            <div class="stat-label">Data Sources</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">72</div>
+            <div class="stat-label">Unique Agencies</div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-value">3</div>
+            <div class="stat-label">Regions (DC/MD/VA)</div>
+        </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- ═══ BASELINE ═══ -->
+    <section class="section">
+        <span class="section-label">00 — Baseline</span>
+        <h2>What Existed Before</h2>
+        <div class="before-card">
+            <ul>
+                <li>SAM.gov federal data only (via GraphQL/AppSync)</li>
+                <li>No state or local procurement data</li>
+                <li>No scraping infrastructure</li>
+                <li>No SLED database</li>
+                <li>Single data source — no competitive edge over free tools like SAM.gov itself</li>
+            </ul>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ═══ WHAT WAS BUILT ═══ -->
+    <section class="section">
+        <span class="section-label">01 — Infrastructure</span>
+        <h2>What Was Built From Scratch</h2>
+
+        <!-- Card 1 -->
+        <div class="build-card">
+            <span class="card-number">01</span>
+            <h3>Dedicated Scraper Infrastructure (AWS EC2)</h3>
+            <ul>
+                <li>Stood up a dedicated EC2 instance (<code>t3.micro</code>, <code>us-east-1</code>) purpose-built for automated procurement scraping</li>
+                <li>Configured headless Chrome (Puppeteer) with optimized memory flags for reliable operation on low-cost infrastructure</li>
+                <li>Built a shared browser launcher module used by all scrapers — standardized user agents, viewport settings, session profiles</li>
+                <li>All scrapers follow a consistent architecture: <strong>scrape → normalize → upsert to PostgreSQL</strong> (no duplicates)</li>
+            </ul>
+            <div class="tech-pills">
+                <span class="tech-pill">AWS EC2</span>
+                <span class="tech-pill">Puppeteer</span>
+                <span class="tech-pill">Node.js</span>
+                <span class="tech-pill">Headless Chrome</span>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="build-card">
+            <span class="card-number">02</span>
+            <h3>Seven Live Data Sources — Full DMV Coverage</h3>
+            <div class="data-table-wrap">
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Source</th>
+                            <th>Region</th>
+                            <th>Method</th>
+                            <th>Records</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="badge badge-green">BidNet Direct</span></td>
+                            <td>MD, VA, DC</td>
+                            <td>Puppeteer</td>
+                            <td><strong>~375</strong></td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge badge-red">DC OCP</span></td>
+                            <td>DC</td>
+                            <td>Puppeteer</td>
+                            <td><strong>51</strong></td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge badge-purple">Virginia eVA</span></td>
+                            <td>VA</td>
+                            <td>Puppeteer</td>
+                            <td><strong>29</strong></td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge badge-amber">Maryland eMMA</span></td>
+                            <td>MD (state + county)</td>
+                            <td>HTTP + CAPTCHA bypass</td>
+                            <td><strong>50</strong></td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge badge-cyan">Fairfax County</span></td>
+                            <td>VA</td>
+                            <td>Puppeteer</td>
+                            <td><strong>9</strong></td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge badge-indigo">Montgomery County</span></td>
+                            <td>MD</td>
+                            <td>HTTP/Cheerio</td>
+                            <td><strong>16</strong></td>
+                        </tr>
+                        <tr>
+                            <td><span class="badge badge-teal">PublicPurchase.com</span></td>
+                            <td>DMV</td>
+                            <td>Puppeteer + Auth</td>
+                            <td><strong>Ready</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="build-card">
+            <span class="card-number">03</span>
+            <h3>eMMA CAPTCHA Bypass (Maryland State Procurement)</h3>
+            <p>Maryland's eMMA platform is protected by <strong>Google reCAPTCHA Enterprise</strong> — this blocks every standard scraping approach. Engineered a pure HTTP + 2Captcha integration that solves the CAPTCHA programmatically at <strong>~$0.003 per solve</strong>.</p>
+            <ul>
+                <li>No browser needed — clean HTTP sessions with cookie management</li>
+                <li>Includes 3-attempt retry logic with fresh sessions on failure</li>
+                <li>Non-trivial engineering challenge that most scrapers can't handle</li>
+            </ul>
+            <div class="tech-pills">
+                <span class="tech-pill">2Captcha API</span>
+                <span class="tech-pill">reCAPTCHA Enterprise</span>
+                <span class="tech-pill">HTTP Sessions</span>
+                <span class="tech-pill">Cookie Management</span>
+            </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="build-card">
+            <span class="card-number">04</span>
+            <h3>PostgreSQL Database (AWS RDS)</h3>
+            <ul>
+                <li>Provisioned and configured a dedicated RDS PostgreSQL instance for SLED data</li>
+                <li>Designed a normalized schema with <strong>20+ fields</strong> per opportunity (title, description, agency, value, dates, contacts, documents, state, source URL, etc.)</li>
+                <li>Built upsert logic (<code>INSERT ON CONFLICT</code>) so daily scrapes never create duplicates — they update existing records</li>
+                <li><strong>530+ records</strong> and growing daily</li>
+            </ul>
+            <div class="tech-pills">
+                <span class="tech-pill">AWS RDS</span>
+                <span class="tech-pill">PostgreSQL</span>
+                <span class="tech-pill">Upsert Logic</span>
+            </div>
+        </div>
+
+        <!-- Card 5 -->
+        <div class="build-card">
+            <span class="card-number">05</span>
+            <h3>Full Frontend Integration (SLED Bridge)</h3>
+            <ul>
+                <li>Built <code>server/sled-db.ts</code> — PostgreSQL connection pool with parameterized query builder supporting search, source, state, agency, status, pagination</li>
+                <li>Added REST API endpoints: <code>GET /api/sled/opportunities</code> and <code>GET /api/sled/sources</code></li>
+                <li>Implemented <strong>dual-query architecture</strong> — federal (GraphQL) and SLED (REST) queries fire in parallel for zero wait-time penalty</li>
+                <li>Added <strong>"Data Source" filter</strong>: All Sources / Federal (SAM.gov) / State &amp; Local</li>
+                <li>Added <strong>"State/Region" filter</strong>: All / DC / MD / VA / Federal — wired end-to-end</li>
+            </ul>
+            <div class="tech-pills">
+                <span class="tech-pill">TypeScript</span>
+                <span class="tech-pill">REST API</span>
+                <span class="tech-pill">GraphQL</span>
+                <span class="tech-pill">Parallel Queries</span>
+            </div>
+        </div>
+
+        <!-- Card 6 -->
+        <div class="build-card">
+            <span class="card-number">06</span>
+            <h3>Source Badges on Opportunity Cards</h3>
+            <p>Every SLED opportunity now shows a color-coded badge indicating its source. Users can immediately identify provenance and click through to the original listing.</p>
+            <div style="display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:1rem;">
+                <span class="badge badge-red">DC OCP</span>
+                <span class="badge badge-green">BidNet</span>
+                <span class="badge badge-purple">VA eVA</span>
+                <span class="badge badge-amber">MD eMMA</span>
+                <span class="badge badge-cyan">Fairfax County</span>
+                <span class="badge badge-indigo">Montgomery County</span>
+                <span class="badge badge-teal">PublicPurchase</span>
+            </div>
+        </div>
+
+        <!-- Card 7 -->
+        <div class="build-card">
+            <span class="card-number">07</span>
+            <h3>Cross-Source Deduplication</h3>
+            <p>When "All Sources" is selected, the same opportunity can appear from multiple sources (e.g., a Fairfax bid on both BidNet and the county scraper). Built <strong>client-side dedup by solicitation number</strong> — SLED direct source is preferred over aggregator data. Prevents duplicate cards from cluttering results.</p>
+        </div>
+
+        <!-- Card 8 -->
+        <div class="build-card">
+            <span class="card-number">08</span>
+            <h3>Opportunity Detail View — Source Links</h3>
+            <ul>
+                <li>SLED opportunities in the detail modal show a direct <strong>"View Original Listing"</strong> link back to the source portal (eMMA, BidNet, eVA, etc.)</li>
+                <li>Source badge displayed in the header for data provenance</li>
+                <li>Contact info, documents, and location data all carried through from the scraper</li>
+            </ul>
+        </div>
+
+        <!-- Card 9 -->
+        <div class="build-card">
+            <span class="card-number">09</span>
+            <h3>Automated Daily Scraping (Cron)</h3>
+            <ul>
+                <li>All 7 scrapers run automatically at <strong>6:00 AM ET</strong> every day via cron</li>
+                <li>Results logged to a structured JSON file (<code>cron-log.json</code>) with per-source metrics: scraped count, inserted/updated counts, error details, duration</li>
+            </ul>
+            <div class="tech-pills">
+                <span class="tech-pill">Cron</span>
+                <span class="tech-pill">Structured Logging</span>
+                <span class="tech-pill">JSON Metrics</span>
+            </div>
+        </div>
+
+        <!-- Card 10 -->
+        <div class="build-card">
+            <span class="card-number">10</span>
+            <h3>Scraper Health Monitoring</h3>
+            <ul>
+                <li>Built and deployed <code>monitor.js</code> — runs daily at <strong>7:30 AM ET</strong> (90 minutes after the scrape)</li>
+                <li>Checks every source for: zero-result runs, stale data (25h+), high error rates (&gt;30%)</li>
+                <li>Reports status as <strong>CRITICAL / WARNING / OK</strong> with detailed per-source breakdown</li>
+                <li>SNS alerting integration ready — just needs a topic ARN for email/SMS alerts on failures</li>
+            </ul>
+            <div class="tech-pills">
+                <span class="tech-pill">AWS SNS</span>
+                <span class="tech-pill">Health Checks</span>
+                <span class="tech-pill">Alerting</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ═══ IMPACT ═══ -->
+    <section class="section">
+        <span class="section-label">02 — Impact</span>
+        <h2>What This Means for the Product</h2>
+        <div class="impact-grid">
+            <div class="impact-item">
+                <div class="impact-icon">🏛️</div>
+                <h4>No Longer a SAM.gov Wrapper</h4>
+                <p>GovPulse now aggregates procurement data users can't get from any single free source. 530+ opportunities across 72 agencies in DC/MD/VA.</p>
+            </div>
+            <div class="impact-item">
+                <div class="impact-icon">⚡</div>
+                <h4>Self-Maintaining</h4>
+                <p>Scrapes run daily at 6 AM. Monitoring catches failures at 7:30 AM. The database grows without manual intervention.</p>
+            </div>
+            <div class="impact-item">
+                <div class="impact-icon">🛡️</div>
+                <h4>Defensible IP</h4>
+                <p>The SLED data combined with CAPTCHA bypass engineering and cross-source dedup is a market differentiator that competitors can't easily replicate.</p>
+            </div>
+            <div class="impact-item">
+                <div class="impact-icon">📈</div>
+                <h4>Scales Easily</h4>
+                <p>Adding new states or sources follows the same scraper pattern. The infrastructure supports expansion without rearchitecting.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="divider"></div>
+
+    <!-- ═══ TECH STACK OVERVIEW === -->
+    <section class="section">
+        <span class="section-label">03 — Stack</span>
+        <h2>Technology Stack Used</h2>
+        <div class="tech-pills" style="gap:0.65rem;">
+            <span class="tech-pill">AWS EC2</span>
+            <span class="tech-pill">AWS RDS</span>
+            <span class="tech-pill">PostgreSQL</span>
+            <span class="tech-pill">Node.js</span>
+            <span class="tech-pill">TypeScript</span>
+            <span class="tech-pill">Puppeteer</span>
+            <span class="tech-pill">Cheerio</span>
+            <span class="tech-pill">2Captcha</span>
+            <span class="tech-pill">GraphQL</span>
+            <span class="tech-pill">REST API</span>
+            <span class="tech-pill">AWS SNS</span>
+            <span class="tech-pill">Cron</span>
+            <span class="tech-pill">Headless Chrome</span>
+        </div>
+    </section>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer class="report-footer">
+    <div class="footer-logo">Auto<span>Minds</span></div>
+    <p class="footer-tagline">AI That Works While You Sleep</p>
+    <div class="footer-links">
+        <a href="https://autominds.org">autominds.org</a>
+        <a href="mailto:khalil@autominds.org">khalil@autominds.org</a>
+    </div>
+    <p class="footer-legal">© 2026 AutoMinds LLC. This report is confidential and prepared exclusively for the intended recipient.</p>
+</footer>
+
+</body>
+</html>
