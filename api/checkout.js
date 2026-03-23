@@ -1,15 +1,16 @@
 /**
  * AutoMinds Checkout API
- * Creates a Stripe Checkout Session for subscription plans.
+ * Creates a Stripe Checkout Session for subscription or one-time plans.
  * 
  * POST /api/checkout
- * Body: { plan: "maintenance" | "reviews" | "devteam", repo_url?: string }
+ * Body: { plan: "maintenance" | "reviews" | "devteam" | "preregister", repo_url?: string }
  * 
  * Requires env vars:
  *   STRIPE_SECRET_KEY - Stripe secret key (sk_live_...)
  *   STRIPE_PRICE_MAINTENANCE - Price ID for $49/mo plan
  *   STRIPE_PRICE_REVIEWS - Price ID for $149/mo plan
  *   STRIPE_PRICE_DEVTEAM - Price ID for $499/mo plan
+ *   STRIPE_PRICE_PREREGISTER - Price ID for $10 one-time deposit
  */
 
 const { handlePreflight, setCors } = require('./_cors');
@@ -22,13 +23,18 @@ const PRICE_MAP = {
     maintenance: process.env.STRIPE_PRICE_MAINTENANCE?.trim(),
     reviews: process.env.STRIPE_PRICE_REVIEWS?.trim(),
     devteam: process.env.STRIPE_PRICE_DEVTEAM?.trim(),
+    preregister: process.env.STRIPE_PRICE_PREREGISTER?.trim(),
 };
 
 const PLAN_NAMES = {
     maintenance: 'Repo Maintenance',
     reviews: 'AI Code Reviews',
     devteam: 'AI Dev Team',
+    preregister: 'AMI Pre-Registration Deposit',
 };
+
+// Plans that use one-time payment instead of subscription
+const ONE_TIME_PLANS = new Set(['preregister']);
 
 module.exports = async function handler(req, res) {
     if (handlePreflight(req, res)) return;
@@ -54,26 +60,30 @@ module.exports = async function handler(req, res) {
 
         const origin = req.headers.origin || req.headers.referer?.replace(/\/$/, '') || 'https://autominds-site-repo.vercel.app';
 
+        const isOneTime = ONE_TIME_PLANS.has(plan);
+
         // Create Stripe Checkout Session
         const session = await stripe.checkout.sessions.create({
-            mode: 'subscription',
+            mode: isOneTime ? 'payment' : 'subscription',
             payment_method_types: ['card'],
             line_items: [{
                 price: priceId,
                 quantity: 1,
             }],
             success_url: `${origin}/success.html?session_id={CHECKOUT_SESSION_ID}`,
-            cancel_url: `${origin}/#pricing`,
+            cancel_url: isOneTime ? `${origin}/preregister.html` : `${origin}/#pricing`,
             metadata: {
                 plan,
                 repo_url: repo_url || '',
             },
-            subscription_data: {
-                metadata: {
-                    plan,
-                    repo_url: repo_url || '',
+            ...(isOneTime ? {} : {
+                subscription_data: {
+                    metadata: {
+                        plan,
+                        repo_url: repo_url || '',
+                    },
                 },
-            },
+            }),
             // Collect customer info
             billing_address_collection: 'auto',
             // Allow promo codes
