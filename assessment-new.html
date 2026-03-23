@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Readiness Assessment | AutoMinds</title>
+    <meta name="description" content="Take the free AutoMinds AI Readiness Assessment. We'll analyze your business and show you exactly which AI solutions will save you the most time and money.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="logo_white.svg">
+    <script>
+      (function(){var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme:light)').matches?'light':'dark'}document.documentElement.setAttribute('data-theme',t)})();
+    </script>
+    <style>
+        :root, [data-theme="dark"] {
+            --bg:#0F1117;--bg2:#161922;--bg3:#1C1F2E;
+            --text:#E8EAF0;--text2:rgba(232,234,240,.65);--text3:rgba(232,234,240,.38);
+            --primary:#2563EB;--primary-soft:rgba(37,99,235,.12);--primary-border:rgba(37,99,235,.28);
+            --green:#10B981;--green-soft:rgba(16,185,129,.1);--green-border:rgba(16,185,129,.2);
+            --purple:#A855F7;--purple-soft:rgba(168,85,247,.1);--purple-border:rgba(168,85,247,.25);
+            --orange:#ff9900;--orange-soft:rgba(255,153,0,.1);--orange-border:rgba(255,153,0,.25);
+            --cyan:#06b6d4;--cyan-soft:rgba(6,182,212,.1);--cyan-border:rgba(6,182,212,.25);
+            --red:#EF4444;
+            --border:rgba(255,255,255,.07);--border2:rgba(255,255,255,.14);
+            --nav-bg:rgba(15,17,23,.92);
+            --card-hover:rgba(37,99,235,.05);
+            --overlay:rgba(0,0,0,.6);
+            --shadow:0 2px 12px rgba(0,0,0,.2);
+            --font:'Inter',-apple-system,sans-serif;--heading:'Space Grotesk',sans-serif;--mono:'JetBrains Mono',monospace;
+            --rs:8px;
+            color-scheme:dark;
+        }
+        [data-theme="light"] {
+            --bg:#F8F9FC;--bg2:#FFFFFF;--bg3:#F0F2F5;
+            --text:#1A1D2B;--text2:rgba(26,29,43,.6);--text3:rgba(26,29,43,.4);
+            --primary:#2563EB;--primary-soft:rgba(37,99,235,.08);--primary-border:rgba(37,99,235,.2);
+            --green:#059669;--green-soft:rgba(5,150,105,.08);--green-border:rgba(5,150,105,.18);
+            --purple:#9333EA;--purple-soft:rgba(147,51,234,.08);--purple-border:rgba(147,51,234,.18);
+            --orange:#d97706;--orange-soft:rgba(217,119,6,.08);--orange-border:rgba(217,119,6,.18);
+            --cyan:#0891b2;--cyan-soft:rgba(8,145,178,.08);--cyan-border:rgba(8,145,178,.18);
+            --red:#DC2626;
+            --border:rgba(0,0,0,.08);--border2:rgba(0,0,0,.14);
+            --nav-bg:rgba(255,255,255,.92);
+            --card-hover:rgba(37,99,235,.04);
+            --overlay:rgba(0,0,0,.3);
+            --shadow:0 2px 12px rgba(0,0,0,.06);
+            color-scheme:light;
+        }
+        *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+        html{-webkit-font-smoothing:antialiased;scroll-behavior:smooth}
+        body{font-family:var(--font);background:var(--bg);color:var(--text);min-height:100vh;line-height:1.6}
+
+        .nav{position:fixed;top:0;left:0;right:0;z-index:100;background:var(--nav-bg);backdrop-filter:blur(16px);border-bottom:1px solid var(--border);height:56px;display:flex;align-items:center}
+        .container{max-width:900px;margin:0 auto;padding:0 24px;width:100%}
+        .nav-wrapper{display:flex;align-items:center;justify-content:space-between;height:56px}
+        .brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--text);font-family:var(--heading);font-weight:700;font-size:1.1rem}
+        .brand-logo{width:28px;height:28px}
+        .nav-menu{display:flex;align-items:center;gap:20px}
+        .nav-link{color:var(--text2);text-decoration:none;font-size:.85rem;font-weight:500;transition:color .2s}
+        .nav-link:hover{color:var(--text)}
+        .theme-btn{background:none;border:1px solid var(--border2);color:var(--text2);width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .2s}
+        .theme-btn:hover{color:var(--text);border-color:var(--text3)}
+
+        .assess-wrap{padding:80px 0 60px;min-height:100vh;display:flex;align-items:flex-start;justify-content:center}
+        .assess-card{background:var(--bg2);border:1px solid var(--border);border-radius:12px;max-width:720px;width:100%;padding:40px 36px;position:relative;box-shadow:var(--shadow)}
+        .assess-header{text-align:center;margin-bottom:32px}
+        .assess-header h1{font-family:var(--heading);font-size:1.6rem;font-weight:700;margin-bottom:8px}
+        .assess-header p{color:var(--text2);font-size:.92rem;line-height:1.5}
+
+        .progress-wrap{margin-bottom:32px}
+        .progress-info{display:flex;justify-content:space-between;margin-bottom:8px;font-size:.8rem;color:var(--text3)}
+        .progress-bar{height:4px;background:var(--bg3);border-radius:2px;overflow:hidden}
+        .progress-fill{height:100%;background:var(--primary);border-radius:2px;transition:width .4s ease}
+
+        .step{display:none}
+        .step.active{display:block;animation:fadeIn .3s ease}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+        .step-title{font-family:var(--heading);font-size:1.15rem;font-weight:600;margin-bottom:6px}
+        .step-subtitle{color:var(--text2);font-size:.85rem;margin-bottom:24px}
+
+        .field{margin-bottom:18px}
+        .field label{display:block;font-size:.82rem;font-weight:500;color:var(--text2);margin-bottom:6px}
+        .field input,.field select,.field textarea{width:100%;padding:10px 14px;background:var(--bg3);border:1px solid var(--border2);border-radius:var(--rs);color:var(--text);font-family:var(--font);font-size:.9rem;outline:none;transition:border-color .2s}
+        .field input:focus,.field select:focus,.field textarea:focus{border-color:var(--primary)}
+        .field textarea{resize:vertical;min-height:80px}
+        .field select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%239CA3AF' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 12px center}
+        .field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+
+        .option-group{display:flex;flex-direction:column;gap:8px;margin-bottom:18px}
+        .option-group-label{font-size:.82rem;font-weight:500;color:var(--text2);margin-bottom:4px}
+        .option-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);cursor:pointer;transition:all .2s;font-size:.88rem}
+        .option-item:hover{border-color:var(--primary-border);background:var(--primary-soft)}
+        .option-item.selected{border-color:var(--primary);background:var(--primary-soft)}
+        .option-item input[type="radio"],.option-item input[type="checkbox"]{accent-color:var(--primary);width:16px;height:16px;cursor:pointer;flex-shrink:0}
+
+        .scale-group{margin-bottom:18px}
+        .scale-label{font-size:.82rem;font-weight:500;color:var(--text2);margin-bottom:8px}
+        .scale-row{display:flex;gap:6px}
+        .scale-btn{flex:1;padding:10px 0;text-align:center;background:var(--bg3);border:1px solid var(--border);border-radius:var(--rs);cursor:pointer;font-size:.85rem;font-weight:500;color:var(--text2);transition:all .2s}
+        .scale-btn:hover{border-color:var(--primary-border);color:var(--text)}
+        .scale-btn.selected{background:var(--primary);border-color:var(--primary);color:#fff}
+
+        .btn-row{display:flex;justify-content:space-between;margin-top:28px;gap:12px}
+        .btn{padding:11px 24px;border-radius:var(--rs);font-family:var(--font);font-size:.88rem;font-weight:600;border:none;cursor:pointer;transition:all .2s}
+        .btn-primary{background:var(--primary);color:#fff}
+        .btn-primary:hover{filter:brightness(1.1)}
+        .btn-primary:disabled{opacity:.5;cursor:not-allowed}
+        .btn-back{background:transparent;border:1px solid var(--border2);color:var(--text2)}
+        .btn-back:hover{border-color:var(--text3);color:var(--text)}
+
+        /* Results */
+        .results{display:none;animation:fadeIn .4s ease}
+        .results.active{display:block}
+        .results-header{text-align:center;margin-bottom:2rem}
+        .results-header h2{font-family:var(--heading);font-size:1.4rem;margin-bottom:8px}
+        .results-header p{color:var(--text2);font-size:.9rem}
+
+        .overall-score{text-align:center;margin-bottom:2rem}
+        .score-circle{width:120px;height:120px;border-radius:50%;border:4px solid var(--primary);display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-family:var(--heading);font-size:2rem;font-weight:700;color:var(--primary)}
+        .score-label{font-size:.85rem;color:var(--text2)}
+
+        .service-scores{display:flex;flex-direction:column;gap:12px;margin-bottom:2rem}
+        .svc-score-row{display:flex;align-items:center;gap:12px}
+        .svc-score-name{width:170px;font-size:.85rem;font-weight:500;flex-shrink:0}
+        .svc-score-bar{flex:1;height:24px;background:var(--bg3);border-radius:4px;overflow:hidden;position:relative}
+        .svc-score-fill{height:100%;border-radius:4px;transition:width .8s ease;display:flex;align-items:center;padding-left:8px;font-size:.75rem;font-weight:600;color:#fff}
+        .svc-score-val{width:40px;text-align:right;font-family:var(--mono);font-size:.85rem;font-weight:600;flex-shrink:0}
+
+        .recommendation{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:2rem}
+        .recommendation h3{font-family:var(--heading);font-size:1.1rem;margin-bottom:8px}
+        .recommendation p{color:var(--text2);font-size:.88rem;line-height:1.6}
+        .rec-tag{display:inline-block;padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:600;margin-bottom:12px}
+
+        .results-cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+        .results-cta a{text-decoration:none;padding:12px 24px;border-radius:var(--rs);font-weight:600;font-size:.88rem;transition:all .2s}
+        .results-cta .btn-primary{background:var(--primary);color:#fff}
+        .results-cta .btn-secondary{background:transparent;border:1px solid var(--border2);color:var(--text2)}
+        .results-cta .btn-secondary:hover{border-color:var(--text3);color:var(--text)}
+
+        .proposal-status{text-align:center;margin-top:1.5rem;padding:12px;border-radius:var(--rs);font-size:.85rem}
+        .proposal-status.sending{background:var(--primary-soft);border:1px solid var(--primary-border);color:var(--primary)}
+        .proposal-status.sent{background:var(--green-soft);border:1px solid var(--green-border);color:var(--green)}
+        .proposal-status.error{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.25);color:var(--red)}
+
+        @media(max-width:600px){
+            .assess-card{padding:28px 20px;margin:0 12px}
+            .field-row{grid-template-columns:1fr}
+            .nav-menu{gap:12px}
+            .nav-link{font-size:.78rem}
+            .scale-row{flex-wrap:wrap}
+            .scale-btn{flex:0 0 calc(20% - 5px)}
+            .svc-score-name{width:120px;font-size:.78rem}
+        }
+    </style>
+</head>
+<body>
+
+<nav class="nav">
+    <div class="container nav-wrapper">
+        <a href="index.html" class="brand">
+            <img src="logo_white.svg" alt="AutoMinds" class="brand-logo" id="navLogo">
+            AutoMinds
+        </a>
+        <div class="nav-menu">
+            <a href="email.html" class="nav-link" style="color:#22c55e;">Free Email Agent</a>
+            <a href="index.html#services" class="nav-link">Services</a>
+            <a href="https://calendly.com/admin-autominds/30min" class="nav-link" target="_blank" style="color:#0071E3;">Book a Call</a>
+            <button class="theme-btn" id="themeToggle" title="Toggle theme">🌙</button>
+        </div>
+    </div>
+</nav>
+
+<div class="assess-wrap">
+    <div class="container">
+        <div class="assess-card" id="assessCard">
+
+            <div class="assess-header">
+                <h1>AI Readiness Assessment</h1>
+                <p>Answer 6 quick sections so we can map your business and show you exactly which AI solutions will have the biggest impact. Takes about 4 minutes.</p>
+            </div>
+
+            <div class="progress-wrap">
+                <div class="progress-info">
+                    <span id="stepLabel">Step 1 of 6</span>
+                    <span id="stepPct">17%</span>
+                </div>
+                <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:17%"></div></div>
+            </div>
+
+            <!-- ═══ STEP 1: About You ═══ -->
+            <div class="step active" data-step="1">
+                <div class="step-title">About You &amp; Your Business</div>
+                <div class="step-subtitle">We need to know who you are and where to find you online.</div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label for="contactName">Your Name *</label>
+                        <input type="text" id="contactName" placeholder="e.g. John Smith" required>
+                    </div>
+                    <div class="field">
+                        <label for="businessName">Business Name *</label>
+                        <input type="text" id="businessName" placeholder="e.g. Acme Corp">
+                    </div>
+                </div>
+                <div class="field-row">
+                    <div class="field">
+                        <label for="email">Email *</label>
+                        <input type="email" id="email" placeholder="you@company.com">
+                    </div>
+                    <div class="field">
+                        <label for="phone">Phone (optional)</label>
+                        <input type="tel" id="phone" placeholder="(555) 123-4567">
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="websiteUrl">Website URL *</label>
+                    <input type="url" id="websiteUrl" placeholder="https://yourcompany.com">
+                </div>
+                <div class="field-row">
+                    <div class="field">
+                        <label for="industry">Industry *</label>
+                        <select id="industry">
+                            <option value="">Select your industry</option>
+                            <option>Real Estate</option>
+                            <option>Marketing / Agency</option>
+                            <option>E-commerce / Retail</option>
+                            <option>Healthcare</option>
+                            <option>Finance / Accounting</option>
+                            <option>Legal</option>
+                            <option>Construction / Trades</option>
+                            <option>Consulting</option>
+                            <option>Technology / SaaS</option>
+                            <option>Education</option>
+                            <option>Hospitality / Restaurant</option>
+                            <option>Professional Services</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="companySize">Company Size *</label>
+                        <select id="companySize">
+                            <option value="">Select size</option>
+                            <option>Just me (Solo)</option>
+                            <option>2–5 employees</option>
+                            <option>6–20 employees</option>
+                            <option>21–50 employees</option>
+                            <option>51–200 employees</option>
+                            <option>200+ employees</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="field">
+                    <label for="role">Your Role *</label>
+                    <input type="text" id="role" placeholder="e.g. Owner, CEO, Operations Manager">
+                </div>
+
+                <div class="btn-row">
+                    <div></div>
+                    <button class="btn btn-primary" onclick="nextStep()">Next →</button>
+                </div>
+            </div>
+
+            <!-- ═══ STEP 2: Revenue Engine ═══ -->
+            <div class="step" data-step="2">
+                <div class="step-title">Your Revenue Engine</div>
+                <div class="step-subtitle">Help us understand how your business makes money so we can find the highest-impact opportunities.</div>
+
+                <div class="option-group" id="clientSource">
+                    <div class="option-group-label">How do most of your clients/customers find you? (Select all that apply)</div>
+                    <label class="option-item"><input type="checkbox" value="Referrals / word of mouth"> Referrals / word of mouth</label>
+                    <label class="option-item"><input type="checkbox" value="Our website / inbound leads"> Our website / inbound leads</label>
+                    <label class="option-item"><input type="checkbox" value="Cold outreach (email, calls, DMs)"> Cold outreach (email, calls, DMs)</label>
+                    <label class="option-item"><input type="checkbox" value="Paid ads (Google, Facebook, etc.)"> Paid ads (Google, Facebook, etc.)</label>
+                    <label class="option-item"><input type="checkbox" value="Social media / content marketing"> Social media / content marketing</label>
+                    <label class="option-item"><input type="checkbox" value="Partnerships / channel partners"> Partnerships / channel partners</label>
+                    <label class="option-item"><input type="checkbox" value="RFPs / government contracts"> RFPs / government contracts</label>
+                    <label class="option-item"><input type="checkbox" value="Marketplace / directory listings"> Marketplace / directory listings</label>
+                </div>
+
+                <div class="field-row">
+                    <div class="field">
+                        <label for="avgDealValue">Average deal/sale value</label>
+                        <select id="avgDealValue">
+                            <option value="">Select range</option>
+                            <option>Under $500</option>
+                            <option>$500 – $2,000</option>
+                            <option>$2,000 – $10,000</option>
+                            <option>$10,000 – $50,000</option>
+                            <option>$50,000 – $100,000</option>
+                            <option>$100,000+</option>
+                        </select>
+                    </div>
+                    <div class="field">
+                        <label for="monthlyClients">New clients/sales per month</label>
+                        <select id="monthlyClients">
+                            <option value="">Select range</option>
+                            <option>0–2</option>
+                            <option>3–10</option>
+                            <option>11–25</option>
+                            <option>26–50</option>
+                            <option>51–100</option>
+                            <option>100+</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="salesCycle">How long from first contact to closed deal?</label>
+                    <select id="salesCycle">
+                        <option value="">Select timeline</option>
+                        <option>Same day / instant</option>
+                        <option>1–7 days</option>
+                        <option>1–4 weeks</option>
+                        <option>1–3 months</option>
+                        <option>3–6 months</option>
+                        <option>6+ months</option>
+                    </select>
+                </div>
+
+                <div class="field">
+                    <label for="revenueBottleneck">What's your #1 bottleneck preventing more revenue?</label>
+                    <textarea id="revenueBottleneck" rows="2" placeholder="e.g. Not enough leads, slow follow-up, manual proposals, can't scale without hiring..."></textarea>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn btn-back" onclick="prevStep()">← Back</button>
+                    <button class="btn btn-primary" onclick="nextStep()">Next →</button>
+                </div>
+            </div>
+
+            <!-- ═══ STEP 3: Daily Operations ═══ -->
+            <div class="step" data-step="3">
+                <div class="step-title">Daily Operations &amp; Time Drains</div>
+                <div class="step-subtitle">Where does your team spend the most time? We're looking for automation gold.</div>
+
+                <div class="option-group" id="topTasks">
+                    <div class="option-group-label">What tasks eat up the most time each week? (Select all that apply)</div>
+                    <label class="option-item"><input type="checkbox" value="Email management and replies"> Email management and replies</label>
+                    <label class="option-item"><input type="checkbox" value="Data entry / transferring info between systems"> Data entry / transferring info between systems</label>
+                    <label class="option-item"><input type="checkbox" value="Scheduling meetings and follow-ups"> Scheduling meetings and follow-ups</label>
+                    <label class="option-item"><input type="checkbox" value="Creating proposals, quotes, or invoices"> Creating proposals, quotes, or invoices</label>
+                    <label class="option-item"><input type="checkbox" value="Customer support / answering same questions"> Customer support / answering same questions</label>
+                    <label class="option-item"><input type="checkbox" value="Social media posting and content creation"> Social media posting and content creation</label>
+                    <label class="option-item"><input type="checkbox" value="Lead follow-up and nurturing"> Lead follow-up and nurturing</label>
+                    <label class="option-item"><input type="checkbox" value="Report generation and data analysis"> Report generation and data analysis</label>
+                    <label class="option-item"><input type="checkbox" value="Onboarding new clients or employees"> Onboarding new clients or employees</label>
+                    <label class="option-item"><input type="checkbox" value="Bookkeeping, invoicing, or payroll"> Bookkeeping, invoicing, or payroll</label>
+                </div>
+
+                <div class="scale-group">
+                    <div class="scale-label">How many hours/week does your team spend on repetitive tasks?</div>
+                    <div class="scale-row" data-name="hoursRepetitive">
+                        <div class="scale-btn" data-val="1-5">1–5</div>
+                        <div class="scale-btn" data-val="5-10">5–10</div>
+                        <div class="scale-btn" data-val="10-20">10–20</div>
+                        <div class="scale-btn" data-val="20-30">20–30</div>
+                        <div class="scale-btn" data-val="30+">30+</div>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label for="revenueTasks">Which of those tasks directly touch revenue? (e.g. following up leads, sending proposals)</label>
+                    <textarea id="revenueTasks" rows="2" placeholder="List the tasks that, if done faster or more often, would directly bring in more money..."></textarea>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn btn-back" onclick="prevStep()">← Back</button>
+                    <button class="btn btn-primary" onclick="nextStep()">Next →</button>
+                </div>
+            </div>
+
+            <!-- ═══ STEP 4: Marketing & Growth ═══ -->
+            <div class="step" data-step="4">
+                <div class="step-title">Marketing &amp; Growth</div>
+                <div class="step-subtitle">Understanding your current marketing helps us see where AI-powered growth can kick in.</div>
+
+                <div class="option-group" id="marketingChannels">
+                    <div class="option-group-label">What marketing channels are you currently using? (Select all)</div>
+                    <label class="option-item"><input type="checkbox" value="Social media (organic posting)"> Social media (organic posting)</label>
+                    <label class="option-item"><input type="checkbox" value="Google / Facebook / Instagram ads"> Google / Facebook / Instagram ads</label>
+                    <label class="option-item"><input type="checkbox" value="Email marketing / newsletters"> Email marketing / newsletters</label>
+                    <label class="option-item"><input type="checkbox" value="SEO / blog content"> SEO / blog content</label>
+                    <label class="option-item"><input type="checkbox" value="Referral program"> Referral program</label>
+                    <label class="option-item"><input type="checkbox" value="Networking / events"> Networking / events</label>
+                    <label class="option-item"><input type="checkbox" value="None — we don't do marketing yet"> None — we don't do marketing yet</label>
+                </div>
+
+                <div class="field">
+                    <label for="monthlyMarketingSpend">Approximate monthly marketing spend</label>
+                    <select id="monthlyMarketingSpend">
+                        <option value="">Select range</option>
+                        <option>$0 — we don't spend on marketing</option>
+                        <option>Under $500/month</option>
+                        <option>$500 – $2,000/month</option>
+                        <option>$2,000 – $5,000/month</option>
+                        <option>$5,000 – $10,000/month</option>
+                        <option>$10,000+/month</option>
+                    </select>
+                </div>
+
+                <div class="option-group" id="websiteLeads">
+                    <div class="option-group-label">Does your website currently generate leads?</div>
+                    <label class="option-item"><input type="radio" name="websiteLeads" value="Yes — we get regular leads from our site"> Yes — we get regular leads from our site</label>
+                    <label class="option-item"><input type="radio" name="websiteLeads" value="Some — a few leads trickle in"> Some — a few leads trickle in</label>
+                    <label class="option-item"><input type="radio" name="websiteLeads" value="No — our website doesn't generate leads"> No — our website doesn't generate leads</label>
+                    <label class="option-item"><input type="radio" name="websiteLeads" value="We don't have a website"> We don't have a website</label>
+                </div>
+
+                <div class="field">
+                    <label for="growthBlocker">What's the biggest thing holding back your growth right now?</label>
+                    <textarea id="growthBlocker" rows="2" placeholder="e.g. Don't know what marketing works, no time for content, can't track ROI, leads go cold..."></textarea>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn btn-back" onclick="prevStep()">← Back</button>
+                    <button class="btn btn-primary" onclick="nextStep()">Next →</button>
+                </div>
+            </div>
+
+            <!-- ═══ STEP 5: Communication & Tools ═══ -->
+            <div class="step" data-step="5">
+                <div class="step-title">Communication &amp; Tools</div>
+                <div class="step-subtitle">How do you talk to customers and manage your work?</div>
+
+                <div class="option-group" id="customerComms">
+                    <div class="option-group-label">How do you handle customer communication? (Select all)</div>
+                    <label class="option-item"><input type="checkbox" value="Email manually"> Email manually</label>
+                    <label class="option-item"><input type="checkbox" value="Phone calls"> Phone calls</label>
+                    <label class="option-item"><input type="checkbox" value="SMS / text"> SMS / text</label>
+                    <label class="option-item"><input type="checkbox" value="Live chat on website"> Live chat on website</label>
+                    <label class="option-item"><input type="checkbox" value="Social media DMs"> Social media DMs</label>
+                    <label class="option-item"><input type="checkbox" value="CRM with automated emails"> CRM with automated emails</label>
+                    <label class="option-item"><input type="checkbox" value="Helpdesk / ticketing system"> Helpdesk / ticketing system</label>
+                </div>
+
+                <div class="scale-group">
+                    <div class="scale-label">How fast do you typically respond to a new lead?</div>
+                    <div class="scale-row" data-name="responseTime">
+                        <div class="scale-btn" data-val="minutes">Minutes</div>
+                        <div class="scale-btn" data-val="hours">Hours</div>
+                        <div class="scale-btn" data-val="same-day">Same day</div>
+                        <div class="scale-btn" data-val="next-day">Next day</div>
+                        <div class="scale-btn" data-val="varies">Varies</div>
+                    </div>
+                </div>
+
+                <div class="option-group" id="currentTools">
+                    <div class="option-group-label">What software/tools do you use daily? (Select all)</div>
+                    <label class="option-item"><input type="checkbox" value="Gmail / Outlook"> Gmail / Outlook</label>
+                    <label class="option-item"><input type="checkbox" value="Google Workspace / Docs / Sheets"> Google Workspace / Docs / Sheets</label>
+                    <label class="option-item"><input type="checkbox" value="CRM (HubSpot, Salesforce, etc.)"> CRM (HubSpot, Salesforce, etc.)</label>
+                    <label class="option-item"><input type="checkbox" value="Slack / Teams"> Slack / Teams</label>
+                    <label class="option-item"><input type="checkbox" value="QuickBooks / Accounting software"> QuickBooks / Accounting software</label>
+                    <label class="option-item"><input type="checkbox" value="Project management (Asana, Trello, Monday)"> Project management (Asana, Trello, Monday)</label>
+                    <label class="option-item"><input type="checkbox" value="Zapier / Make / automation tools"> Zapier / Make / automation tools</label>
+                    <label class="option-item"><input type="checkbox" value="Minimal — mostly manual"> Minimal — mostly manual</label>
+                </div>
+
+                <div class="scale-group">
+                    <div class="scale-label">How comfortable is your team with new technology? (1 = not at all, 5 = very)</div>
+                    <div class="scale-row" data-name="techComfort">
+                        <div class="scale-btn" data-val="1">1</div>
+                        <div class="scale-btn" data-val="2">2</div>
+                        <div class="scale-btn" data-val="3">3</div>
+                        <div class="scale-btn" data-val="4">4</div>
+                        <div class="scale-btn" data-val="5">5</div>
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn btn-back" onclick="prevStep()">← Back</button>
+                    <button class="btn btn-primary" onclick="nextStep()">Next →</button>
+                </div>
+            </div>
+
+            <!-- ═══ STEP 6: Budget & Urgency ═══ -->
+            <div class="step" data-step="6">
+                <div class="step-title">Budget, Timeline &amp; What Interests You</div>
+                <div class="step-subtitle">Last step — helps us recommend the right solution at the right price.</div>
+
+                <div class="option-group" id="budget">
+                    <div class="option-group-label">What monthly budget could you allocate to AI tools/services?</div>
+                    <label class="option-item"><input type="radio" name="budget" value="Just exploring — no budget yet"> Just exploring — no budget yet</label>
+                    <label class="option-item"><input type="radio" name="budget" value="$0–$500/month"> $0–$500/month</label>
+                    <label class="option-item"><input type="radio" name="budget" value="$500–$2,000/month"> $500–$2,000/month</label>
+                    <label class="option-item"><input type="radio" name="budget" value="$2,000–$5,000/month"> $2,000–$5,000/month</label>
+                    <label class="option-item"><input type="radio" name="budget" value="$5,000+/month"> $5,000+/month</label>
+                </div>
+
+                <div class="option-group" id="timeline">
+                    <div class="option-group-label">How soon do you want to start?</div>
+                    <label class="option-item"><input type="radio" name="timeline" value="Immediately — I need this now"> Immediately — I need this now</label>
+                    <label class="option-item"><input type="radio" name="timeline" value="Within 1 month"> Within 1 month</label>
+                    <label class="option-item"><input type="radio" name="timeline" value="1–3 months"> 1–3 months</label>
+                    <label class="option-item"><input type="radio" name="timeline" value="Just researching"> Just researching</label>
+                </div>
+
+                <div class="option-group" id="interestedServices">
+                    <div class="option-group-label">Which AutoMinds services interest you? (Select all that apply)</div>
+                    <label class="option-item"><input type="checkbox" value="AMI — Synthetic Employees (24/7 AI agents for sales, support, ops)"> 🤖 AMI — Synthetic Employees</label>
+                    <label class="option-item"><input type="checkbox" value="Automation Solutions (workflow audit + automation)"> ⚙️ Automation Solutions</label>
+                    <label class="option-item"><input type="checkbox" value="AI-Powered Websites (sites with embedded AI)"> 🌐 AI-Powered Websites</label>
+                    <label class="option-item"><input type="checkbox" value="Marketing Suite (AI marketing team as a service)"> 📈 Marketing Suite</label>
+                    <label class="option-item"><input type="checkbox" value="AI Consulting (strategy, compliance, roadmaps)"> 💡 AI Consulting</label>
+                    <label class="option-item"><input type="checkbox" value="Not sure — help me figure it out"> 🤷 Not sure — help me figure it out</label>
+                </div>
+
+                <div class="option-group" id="contactPref">
+                    <div class="option-group-label">How should we follow up?</div>
+                    <label class="option-item"><input type="radio" name="contactPref" value="Email me a custom proposal"> Email me a custom proposal</label>
+                    <label class="option-item"><input type="radio" name="contactPref" value="Schedule a free consultation call"> Schedule a free consultation call</label>
+                    <label class="option-item"><input type="radio" name="contactPref" value="Both — proposal + call"> Both — proposal + call</label>
+                    <label class="option-item"><input type="radio" name="contactPref" value="Just show my results"> Just show my results</label>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn btn-back" onclick="prevStep()">← Back</button>
+                    <button class="btn btn-primary" id="submitBtn" onclick="submitAssessment()">Get My AI Readiness Report →</button>
+                </div>
+            </div>
+
+            <!-- ═══ RESULTS ═══ -->
+            <div class="results" id="resultsScreen">
+                <div class="results-header">
+                    <div style="font-size:2.5rem;margin-bottom:12px;">📊</div>
+                    <h2>Your AI Readiness Report</h2>
+                    <p id="resultsSubtitle">Here's what we found for your business.</p>
+                </div>
+
+                <div class="overall-score">
+                    <div class="score-circle" id="overallScore">--</div>
+                    <div class="score-label" id="overallLabel">Calculating...</div>
+                </div>
+
+                <div class="service-scores" id="serviceScores">
+                    <div class="svc-score-row">
+                        <span class="svc-score-name" style="color:var(--purple)">🤖 AMI</span>
+                        <div class="svc-score-bar"><div class="svc-score-fill" id="bar-ami" style="width:0%;background:var(--purple)"></div></div>
+                        <span class="svc-score-val" id="val-ami">0</span>
+                    </div>
+                    <div class="svc-score-row">
+                        <span class="svc-score-name" style="color:var(--primary)">⚙️ Automation</span>
+                        <div class="svc-score-bar"><div class="svc-score-fill" id="bar-auto" style="width:0%;background:var(--primary)"></div></div>
+                        <span class="svc-score-val" id="val-auto">0</span>
+                    </div>
+                    <div class="svc-score-row">
+                        <span class="svc-score-name" style="color:var(--green)">🌐 AI Website</span>
+                        <div class="svc-score-bar"><div class="svc-score-fill" id="bar-web" style="width:0%;background:var(--green)"></div></div>
+                        <span class="svc-score-val" id="val-web">0</span>
+                    </div>
+                    <div class="svc-score-row">
+                        <span class="svc-score-name" style="color:var(--orange)">📈 Marketing</span>
+                        <div class="svc-score-bar"><div class="svc-score-fill" id="bar-mkt" style="width:0%;background:var(--orange)"></div></div>
+                        <span class="svc-score-val" id="val-mkt">0</span>
+                    </div>
+                    <div class="svc-score-row">
+                        <span class="svc-score-name" style="color:var(--cyan)">💡 Consulting</span>
+                        <div class="svc-score-bar"><div class="svc-score-fill" id="bar-consult" style="width:0%;background:var(--cyan)"></div></div>
+                        <span class="svc-score-val" id="val-consult">0</span>
+                    </div>
+                </div>
+
+                <div class="recommendation" id="recBox">
+                    <div class="rec-tag" id="recTag" style="background:var(--purple-soft);color:var(--purple)">Top Recommendation</div>
+                    <h3 id="recTitle">Loading...</h3>
+                    <p id="recBody">Analyzing your answers...</p>
+                </div>
+
+                <div class="results-cta">
+                    <a href="https://calendly.com/admin-autominds/30min" target="_blank" class="btn-primary">Book Free Consultation →</a>
+                    <a href="email.html" class="btn-secondary">Try Free Email Agent</a>
+                </div>
+
+                <div class="proposal-status" id="proposalStatus" style="display:none;"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+/* ─── Theme ───────────────────────────────────────────── */
+const themeBtn = document.getElementById('themeToggle');
+const navLogo  = document.getElementById('navLogo');
+function applyTheme(t) {
+    document.documentElement.setAttribute('data-theme', t);
+    localStorage.setItem('theme', t);
+    themeBtn.textContent = t === 'dark' ? '☀️' : '🌙';
+    navLogo.src = t === 'dark' ? 'logo_white.svg' : 'logo_black.svg';
+}
+themeBtn.addEventListener('click', () => {
+    const cur = document.documentElement.getAttribute('data-theme') || 'dark';
+    applyTheme(cur === 'dark' ? 'light' : 'dark');
+});
+(function(){
+    const t = document.documentElement.getAttribute('data-theme') || 'dark';
+    themeBtn.textContent = t === 'dark' ? '☀️' : '🌙';
+    navLogo.src = t === 'dark' ? 'logo_white.svg' : 'logo_black.svg';
+})();
+
+/* ─── Scale + Option Selection ────────────────────────── */
+document.querySelectorAll('.scale-row').forEach(row => {
+    row.querySelectorAll('.scale-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            row.querySelectorAll('.scale-btn').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        });
+    });
+});
+document.querySelectorAll('.option-item input[type="checkbox"]').forEach(cb => {
+    cb.addEventListener('change', () => {
+        cb.closest('.option-item').classList.toggle('selected', cb.checked);
+    });
+});
+document.querySelectorAll('.option-item input[type="radio"]').forEach(rb => {
+    rb.addEventListener('change', () => {
+        document.querySelectorAll('input[name="' + rb.name + '"]').forEach(r => {
+            r.closest('.option-item').classList.remove('selected');
+        });
+        rb.closest('.option-item').classList.add('selected');
+    });
+});
+
+/* ─── Navigation ──────────────────────────────────────── */
+const TOTAL_STEPS = 6;
+let current = 1;
+
+function showStep(n) {
+    document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+    const target = document.querySelector('.step[data-step="' + n + '"]');
+    if (target) target.classList.add('active');
+    current = n;
+    const pct = Math.round((n / TOTAL_STEPS) * 100);
+    document.getElementById('stepLabel').textContent = 'Step ' + n + ' of ' + TOTAL_STEPS;
+    document.getElementById('stepPct').textContent = pct + '%';
+    document.getElementById('progressFill').style.width = pct + '%';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function nextStep() {
+    if (current === 1) {
+        var name = document.getElementById('contactName').value.trim();
+        var biz  = document.getElementById('businessName').value.trim();
+        var em   = document.getElementById('email').value.trim();
+        var web  = document.getElementById('websiteUrl').value.trim();
+        var ind  = document.getElementById('industry').value;
+        var sz   = document.getElementById('companySize').value;
+        var role = document.getElementById('role').value.trim();
+        if (!name || !biz || !em || !web || !ind || !sz || !role) {
+            alert('Please fill in all required fields.');
+            return;
+        }
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em)) {
+            alert('Please enter a valid email address.');
+            return;
+        }
+    }
+    if (current < TOTAL_STEPS) showStep(current + 1);
+}
+
+function prevStep() {
+    if (current > 1) showStep(current - 1);
+}
+
+/* ─── Gather Data ─────────────────────────────────────── */
+function gatherData() {
+    return {
+        // Step 1
+        contactName:  document.getElementById('contactName').value.trim(),
+        businessName: document.getElementById('businessName').value.trim(),
+        email:        document.getElementById('email').value.trim(),
+        phone:        document.getElementById('phone').value.trim(),
+        websiteUrl:   document.getElementById('websiteUrl').value.trim(),
+        industry:     document.getElementById('industry').value,
+        companySize:  document.getElementById('companySize').value,
+        role:         document.getElementById('role').value.trim(),
+        // Step 2
+        clientSource:      [...document.querySelectorAll('#clientSource input:checked')].map(c => c.value),
+        avgDealValue:      document.getElementById('avgDealValue').value,
+        monthlyClients:    document.getElementById('monthlyClients').value,
+        salesCycle:        document.getElementById('salesCycle').value,
+        revenueBottleneck: document.getElementById('revenueBottleneck').value.trim(),
+        // Step 3
+        topTasks:          [...document.querySelectorAll('#topTasks input:checked')].map(c => c.value),
+        hoursRepetitive:   document.querySelector('[data-name="hoursRepetitive"] .scale-btn.selected')?.dataset.val || '',
+        revenueTasks:      document.getElementById('revenueTasks').value.trim(),
+        // Step 4
+        marketingChannels:    [...document.querySelectorAll('#marketingChannels input:checked')].map(c => c.value),
+        monthlyMarketingSpend: document.getElementById('monthlyMarketingSpend').value,
+        websiteLeads:         document.querySelector('input[name="websiteLeads"]:checked')?.value || '',
+        growthBlocker:        document.getElementById('growthBlocker').value.trim(),
+        // Step 5
+        customerComms:   [...document.querySelectorAll('#customerComms input:checked')].map(c => c.value),
+        responseTime:    document.querySelector('[data-name="responseTime"] .scale-btn.selected')?.dataset.val || '',
+        currentTools:    [...document.querySelectorAll('#currentTools input:checked')].map(c => c.value),
+        techComfort:     document.querySelector('[data-name="techComfort"] .scale-btn.selected')?.dataset.val || '',
+        // Step 6
+        budget:            document.querySelector('input[name="budget"]:checked')?.value || '',
+        timeline:          document.querySelector('input[name="timeline"]:checked')?.value || '',
+        interestedServices: [...document.querySelectorAll('#interestedServices input:checked')].map(c => c.value),
+        contactPref:       document.querySelector('input[name="contactPref"]:checked')?.value || ''
+    };
+}
+
+/* ─── Service Scoring ─────────────────────────────────── */
+function calcServiceScores(d) {
+    var ami = 0, auto = 0, web = 0, mkt = 0, consult = 0;
+
+    // --- From top tasks (Step 3) ---
+    var taskMap = {
+        'Email management and replies':                    { ami: 8, auto: 4 },
+        'Data entry / transferring info between systems':  { auto: 10 },
+        'Scheduling meetings and follow-ups':              { ami: 6, auto: 6 },
+        'Creating proposals, quotes, or invoices':         { ami: 5, auto: 8 },
+        'Customer support / answering same questions':     { ami: 10 },
+        'Social media posting and content creation':       { mkt: 8 },
+        'Lead follow-up and nurturing':                    { ami: 8, mkt: 5 },
+        'Report generation and data analysis':             { auto: 7, consult: 3 },
+        'Onboarding new clients or employees':             { ami: 6, auto: 5 },
+        'Bookkeeping, invoicing, or payroll':              { auto: 8 }
+    };
+    (d.topTasks || []).forEach(function(t) {
+        var m = taskMap[t];
+        if (m) { ami += m.ami||0; auto += m.auto||0; web += m.web||0; mkt += m.mkt||0; consult += m.consult||0; }
+    });
+
+    // --- Hours repetitive (Step 3) ---
+    var hrs = { '1-5': 2, '5-10': 5, '10-20': 10, '20-30': 15, '30+': 20 };
+    var hVal = hrs[d.hoursRepetitive] || 0;
+    auto += hVal;
+    ami += Math.round(hVal * 0.5);
+
+    // --- Customer comms (Step 5) ---
+    if ((d.customerComms || []).includes('Email manually'))   { ami += 8; }
+    if ((d.customerComms || []).includes('Phone calls'))      { ami += 4; }
+    if ((d.customerComms || []).includes('SMS / text'))       { ami += 5; }
+    if ((d.customerComms || []).includes('Social media DMs')) { ami += 5; mkt += 3; }
+    if ((d.customerComms || []).includes('Minimal — mostly manual') || (d.currentTools || []).includes('Minimal — mostly manual')) {
+        auto += 8; consult += 5;
+    }
+
+    // --- Response time (Step 5) ---
+    var rtMap = { 'minutes': 0, 'hours': 4, 'same-day': 8, 'next-day': 12, 'varies': 10 };
+    ami += rtMap[d.responseTime] || 0;
+
+    // --- Marketing channels (Step 4) ---
+    if ((d.marketingChannels || []).includes("None — we don't do marketing yet")) {
+        mkt += 15; consult += 5;
+    } else {
+        mkt += Math.min((d.marketingChannels || []).length * 3, 12);
+    }
+
+    // --- Website leads (Step 4) ---
+    var wlMap = {
+        "Yes — we get regular leads from our site": 3,
+        "Some — a few leads trickle in":            8,
+        "No — our website doesn't generate leads":  15,
+        "We don't have a website":                  20
+    };
+    web += wlMap[d.websiteLeads] || 5;
+    if (d.websiteLeads === "We don't have a website") { mkt += 5; }
+
+    // --- Marketing spend (Step 4) ---
+    if (d.monthlyMarketingSpend === "$0 — we don't spend on marketing") { mkt += 8; }
+    else if (d.monthlyMarketingSpend === "Under $500/month") { mkt += 5; }
+
+    // --- Client source (Step 2) ---
+    if ((d.clientSource || []).includes('Referrals / word of mouth') && d.clientSource.length <= 2) {
+        mkt += 10; web += 5; // over-reliant on referrals
+    }
+    if ((d.clientSource || []).includes('Cold outreach (email, calls, DMs)')) { ami += 6; }
+    if ((d.clientSource || []).includes('RFPs / government contracts')) { consult += 5; }
+
+    // --- Sales cycle (Step 2) ---
+    if (d.salesCycle === '3–6 months' || d.salesCycle === '6+ months') { ami += 5; mkt += 5; }
+
+    // --- Deal value (Step 2) ---
+    if (d.avgDealValue === '$50,000 – $100,000' || d.avgDealValue === '$100,000+') {
+        consult += 8; ami += 5;
+    }
+
+    // --- Interested services direct signal (Step 6) ---
+    (d.interestedServices || []).forEach(function(s) {
+        if (s.includes('AMI'))        ami     += 10;
+        if (s.includes('Automation')) auto    += 10;
+        if (s.includes('Website'))    web     += 10;
+        if (s.includes('Marketing'))  mkt     += 10;
+        if (s.includes('Consulting')) consult += 10;
+        if (s.includes('Not sure'))   consult += 5;
+    });
+
+    // --- Budget signal ---
+    var budgetBoost = { 'Just exploring — no budget yet': 0, '$0–$500/month': 1, '$500–$2,000/month': 2, '$2,000–$5,000/month': 3, '$5,000+/month': 4 };
+    var bb = budgetBoost[d.budget] || 0;
+    ami += bb; auto += bb; web += bb; mkt += bb; consult += bb;
+
+    // Normalize to 0-100
+    var maxPossible = 80;
+    ami     = Math.min(Math.round((ami / maxPossible) * 100), 100);
+    auto    = Math.min(Math.round((auto / maxPossible) * 100), 100);
+    web     = Math.min(Math.round((web / maxPossible) * 100), 100);
+    mkt     = Math.min(Math.round((mkt / maxPossible) * 100), 100);
+    consult = Math.min(Math.round((consult / maxPossible) * 100), 100);
+
+    return { ami: ami, auto: auto, web: web, mkt: mkt, consult: consult };
+}
+
+function getRecommendation(scores) {
+    var services = [
+        { key: 'ami',     name: 'AMI — Synthetic Employees', score: scores.ami,
+          reason: 'Your business has high-volume customer communication, lead follow-up, or support tasks that a 24/7 AI employee could handle — saving you hours every day and ensuring no lead falls through the cracks.' },
+        { key: 'auto',    name: 'Automation Solutions', score: scores.auto,
+          reason: 'You\'re spending significant time on repetitive workflows that can be fully automated. A workflow audit would identify exactly where AI pipelines replace manual work — often saving 10-20+ hours per week.' },
+        { key: 'web',     name: 'AI-Powered Website', score: scores.web,
+          reason: 'Your website isn\'t working hard enough for you. An AI-powered site with embedded chat, lead capture, and conversion optimization would turn visitors into qualified leads automatically.' },
+        { key: 'mkt',     name: 'Marketing Suite', score: scores.mkt,
+          reason: 'Your marketing has room to grow. Our AI marketing team can handle SEO, content, email campaigns, social media, and lead generation — all running continuously without you lifting a finger.' },
+        { key: 'consult', name: 'AI Consulting', score: scores.consult,
+          reason: 'Given the complexity and scale of your business, you\'d benefit from a strategic AI roadmap before diving in. We\'ll map your highest-ROI opportunities and build an implementation plan.' }
+    ];
+
+    services.sort(function(a, b) { return b.score - a.score; });
+    return services[0];
+}
+
+/* ─── Display Results ─────────────────────────────────── */
+function showResults(scores, rec, data) {
+    var overall = Math.round((scores.ami + scores.auto + scores.web + scores.mkt + scores.consult) / 5);
+
+    document.getElementById('overallScore').textContent = overall;
+    var label = overall >= 65 ? 'High AI Readiness' : overall >= 35 ? 'Moderate AI Readiness' : 'Early Stage — Big Opportunity';
+    document.getElementById('overallLabel').textContent = label;
+    document.getElementById('resultsSubtitle').textContent = 'Here\'s what we found for ' + (data.businessName || 'your business') + '.';
+
+    // Animate bars
+    setTimeout(function() {
+        var pairs = [
+            ['bar-ami', 'val-ami', scores.ami],
+            ['bar-auto', 'val-auto', scores.auto],
+            ['bar-web', 'val-web', scores.web],
+            ['bar-mkt', 'val-mkt', scores.mkt],
+            ['bar-consult', 'val-consult', scores.consult]
+        ];
+        pairs.forEach(function(p) {
+            document.getElementById(p[0]).style.width = p[2] + '%';
+            document.getElementById(p[1]).textContent = p[2];
+        });
+    }, 100);
+
+    // Recommendation
+    var colorMap = { ami: 'var(--purple)', auto: 'var(--primary)', web: 'var(--green)', mkt: 'var(--orange)', consult: 'var(--cyan)' };
+    document.getElementById('recTag').style.color = colorMap[rec.key];
+    document.getElementById('recTitle').textContent = '→ ' + rec.name;
+    document.getElementById('recBody').textContent = rec.reason;
+
+    // Show results, hide steps
+    document.querySelectorAll('.step').forEach(function(s) { s.classList.remove('active'); });
+    document.querySelector('.progress-wrap').style.display = 'none';
+    document.querySelector('.assess-header').style.display = 'none';
+    document.getElementById('resultsScreen').classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ─── Submit ──────────────────────────────────────────── */
+async function submitAssessment() {
+    var btn = document.getElementById('submitBtn');
+    btn.disabled = true;
+    btn.textContent = 'Analyzing your business...';
+
+    var data = gatherData();
+    var scores = calcServiceScores(data);
+    var rec = getRecommendation(scores);
+
+    data.scores = scores;
+    data.topRecommendation = rec.name;
+    data.overallScore = Math.round((scores.ami + scores.auto + scores.web + scores.mkt + scores.consult) / 5);
+
+    // Submit to VPS backend
+    try {
+        var resp = await fetch('api/email-proxy?action=assessment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        if (!resp.ok) throw new Error('Server error');
+    } catch (e) {
+        console.error('Submit error:', e);
+    }
+
+    // Show results
+    showResults(scores, rec, data);
+
+    // Trigger proposal generation
+    var ps = document.getElementById('proposalStatus');
+    if (data.contactPref && data.contactPref !== 'Just show my results') {
+        ps.style.display = 'block';
+        ps.className = 'proposal-status sending';
+        ps.textContent = '✨ Generating your custom AI proposal — you\'ll receive it by email shortly...';
+
+        try {
+            var pResp = await fetch('api/email-proxy?action=generate-proposal', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            });
+            if (pResp.ok) {
+                ps.className = 'proposal-status sent';
+                ps.textContent = '✅ Custom proposal sent to ' + data.email + '! Check your inbox.';
+            } else {
+                throw new Error('Proposal generation failed');
+            }
+        } catch (e) {
+            ps.className = 'proposal-status sent';
+            ps.textContent = '📧 We\'ll review your answers and send a custom proposal to ' + data.email + ' within 24 hours.';
+        }
+    }
+}
+</script>
+
+</body>
+</html>
